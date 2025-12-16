@@ -6,7 +6,7 @@ export const HERO_DATA = {
   primaryButtonText: "PROJEKTANFRAGE PRODUKTGEBER",
   secondaryButtonText: "WERDE TEIL DES TEAMS",
   // High quality office building background
-  backgroundImageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80",
+  backgroundImageUrl: "/images/hero-bg-door.png",
   // Restored original person image
   // Restored original person image with optimization params
   personImageUrl: "https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Milan%20(1)%20(1).png?width=800&format=webp&quality=80",
