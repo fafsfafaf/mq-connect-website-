@@ -27,6 +27,99 @@ type CarouselItem =
 
 const INSTAGRAM_ITEM: CarouselItem = { type: 'instagram', id: 'insta-card' };
 
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady: () => void;
+    YT: any;
+  }
+}
+
+// Helper Hook to load YouTube API
+const useYouTubeApi = () => {
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (window.YT && window.YT.Player) {
+      setIsReady(true);
+      return;
+    }
+
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+    window.onYouTubeIframeAPIReady = () => setIsReady(true);
+  }, []);
+
+  return isReady;
+};
+
+// Internal Player Component
+const YouTubePlayer: React.FC<{
+  videoId: string;
+  isMuted: boolean;
+  onEnded: () => void;
+}> = ({ videoId, isMuted, onEnded }) => {
+  const playerRef = useRef<HTMLDivElement>(null);
+  const playerInstance = useRef<any>(null);
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (!window.YT || !playerRef.current) return;
+
+    playerInstance.current = new window.YT.Player(playerRef.current, {
+      height: '100%',
+      width: '100%',
+      videoId: videoId,
+      playerVars: {
+        autoplay: 1,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        loop: 0, // IMPORTANT: No loop, so we catch the end
+        modestbranding: 1,
+        playsinline: 1,
+        rel: 0,
+        showinfo: 0,
+        mute: isMuted ? 1 : 0,
+      },
+      events: {
+        onReady: (event: any) => {
+          event.target.playVideo();
+          if (isMuted) event.target.mute();
+          setIsReady(true);
+        },
+        onStateChange: (event: any) => {
+          // YT.PlayerState.ENDED = 0
+          if (event.data === 0) {
+            onEnded();
+          }
+        },
+      },
+    });
+
+    return () => {
+      if (playerInstance.current) {
+        playerInstance.current.destroy();
+      }
+    };
+  }, [videoId]); // Re-init if videoId changes (though we key it anyway)
+
+  // Dynamic Mute Handling
+  useEffect(() => {
+    if (playerInstance.current && isReady) {
+      if (isMuted) {
+        playerInstance.current.mute();
+      } else {
+        playerInstance.current.unMute();
+      }
+    }
+  }, [isMuted, isReady]);
+
+  return <div ref={playerRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
+};
+
 export const VideoReelsSection: React.FC = () => {
   // Combine Reels + Instagram Card
   const items = React.useMemo<CarouselItem[]>(() => [
@@ -36,6 +129,9 @@ export const VideoReelsSection: React.FC = () => {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
+
+  // Load API globally once
+  useYouTubeApi();
 
   // Visibility detection
   const sectionRef = useRef(null);
@@ -209,14 +305,10 @@ export const VideoReelsSection: React.FC = () => {
                     <div className="relative w-full h-full rounded-[1.8rem] overflow-hidden bg-slate-900 isolate">
                       {/* Only render iframe if card is active AND section is in view to trigger autoplay */}
                       {(isActive && isInView) ? (
-                        <iframe
-                          key={`${item.data.videoId}-${isMuted ? 'muted' : 'unmuted'}`}
-                          className="absolute inset-0 w-full h-full pointer-events-none"
-                          src={`https://www.youtube.com/embed/${item.data.videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&playsinline=1&modestbranding=1&rel=0&loop=1&playlist=${item.data.videoId}&enablejsapi=1`}
-                          allow="autoplay; encrypted-media; picture-in-picture"
-                          allowFullScreen
-                          loading="eager"
-                          title={item.data.title}
+                        <YouTubePlayer
+                          videoId={item.data.videoId}
+                          isMuted={isMuted}
+                          onEnded={handleNext}
                         />
                       ) : (
                         <>
@@ -293,7 +385,7 @@ export const VideoReelsSection: React.FC = () => {
                       </div>
                     </div>
                   )}
-                </motion.div >
+                </motion.div>
               );
             })}
           </div >
@@ -303,3 +395,4 @@ export const VideoReelsSection: React.FC = () => {
     </section >
   );
 };
+```
