@@ -33,10 +33,6 @@ export const PARTNER_LOGOS = [
     alt: "E.ON",
   },
   {
-    src: "/images/partners/vodafone-logo.png",
-    alt: "Vodafone",
-  },
-  {
     src: "/images/partners/o2-logo.png",
     alt: "O2",
   },
@@ -45,7 +41,8 @@ export const PARTNER_LOGOS = [
     alt: "Lekker Energie",
   },
   {
-    src: "/images/partners/1und1-logo.png",
-    alt: "1&1",
+    src: "/images/partners/vattenfall-logo.png",
+    alt: "Vattenfall",
+    width: 140
   }
 ];
