@@ -8,6 +8,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  // --- LOGO TUNER STATE ---
+  const [logoMobileHeight, setLogoMobileHeight] = useState(56); // Default ~h-14
+  const [logoDesktopHeight, setLogoDesktopHeight] = useState(96); // Default ~h-24
+  const [navPadding, setNavPadding] = useState(20); // Default ~py-5
+
   useEffect(() => {
     setIsMobileMenuOpen(false);
     window.scrollTo(0, 0);
@@ -20,6 +25,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
+
+      {/* Dynamic Styles for Tuner */}
+      <style>{`
+        .logo-tuned { height: ${logoMobileHeight}px; }
+        @media (min-width: 768px) {
+          .logo-tuned { height: ${logoDesktopHeight}px; }
+        }
+      `}</style>
 
       {/* Top Bar - Matches screenshot - Z-Index raised to 52 */}
       <div className="bg-[#004e82] text-white py-2 px-4 z-[52] relative">
@@ -38,7 +51,10 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </div>
 
       {/* Navbar - Z-Index raised to 51 to sit above mobile menu */}
-      <nav className="bg-white py-4 md:py-5 shadow-sm sticky top-0 z-[51]">
+      <nav
+        className="bg-white shadow-sm sticky top-0 z-[51] transition-all duration-200"
+        style={{ paddingTop: `${navPadding}px`, paddingBottom: `${navPadding}px` }}
+      >
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
 
           {/* Logo Text Only */}
@@ -46,7 +62,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <img
               src="/images/mq-logo-large.png"
               alt="MQ-CONNECT"
-              className="h-14 md:h-24 w-auto object-contain"
+              className="w-auto object-contain logo-tuned transition-all duration-200"
             />
           </Link>
 
@@ -117,7 +133,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 <span className="text-2xl font-extrabold tracking-tighter text-white uppercase">MQ-CONNECT</span>
               </Link>
               <p className="text-sm leading-relaxed text-slate-400">
-                MQ-Connect aus Moers in Nordrhein-Westfalen ist eines der erfolgreichsten und am schnellsten wachsenden Vertriebsunternehmen in der D2D Akquise. Wir verbinden exzellente Beratung mit maximaler Skalierbarkeit für Glasfaser- und Energieprodukte.
+                MQ-Connect aus Moers in Nordrhein-Westfalen ist eines der erfolgreichsten und am schnellsten wachsenden Vertriebsunternehmen in der D2D Akquise. Wir verbinden exzellente Beratung mit maximaler Skalierbarkeit für Glasfaser und Energieprodukte.
               </p>
 
               {/* Social Icons */}
@@ -195,6 +211,55 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </div>
         </div>
       </footer>
+
+      {/* --- LOGO TUNER PANEL --- */}
+      <div className="fixed bottom-4 left-4 z-[9999] bg-slate-900/90 text-white p-4 rounded-xl text-xs backdrop-blur-md border border-white/20 shadow-2xl w-64 shadow-black/50">
+        <h3 className="font-bold mb-3 text-sm flex items-center gap-2">🛠️ Logo Größe einstellen</h3>
+
+        <div className="space-y-4">
+          <div>
+            <div className="flex justify-between mb-1">
+              <span>Mobile Höhe</span>
+              <span className="font-mono text-cyan-400">{logoMobileHeight}px</span>
+            </div>
+            <input
+              type="range" min="20" max="150" value={logoMobileHeight}
+              onChange={e => setLogoMobileHeight(Number(e.target.value))}
+              className="w-full accent-cyan-400 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between mb-1">
+              <span>Desktop Höhe</span>
+              <span className="font-mono text-cyan-400">{logoDesktopHeight}px</span>
+            </div>
+            <input
+              type="range" min="40" max="250" value={logoDesktopHeight}
+              onChange={e => setLogoDesktopHeight(Number(e.target.value))}
+              className="w-full accent-cyan-400 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+
+          <div>
+            <div className="flex justify-between mb-1">
+              <span>Nav Innenabstand</span>
+              <span className="font-mono text-cyan-400">{navPadding}px</span>
+            </div>
+            <input
+              type="range" min="5" max="60" value={navPadding}
+              onChange={e => setNavPadding(Number(e.target.value))}
+              className="w-full accent-cyan-400 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
+            />
+          </div>
+        </div>
+
+        <div className="mt-4 pt-3 border-t border-white/10 text-[10px] text-slate-400 font-mono bg-black/30 p-2 rounded">
+          Mobile: {logoMobileHeight}px | Desk: {logoDesktopHeight}px<br />
+          Padding: {navPadding}px
+        </div>
+      </div>
+
     </div>
   );
 };
