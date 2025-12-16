@@ -164,7 +164,7 @@ export const VideoReelsSection: React.FC = () => {
   ], []);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   // Load API globally once
   useYouTubeApi();
