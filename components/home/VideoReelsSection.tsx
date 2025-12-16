@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Instagram, ExternalLink, ArrowRight, Volume2, VolumeX } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Instagram, ExternalLink, ArrowRight, Volume2, VolumeX, Play, Pause } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { EtheralShadow } from '../ui/EtheralShadow';
 
@@ -64,6 +64,7 @@ const YouTubePlayer: React.FC<{
   const playerRef = useRef<HTMLDivElement>(null);
   const playerInstance = useRef<any>(null);
   const [isReady, setIsReady] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true); // Default auto-play
 
   useEffect(() => {
     if (!window.YT || !playerRef.current) return;
@@ -95,6 +96,9 @@ const YouTubePlayer: React.FC<{
           if (event.data === 0) {
             onEnded();
           }
+          // YT.PlayerState.PLAYING = 1, PAUSED = 2
+          if (event.data === 1) setIsPlaying(true);
+          if (event.data === 2) setIsPlaying(false);
         },
       },
     });
@@ -117,9 +121,41 @@ const YouTubePlayer: React.FC<{
     }
   }, [isMuted, isReady]);
 
-  return <div ref={playerRef} className="absolute inset-0 w-full h-full pointer-events-none" />;
-};
+  // Toggle Play/Pause
+  const togglePlay = () => {
+    if (playerInstance.current && isReady) {
+      if (isPlaying) {
+        playerInstance.current.pauseVideo();
+      } else {
+        playerInstance.current.playVideo();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
+  return (
+    <div className="relative w-full h-full group">
+      {/* Helper layout to click anywhere to pause/play, but we also want a specific button */}
+      <div
+        onClick={togglePlay}
+        className="absolute inset-0 z-10 cursor-pointer"
+      />
+
+      <div ref={playerRef} className="absolute inset-0 w-full h-full pointer-events-none" />
+
+      {/* Center Play/Pause Button Overlay */}
+      <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+        <motion.div
+          animate={{ opacity: isPlaying ? 0 : 1, scale: isPlaying ? 0.8 : 1 }}
+          transition={{ duration: 0.2 }}
+          className="bg-white/20 backdrop-blur-md p-6 rounded-full border border-white/30 text-white shadow-xl"
+        >
+          {isPlaying ? <Pause size={32} fill="white" /> : <Play size={32} fill="white" className="ml-1" />}
+        </motion.div>
+      </div>
+    </div>
+  );
+};
 export const VideoReelsSection: React.FC = () => {
   // Combine Reels + Instagram Card
   const items = React.useMemo<CarouselItem[]>(() => [
