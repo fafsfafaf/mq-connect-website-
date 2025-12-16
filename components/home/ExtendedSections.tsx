@@ -101,23 +101,9 @@ const AREA_CARDS = [
   }
 ];
 
-// --- Helper: Animated Counter ---
+// --- Helper: Static Counter (Optimized) ---
 export const AnimatedCounter = ({ value, suffix = "" }: { value: number, suffix?: string }) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-20px" });
-  const springValue = useSpring(0, { stiffness: 50, damping: 20, duration: 2000 });
-
-  React.useEffect(() => {
-    if (inView) {
-      springValue.set(value);
-    }
-  }, [inView, value, springValue]);
-
-  const displayValue = useTransform(springValue, (latest) =>
-    `${Math.floor(latest).toLocaleString('de-DE')}${suffix}`
-  );
-
-  return <m.span ref={ref} className="tabular-nums">{displayValue}</m.span>;
+  return <span className="tabular-nums">{value.toLocaleString('de-DE')}{suffix}</span>;
 };
 
 // --- Helper: Section Wrapper ---
@@ -339,8 +325,8 @@ export const StatsSection: React.FC = () => (
             key={i}
             className="group relative"
           >
-            <div className="relative h-full bg-slate-50 border border-slate-100 rounded-[2rem] p-6 md:p-8 text-center overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 hover:bg-white cursor-default">
-              <div className="text-4xl md:text-5xl mb-4 transform group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300 filter drop-shadow-sm">
+            <div className="relative h-full bg-slate-50 border border-slate-100 rounded-[2rem] p-6 md:p-8 text-center overflow-hidden cursor-default">
+              <div className="text-4xl md:text-5xl mb-4 filter drop-shadow-sm">
                 {stat.emoji}
               </div>
               <div className={`text-5xl md:text-6xl font-black mb-2 text-transparent bg-clip-text bg-gradient-to-br ${stat.gradient}`}>
