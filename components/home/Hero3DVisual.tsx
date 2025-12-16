@@ -11,7 +11,6 @@ export const Hero3DVisual = () => {
   const y = useMotionValue(0);
 
   // Smooth spring animation for tilt
-  // Smooth spring animation for tilt
   const mouseX = useSpring(x, { stiffness: 100, damping: 25 });
   const mouseY = useSpring(y, { stiffness: 100, damping: 25 });
 
@@ -25,7 +24,6 @@ export const Hero3DVisual = () => {
     const relativeX = e.clientX - rect.left - width / 2;
     const relativeY = e.clientY - rect.top - height / 2;
 
-    // Reduced sensitivity by increasing divisor (from 25 to 80)
     // Reduced sensitivity by increasing divisor (from 80 to 200)
     x.set(relativeY / 200);
     y.set(-relativeX / 200);
@@ -51,16 +49,17 @@ export const Hero3DVisual = () => {
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
-          transformOrigin: "center center"
+          transformOrigin: "center center",
+          backfaceVisibility: "hidden", // Safari fix
+          WebkitBackfaceVisibility: "hidden" // Safari fix
         }}
-        // Applied macos-layer-fix
-        className="relative w-[300px] sm:w-[350px] md:w-[400px] lg:w-[420px] aspect-[3/4] rounded-[2.5rem] bg-gradient-to-b from-[#1e293b] to-[#0f172a] shadow-2xl border border-slate-700/50 flex flex-col justify-end overflow-visible group macos-layer-fix"
+        className="relative w-[300px] sm:w-[350px] md:w-[400px] lg:w-[420px] aspect-[3/4] rounded-[2.5rem] bg-gradient-to-b from-[#1e293b] to-[#0f172a] shadow-2xl border border-slate-700/50 flex flex-col justify-end overflow-visible group will-change-transform"
       >
         {/* Card Shine Effect */}
-        <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20"></div>
+        <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20" style={{ transform: "translateZ(1px)" }}></div>
 
         {/* Background Elements inside Card */}
-        <div className="absolute inset-2 rounded-[2.2rem] overflow-hidden bg-slate-900 border border-slate-800">
+        <div className="absolute inset-2 rounded-[2.2rem] overflow-hidden bg-slate-900 border border-slate-800" style={{ transform: "translateZ(0)" }}>
           {/* Abstract Grid */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-30"></div>
 
@@ -70,19 +69,21 @@ export const Hero3DVisual = () => {
         </div>
 
         {/* Main Person Image - Popping out of the frame */}
+        {/* REFACTOR: Simplify z-index and use translate3d for safari */}
         <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] h-[110%] z-10 pointer-events-none flex items-end justify-center macos-layer-fix"
-          style={{ transform: "translateZ(40px) translateX(-50%)" }}
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[115%] h-[110%] z-10 pointer-events-none flex items-end justify-center"
+          style={{ transform: "translateZ(40px) translateX(-50%)", willChange: "transform" }}
         >
           <img
             src={HERO_DATA.personImageUrl}
             alt="MQ Performer"
             className="max-w-full max-h-full object-contain drop-shadow-[-20px_20px_30px_rgba(0,0,0,0.6)]"
+            style={{ WebkitTransform: "translateZ(0)" }} // Force GPU layer
           />
         </div>
 
         {/* Floating Stats Card - Top Left */}
-        <div className="absolute top-16 -left-4 md:-left-8 macos-layer-fix" style={{ transform: "translateZ(60px)" }}>
+        <div className="absolute top-16 -left-4 md:-left-8" style={{ transform: "translateZ(60px)" }}>
           <motion.div
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
@@ -100,7 +101,7 @@ export const Hero3DVisual = () => {
         </div>
 
         {/* Floating Stats Card - Bottom Right */}
-        <div className="absolute bottom-32 -right-4 md:-right-8 macos-layer-fix" style={{ transform: "translateZ(50px)" }}>
+        <div className="absolute bottom-32 -right-4 md:-right-8" style={{ transform: "translateZ(50px)" }}>
           <motion.div
             animate={{ y: [0, -12, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -118,7 +119,7 @@ export const Hero3DVisual = () => {
         </div>
 
         {/* Floating Badge Top Right */}
-        <div className="absolute top-6 right-6 macos-layer-fix" style={{ transform: "translateZ(30px)" }}>
+        <div className="absolute top-6 right-6" style={{ transform: "translateZ(30px)" }}>
           <motion.div
             animate={{ rotate: [0, 10, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
