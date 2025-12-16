@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { TextRotate } from '../ui/TextRotate';
+import { HERO_DATA } from '../../data/home';
 const Hero3DVisual = React.lazy(() => import('./Hero3DVisual').then(module => ({ default: module.Hero3DVisual })));
 
 export const HeroSection: React.FC = () => {
