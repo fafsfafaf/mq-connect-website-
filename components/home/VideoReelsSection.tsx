@@ -44,17 +44,9 @@ export const VideoReelsSection: React.FC = () => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // --- AUTOPLAY & REDIRECT LOGIC ---
+  // --- AUTOPLAY LOGIC (Instagram Redirect Removed) ---
   useEffect(() => {
-    const activeItem = items[activeIndex];
-
-    // Handle Instagram Redirect
-    if (activeItem.type === 'instagram') {
-      const timer = setTimeout(() => {
-        window.open('https://www.instagram.com/mq.connect', '_blank');
-      }, 2000);
-      return () => clearTimeout(timer);
-    }
+    // No auto-redirect for Instagram anymore
   }, [activeIndex, items]);
 
   // Navigation Logic
@@ -249,23 +241,36 @@ export const VideoReelsSection: React.FC = () => {
                       <div className="w-full h-full bg-white rounded-[1.6rem] flex flex-col items-center justify-center text-center p-6 relative overflow-hidden group">
                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
 
-                        <div className="w-24 h-24 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 rounded-[2rem] flex items-center justify-center mb-8 shadow-xl shadow-pink-500/20 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                          <Instagram className="w-12 h-12 text-white" />
+                        <div className="w-20 h-20 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-xl shadow-pink-500/20 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                          <Instagram className="w-10 h-10 text-white" />
                         </div>
-                        <h3 className="text-3xl font-black text-slate-900 mb-2">Mehr?</h3>
-                        <p className="text-slate-500 text-base mb-8 leading-relaxed font-medium">
-                          Wir leiten dich weiter zu unserem Instagram Profil...
+
+                        <h3 className="text-2xl font-black text-slate-900 mb-2">Instagram?</h3>
+                        <p className="text-slate-500 text-sm mb-6 leading-relaxed font-medium px-4">
+                          Möchtest du dir unser Profil auf Instagram anschauen?
                         </p>
 
-                        <div className="h-1 w-full bg-slate-100 rounded-full overflow-hidden">
-                          {isActive && (
-                            <motion.div
-                              initial={{ width: "0%" }}
-                              animate={{ width: "100%" }}
-                              transition={{ duration: 1.5, ease: "linear" }}
-                              className="h-full bg-pink-500"
-                            />
-                          )}
+                        <div className="flex flex-col gap-2 w-full px-4">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              window.open('https://www.instagram.com/mq.connect', '_blank');
+                            }}
+                            className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-pink-500/30 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center justify-center gap-2"
+                          >
+                            <Instagram size={16} />
+                            Ja, zum Profil
+                          </button>
+
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleNext();
+                            }}
+                            className="w-full py-3 bg-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-200 hover:text-slate-800 active:scale-95 transition-all text-sm"
+                          >
+                            Nein, weiter
+                          </button>
                         </div>
                       </div>
                     </div>
