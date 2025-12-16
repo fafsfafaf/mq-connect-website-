@@ -8,11 +8,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  // --- LOGO TUNER STATE ---
-  const [logoMobileHeight, setLogoMobileHeight] = useState(56); // Default ~h-14
-  const [logoDesktopHeight, setLogoDesktopHeight] = useState(96); // Default ~h-24
-  const [navPadding, setNavPadding] = useState(20); // Default ~py-5
-
   useEffect(() => {
     setIsMobileMenuOpen(false);
     window.scrollTo(0, 0);
@@ -25,14 +20,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
-
-      {/* Dynamic Styles for Tuner */}
-      <style>{`
-        .logo-tuned { height: ${logoMobileHeight}px; }
-        @media (min-width: 768px) {
-          .logo-tuned { height: ${logoDesktopHeight}px; }
-        }
-      `}</style>
 
       {/* Top Bar - Matches screenshot - Z-Index raised to 52 */}
       <div className="bg-[#004e82] text-white py-2 px-4 z-[52] relative">
@@ -52,8 +39,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
       {/* Navbar - Z-Index raised to 51 to sit above mobile menu */}
       <nav
-        className="bg-white shadow-sm sticky top-0 z-[51] transition-all duration-200"
-        style={{ paddingTop: `${navPadding}px`, paddingBottom: `${navPadding}px` }}
+        className="bg-white shadow-sm sticky top-0 z-[51] transition-all duration-200 py-2"
       >
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
 
@@ -62,7 +48,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <img
               src="/images/mq-logo-large.png"
               alt="MQ-CONNECT"
-              className="w-auto object-contain logo-tuned transition-all duration-200"
+              className="w-auto object-contain h-[62px] md:h-[73px] transition-all duration-200"
             />
           </Link>
 
