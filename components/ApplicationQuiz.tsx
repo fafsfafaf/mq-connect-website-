@@ -25,7 +25,7 @@ const OptionButton: React.FC<OptionButtonProps> = memo(({
   <button
     type="button"
     className={`
-      w-full p-5 rounded-2xl border-2 text-left transition-all duration-200 font-bold text-lg flex items-center justify-between group
+      w-full p-5 rounded-2xl border-2 text-left transition-[border-color,background-color,color,transform,box-shadow] duration-200 font-bold text-lg flex items-center justify-between group
       ${selected
         ? 'bg-[#004e82] border-[#004e82] text-white shadow-lg scale-[1.01]'
         : 'bg-white border-slate-100 text-slate-700 hover:border-[#004e82] hover:text-[#004e82] hover:shadow-md hover:-translate-y-0.5'
@@ -592,12 +592,12 @@ export const ApplicationQuiz: React.FC = () => {
               <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Fortschritt</span>
               <span className="text-xs font-bold text-[#004e82]">{Math.min(state.step, totalSteps)} / {totalSteps}</span>
             </div>
-            <div className="relative w-full h-4 bg-slate-100 rounded-full shadow-inner overflow-visible">
+            <div className="relative w-full h-4 bg-slate-100 rounded-full shadow-inner overflow-hidden transform-gpu">
               <div
-                className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-sky-400 to-[#004e82] transition-all duration-500 ease-out shadow-[0_0_15px_rgba(14,165,233,0.6)]"
-                style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+                className="absolute top-0 left-0 w-full h-full rounded-full bg-gradient-to-r from-sky-400 to-[#004e82] transition-transform duration-500 ease-out shadow-[0_0_15px_rgba(14,165,233,0.6)] origin-left will-change-transform"
+                style={{ transform: `scaleX(${Math.min(progressPercentage, 100) / 100})` }}
               >
-                {/* Glowing white tip */}
+                {/* Glowing white tip - using translate to avoid aspect ratio distortion if possible, or just accept it's inside the scaled element */}
                 <div className="absolute right-0 top-0 bottom-0 w-1 bg-white/50 blur-[2px]"></div>
               </div>
             </div>
