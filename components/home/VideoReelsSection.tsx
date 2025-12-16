@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Instagram, ExternalLink, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Instagram, ExternalLink, ArrowRight, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { EtheralShadow } from '../ui/EtheralShadow';
 
@@ -35,6 +35,7 @@ export const VideoReelsSection: React.FC = () => {
   ], []);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMuted, setIsMuted] = useState(true);
 
   // Visibility detection
   const sectionRef = useRef(null);
@@ -209,8 +210,9 @@ export const VideoReelsSection: React.FC = () => {
                       {/* Only render iframe if card is active AND section is in view to trigger autoplay */}
                       {(isActive && isInView) ? (
                         <iframe
-                          className="absolute inset-0 w-full h-full"
-                          src={`https://www.youtube.com/embed/${item.data.videoId}?autoplay=1&mute=1&controls=0&playsinline=1&modestbranding=1&rel=0&loop=1&playlist=${item.data.videoId}`}
+                          key={`${item.data.videoId}-${isMuted ? 'muted' : 'unmuted'}`}
+                          className="absolute inset-0 w-full h-full pointer-events-none"
+                          src={`https://www.youtube.com/embed/${item.data.videoId}?autoplay=1&mute=${isMuted ? 1 : 0}&controls=0&playsinline=1&modestbranding=1&rel=0&loop=1&playlist=${item.data.videoId}&enablejsapi=1`}
                           allow="autoplay; encrypted-media; picture-in-picture"
                           allowFullScreen
                           loading="eager"
@@ -230,16 +232,31 @@ export const VideoReelsSection: React.FC = () => {
 
                       {/* Text Content Overlay */}
                       <div className="absolute bottom-0 left-0 w-full p-6 text-left pointer-events-none z-20">
-                        <div className="w-8 h-1 bg-blue-500 mb-3 rounded-full"></div>
-                        <h3 className="text-2xl font-bold text-white mb-1 leading-tight text-shadow-lg">{item.data.title}</h3>
-                        <p className="text-sm text-slate-100 font-medium tracking-wide text-shadow">{item.data.subtitle}</p>
+                        <div className="flex justify-between items-end">
+                          <div>
+                            <div className="w-8 h-1 bg-blue-500 mb-3 rounded-full"></div>
+                            <h3 className="text-2xl font-bold text-white mb-1 leading-tight text-shadow-lg">{item.data.title}</h3>
+                            <p className="text-sm text-slate-100 font-medium tracking-wide text-shadow">{item.data.subtitle}</p>
+                          </div>
+
+                          {/* Mute Toggle Button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setIsMuted(!isMuted);
+                            }}
+                            className="pointer-events-auto p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all active:scale-95"
+                          >
+                            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+                          </button>
+                        </div>
                       </div>
                     </div >
                   ) : (
                     // INSTAGRAM CARD
                     <div className="relative w-full h-full rounded-[1.8rem] overflow-hidden bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 p-1">
-                      <div className="w-full h-full bg-white rounded-[1.6rem] flex flex-col items-center justify-center text-center p-6 relative overflow-hidden group">
-                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5"></div>
+                      <div className="w-full h-full bg-white rounded-[1.6rem] flex flex-col items-center justify-center text-center p-6 relative overflow-hidden group z-40">
+                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
 
                         <div className="w-20 h-20 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-xl shadow-pink-500/20 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                           <Instagram className="w-10 h-10 text-white" />
@@ -250,13 +267,14 @@ export const VideoReelsSection: React.FC = () => {
                           Möchtest du dir unser Profil auf Instagram anschauen?
                         </p>
 
-                        <div className="flex flex-col gap-2 w-full px-4">
+                        <div className="flex flex-col gap-2 w-full px-4 relative z-50">
                           <button
                             onClick={(e) => {
+                              console.log('Instagram Click'); // Debug
                               e.stopPropagation();
                               window.open('https://www.instagram.com/mq.connect', '_blank');
                             }}
-                            className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-pink-500/30 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center justify-center gap-2"
+                            className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-xl shadow-lg shadow-pink-500/30 hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-sm flex items-center justify-center gap-2 cursor-pointer"
                           >
                             <Instagram size={16} />
                             Ja, zum Profil
