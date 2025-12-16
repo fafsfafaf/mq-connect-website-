@@ -125,7 +125,7 @@ export const HeroSection: React.FC = () => {
       </div>
 
       {/* Wave Divider with Morph Effect */}
-      <div className="absolute bottom-0 left-0 w-full z-20 translate-y-[1px]">
+      <div className="absolute bottom-0 left-0 w-full z-20">
         <svg className="block w-full h-[60px] md:h-[120px] drop-shadow-[0_-10px_20px_rgba(255,255,255,0.2)]" viewBox="0 0 1440 320" preserveAspectRatio="none">
           <defs>
             <linearGradient id="wave-grad" x1="0%" y1="0%" x2="0%" y2="100%">
