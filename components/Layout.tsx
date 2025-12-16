@@ -20,7 +20,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen flex flex-col font-sans">
-      
+
       {/* Top Bar - Matches screenshot - Z-Index raised to 52 */}
       <div className="bg-[#004e82] text-white py-2 px-4 z-[52] relative">
         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-end items-center gap-4 text-xs font-medium tracking-wide">
@@ -40,28 +40,29 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* Navbar - Z-Index raised to 51 to sit above mobile menu */}
       <nav className="bg-white py-4 md:py-5 shadow-sm sticky top-0 z-[51]">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
-          
+
           {/* Logo Text Only */}
           <Link to="/" className="flex items-center gap-3 z-50 group">
-            <span className="text-2xl md:text-3xl font-extrabold tracking-tighter text-slate-900 uppercase">
-              MQ-CONNECT
-            </span>
+            <img
+              src="/images/mq-connect-logo.jpg"
+              alt="MQ-CONNECT"
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-6 xl:gap-10">
             {NAVIGATION_LINKS.map(link => (
-              <Link 
-                key={link.href} 
-                to={link.href} 
-                className={`text-sm font-bold uppercase tracking-wide transition-colors ${
-                  link.label === 'MITARBEITER LOGIN' ? 'text-slate-400' : 'text-slate-700 hover:text-[#004e82]'
-                }`}
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`text-sm font-bold uppercase tracking-wide transition-colors ${link.label === 'MITARBEITER LOGIN' ? 'text-slate-400' : 'text-slate-700 hover:text-[#004e82]'
+                  }`}
               >
                 {link.label}
               </Link>
             ))}
-            
+
             {/* CTA Button "Jetzt bewerben" added to the right */}
             <Link to="/bewerben">
               <Button size="sm" className="ml-2 xl:ml-6 px-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
@@ -86,14 +87,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 {link.label}
               </Link>
             ))}
-            
+
             <Link to="/bewerben" className="mt-2">
-                <Button fullWidth className="justify-center py-4 text-base">JETZT BEWERBEN</Button>
+              <Button fullWidth className="justify-center py-4 text-base">JETZT BEWERBEN</Button>
             </Link>
 
             <div className="mt-4 pt-4 border-t border-slate-200 text-sm text-slate-500">
-              <p className="flex items-center gap-2 mb-2"><Phone className="w-4 h-4"/> {APP_CONFIG.STAFF_PHONE_NUMBER}</p>
-              <p className="flex items-center gap-2"><Clock className="w-4 h-4"/> {APP_CONFIG.OPENING_HOURS}</p>
+              <p className="flex items-center gap-2 mb-2"><Phone className="w-4 h-4" /> {APP_CONFIG.STAFF_PHONE_NUMBER}</p>
+              <p className="flex items-center gap-2"><Clock className="w-4 h-4" /> {APP_CONFIG.OPENING_HOURS}</p>
             </div>
           </div>
         </div>
@@ -107,53 +108,53 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-300 py-16 md:pb-16 pb-32 border-t border-slate-800">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-12">
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 mb-16">
-            
+
             {/* Column 1: Brand & Narrative */}
             <div className="space-y-6">
-               <Link to="/" className="block">
-                 <span className="text-2xl font-extrabold tracking-tighter text-white uppercase">MQ-CONNECT</span>
-               </Link>
-               <p className="text-sm leading-relaxed text-slate-400">
-                 MQ-Connect aus Moers in Nordrhein-Westfalen ist eines der erfolgreichsten und am schnellsten wachsenden Vertriebsunternehmen in der D2D Akquise. Wir verbinden exzellente Beratung mit maximaler Skalierbarkeit für Glasfaser- und Energieprodukte.
-               </p>
-               
-               {/* Social Icons */}
-               <div className="flex gap-4 pt-2">
-                  <a href="https://www.instagram.com/mq.connect/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 rounded-lg hover:bg-[#004e82] hover:text-white transition-colors">
-                    <Instagram size={20} />
-                  </a>
-               </div>
+              <Link to="/" className="block">
+                <span className="text-2xl font-extrabold tracking-tighter text-white uppercase">MQ-CONNECT</span>
+              </Link>
+              <p className="text-sm leading-relaxed text-slate-400">
+                MQ-Connect aus Moers in Nordrhein-Westfalen ist eines der erfolgreichsten und am schnellsten wachsenden Vertriebsunternehmen in der D2D Akquise. Wir verbinden exzellente Beratung mit maximaler Skalierbarkeit für Glasfaser- und Energieprodukte.
+              </p>
+
+              {/* Social Icons */}
+              <div className="flex gap-4 pt-2">
+                <a href="https://www.instagram.com/mq.connect/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 rounded-lg hover:bg-[#004e82] hover:text-white transition-colors">
+                  <Instagram size={20} />
+                </a>
+              </div>
             </div>
 
             {/* Column 2: Contact Info */}
             <div>
-               <h4 className="text-white font-bold text-lg mb-6">Kontakt</h4>
-               <div className="space-y-4 text-sm">
-                 <div>
-                   <div className="font-bold text-white mb-1">{APP_CONFIG.COMPANY_NAME}</div>
-                   <div className="text-slate-400 leading-relaxed">
-                     Uerdinger Str. 77<br/>
-                     47441 Moers
-                   </div>
-                 </div>
-                 
-                 <div className="pt-2 space-y-3">
-                    <a href={`tel:${APP_CONFIG.STAFF_PHONE_NUMBER.replace(/\s/g, '').replace('/', '')}`} className="flex items-center gap-3 hover:text-white transition-colors group">
-                      <div className="bg-slate-800 p-1.5 rounded-md group-hover:bg-[#004e82] transition-colors">
-                        <Phone className="w-4 h-4" />
-                      </div>
-                      <span>{APP_CONFIG.STAFF_PHONE_NUMBER}</span>
-                    </a>
-                    <a href={`mailto:${APP_CONFIG.CONTACT_EMAIL}`} className="flex items-center gap-3 hover:text-white transition-colors group">
-                      <div className="bg-slate-800 p-1.5 rounded-md group-hover:bg-[#004e82] transition-colors">
-                         <Mail className="w-4 h-4" /> 
-                      </div>
-                      <span>{APP_CONFIG.CONTACT_EMAIL}</span>
-                    </a>
-                 </div>
-               </div>
+              <h4 className="text-white font-bold text-lg mb-6">Kontakt</h4>
+              <div className="space-y-4 text-sm">
+                <div>
+                  <div className="font-bold text-white mb-1">{APP_CONFIG.COMPANY_NAME}</div>
+                  <div className="text-slate-400 leading-relaxed">
+                    Uerdinger Str. 77<br />
+                    47441 Moers
+                  </div>
+                </div>
+
+                <div className="pt-2 space-y-3">
+                  <a href={`tel:${APP_CONFIG.STAFF_PHONE_NUMBER.replace(/\s/g, '').replace('/', '')}`} className="flex items-center gap-3 hover:text-white transition-colors group">
+                    <div className="bg-slate-800 p-1.5 rounded-md group-hover:bg-[#004e82] transition-colors">
+                      <Phone className="w-4 h-4" />
+                    </div>
+                    <span>{APP_CONFIG.STAFF_PHONE_NUMBER}</span>
+                  </a>
+                  <a href={`mailto:${APP_CONFIG.CONTACT_EMAIL}`} className="flex items-center gap-3 hover:text-white transition-colors group">
+                    <div className="bg-slate-800 p-1.5 rounded-md group-hover:bg-[#004e82] transition-colors">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <span>{APP_CONFIG.CONTACT_EMAIL}</span>
+                  </a>
+                </div>
+              </div>
             </div>
 
             {/* Column 3: Quick Links */}
@@ -176,8 +177,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 <li><Link to="/datenschutz" className="hover:text-white hover:translate-x-1 transition-all inline-block">Datenschutz</Link></li>
                 <li><Link to="/cookie-richtlinien" className="hover:text-white hover:translate-x-1 transition-all inline-block">Cookie-Richtlinie</Link></li>
                 <li>
-                  <button 
-                    onClick={openCookieSettings} 
+                  <button
+                    onClick={openCookieSettings}
                     className="hover:text-white hover:translate-x-1 transition-all inline-block text-left"
                   >
                     Cookie-Einstellungen
