@@ -235,7 +235,7 @@ export const VideoReelsSection: React.FC = () => {
                     <div className="relative w-full h-full rounded-[1.8rem] overflow-hidden bg-slate-900 isolate">
                       <video
                         ref={(el) => (videoRefs.current[index] = el)}
-                        src={`${item.data.src}?width=600&format=mp4`} // Optimize video if possible, checking transform support
+                        src={item.data.src} // Removed invalid query params for video files
                         poster={item.data.poster}
                         className="w-full h-full object-cover"
                         playsInline
