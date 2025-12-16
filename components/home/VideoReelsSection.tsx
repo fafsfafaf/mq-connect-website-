@@ -190,7 +190,7 @@ export const VideoReelsSection: React.FC = () => {
               return (
                 <motion.div
                   key={item.type === 'video' ? item.data.videoId : 'insta'}
-                  className={`absolute w - [300px] sm: w - [320px] aspect - [9 / 16] rounded - [2rem] shadow - 2xl transition - all duration - 500 ease - out cursor - pointer macos - layer - fix border - 4 border - white
+                  className={`absolute w-[300px] sm:w-[320px] aspect-[9/16] rounded-[2rem] shadow-2xl transition-all duration-500 ease-out cursor-pointer macos-layer-fix border-4 border-white
                       ${isActive ? 'z-30 cursor-default shadow-[0_25px_60px_rgba(0,0,0,0.3)]' : 'z-10 hover:z-20'}
 `}
                   onClick={() => handleCardClick(index)}
