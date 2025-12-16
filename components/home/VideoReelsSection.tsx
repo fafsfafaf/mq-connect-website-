@@ -148,7 +148,7 @@ const YouTubePlayer: React.FC<{
         <motion.div
           animate={{ opacity: isPlaying ? 0 : 1, scale: isPlaying ? 0.8 : 1 }}
           transition={{ duration: 0.2 }}
-          className="bg-white/20 backdrop-blur-md p-6 rounded-full border border-white/30 text-white shadow-xl"
+          className="bg-black/40 backdrop-blur-md p-6 rounded-full border border-white/20 text-white shadow-xl"
         >
           {isPlaying ? <Pause size={32} fill="white" /> : <Play size={32} fill="white" className="ml-1" />}
         </motion.div>
@@ -373,7 +373,7 @@ export const VideoReelsSection: React.FC = () => {
                               e.stopPropagation();
                               setIsMuted(!isMuted);
                             }}
-                            className="pointer-events-auto p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all active:scale-95"
+                            className="pointer-events-auto p-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-black/50 transition-all active:scale-95"
                           >
                             {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
                           </button>
