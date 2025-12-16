@@ -197,55 +197,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
           </div>
         </div>
       </footer>
-
-      {/* --- LOGO TUNER PANEL --- */}
-      <div className="fixed bottom-4 left-4 z-[9999] bg-slate-900/90 text-white p-4 rounded-xl text-xs backdrop-blur-md border border-white/20 shadow-2xl w-64 shadow-black/50">
-        <h3 className="font-bold mb-3 text-sm flex items-center gap-2">🛠️ Logo Größe einstellen</h3>
-
-        <div className="space-y-4">
-          <div>
-            <div className="flex justify-between mb-1">
-              <span>Mobile Höhe</span>
-              <span className="font-mono text-cyan-400">{logoMobileHeight}px</span>
-            </div>
-            <input
-              type="range" min="20" max="150" value={logoMobileHeight}
-              onChange={e => setLogoMobileHeight(Number(e.target.value))}
-              className="w-full accent-cyan-400 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div>
-            <div className="flex justify-between mb-1">
-              <span>Desktop Höhe</span>
-              <span className="font-mono text-cyan-400">{logoDesktopHeight}px</span>
-            </div>
-            <input
-              type="range" min="40" max="250" value={logoDesktopHeight}
-              onChange={e => setLogoDesktopHeight(Number(e.target.value))}
-              className="w-full accent-cyan-400 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-
-          <div>
-            <div className="flex justify-between mb-1">
-              <span>Nav Innenabstand</span>
-              <span className="font-mono text-cyan-400">{navPadding}px</span>
-            </div>
-            <input
-              type="range" min="5" max="60" value={navPadding}
-              onChange={e => setNavPadding(Number(e.target.value))}
-              className="w-full accent-cyan-400 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer"
-            />
-          </div>
-        </div>
-
-        <div className="mt-4 pt-3 border-t border-white/10 text-[10px] text-slate-400 font-mono bg-black/30 p-2 rounded">
-          Mobile: {logoMobileHeight}px | Desk: {logoDesktopHeight}px<br />
-          Padding: {navPadding}px
-        </div>
-      </div>
-
     </div>
   );
 };
