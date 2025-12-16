@@ -43,9 +43,11 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
           {/* Logo Text Only */}
           <Link to="/" className="flex items-center gap-3 z-50 group">
-            <span className="text-2xl md:text-3xl font-extrabold tracking-tighter text-slate-900 uppercase">
-              MQ-CONNECT
-            </span>
+            <img
+              src="/images/mq-logo-large.png"
+              alt="MQ-CONNECT"
+              className="h-8 md:h-10 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Nav */}
