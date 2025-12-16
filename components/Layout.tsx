@@ -46,7 +46,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <img
               src="/images/mq-logo-large.png"
               alt="MQ-CONNECT"
-              className="h-8 md:h-10 w-auto object-contain"
+              className="h-14 md:h-24 w-auto object-contain"
             />
           </Link>
 
