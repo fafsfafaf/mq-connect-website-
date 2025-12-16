@@ -628,7 +628,7 @@ export const ApplicationQuiz: React.FC = () => {
       return createPortal(
         <div className="fixed inset-0 z-[9999] bg-slate-50 flex flex-col w-full h-[var(--vvh,100vh)]">
           {/* Header */}
-          <div className="flex justify-between items-center px-6 py-4 bg-white border-b border-slate-200 shadow-sm flex-shrink-0">
+          <div className="flex justify-between items-center px-6 py-4 bg-white border-b border-slate-200 shadow-sm flex-shrink-0 z-20">
             <div className="flex items-center gap-2">
               <span className="text-[#004e82] font-bold text-lg">Bewerbung</span>
               {state.step > 0 && !state.isSubmitted && <span className="text-slate-400 text-sm font-medium">• Schritt {state.step}</span>}
@@ -641,9 +641,9 @@ export const ApplicationQuiz: React.FC = () => {
             </button>
           </div>
 
-          {/* Inner scroll content */}
-          <div className="w-full flex-grow overflow-y-auto flex flex-col justify-center px-4 py-8">
-            <div className="w-full max-w-xl mx-auto my-auto pb-8">
+          {/* Inner scroll content - Changed to Top Alignment for Stability */}
+          <div className="w-full flex-grow overflow-y-auto flex flex-col px-4 py-8 scroll-smooth will-change-scroll">
+            <div className="w-full max-w-xl mx-auto pb-40"> {/* pb-40 ensures space for keyboard scrolling */}
               {state.isDisqualified && <DisqualificationModal reason={state.disqualificationReason} onRedirect={handleDisqualificationRedirect} />}
               {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
               {QuizContent}
@@ -676,7 +676,10 @@ export const ApplicationQuiz: React.FC = () => {
     <div className="w-full max-w-xl mx-auto relative">
       {state.isDisqualified && <DisqualificationModal reason={state.disqualificationReason} onRedirect={handleDisqualificationRedirect} />}
       {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
-      {QuizContent}
+      {/* Desktop Padding/Margin adjustments */}
+      <div className="py-8">
+        {QuizContent}
+      </div>
     </div>
   );
 }
