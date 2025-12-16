@@ -24,13 +24,18 @@ export const HERO_DATA = {
 
 export const PARTNER_LOGOS = [
   {
+    src: "https://www.eon.de/content/dam/eon/eon-de-zwei/images-wo-workflow/logos/eon-logo_1200x630.jpg",
+    alt: "E.ON",
+  },
+  {
     src: "/images/partners/shrs-logo.png",
     alt: "SHRS Sales Academy",
     width: 140
   },
   {
-    src: "https://www.eon.de/content/dam/eon/eon-de-zwei/images-wo-workflow/logos/eon-logo_1200x630.jpg",
-    alt: "E.ON",
+    src: "/images/partners/vattenfall-logo.png",
+    alt: "Vattenfall",
+    width: 140
   },
   {
     src: "/images/partners/o2-logo.png",
@@ -39,10 +44,5 @@ export const PARTNER_LOGOS = [
   {
     src: "/images/partners/lekker-logo.jpg",
     alt: "Lekker Energie",
-  },
-  {
-    src: "/images/partners/vattenfall-logo.png",
-    alt: "Vattenfall",
-    width: 140
   }
 ];
