@@ -12,11 +12,11 @@ type CarouselItem =
 const INSTAGRAM_ITEM: CarouselItem = { type: 'instagram', id: 'insta-card' };
 
 export const VideoReelsSection: React.FC = () => {
-  // Combine Reels + Instagram Card
-  const items: CarouselItem[] = [
+  // Combine Reels + Instagram Card - Memoized to prevent effect triggers
+  const items = React.useMemo<CarouselItem[]>(() => [
     ...REELS_DATA.map(reel => ({ type: 'video' as const, data: reel })),
     INSTAGRAM_ITEM
-  ];
+  ], []);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
@@ -24,9 +24,9 @@ export const VideoReelsSection: React.FC = () => {
   // Refs for video elements to control playback
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Visibility detection for the section to pause all when scrolled away
+  // Visibility detection - Lowered threshold for mobile reliability
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { amount: 0.5 });
+  const isInView = useInView(sectionRef, { amount: 0.2 });
 
   // Swipe State
   const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -40,7 +40,7 @@ export const VideoReelsSection: React.FC = () => {
     if (activeItem.type === 'instagram') {
       const timer = setTimeout(() => {
         window.open('https://www.instagram.com/mq.connect', '_blank');
-      }, 1500); // Short delay to see the card before opening
+      }, 1500);
       return () => clearTimeout(timer);
     }
 
@@ -48,12 +48,15 @@ export const VideoReelsSection: React.FC = () => {
     if (activeItem.type === 'video' && isInView) {
       const videoEl = videoRefs.current[activeIndex];
       if (videoEl) {
-        // Reset and play
+        // Enforce mute for autoplay policy
+        if (isMuted) videoEl.muted = true;
+
         videoEl.currentTime = 0;
         const playPromise = videoEl.play();
         if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            // Auto-play was prevented (e.g. low power mode), ignore
+          playPromise.catch((error) => {
+            console.log("Autoplay prevented:", error);
+            // Interaction might be required
           });
         }
       }
@@ -63,10 +66,11 @@ export const VideoReelsSection: React.FC = () => {
     videoRefs.current.forEach((video, index) => {
       if (index !== activeIndex && video) {
         video.pause();
+        video.currentTime = 0; // Reset inactive videos
       }
     });
 
-  }, [activeIndex, isInView, items]);
+  }, [activeIndex, isInView, items, isMuted]); // Added isMuted to dependency to ensure state sync
 
   // Handle Video End -> Next Slide
   const handleVideoEnded = () => {
