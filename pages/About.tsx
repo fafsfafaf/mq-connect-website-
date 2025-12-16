@@ -57,6 +57,7 @@ export const About: React.FC = () => {
                 <img
                   src="/images/vision-team.jpg"
                   alt="Team Vision Meeting"
+                  loading="lazy"
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 to-transparent"></div>
@@ -149,6 +150,7 @@ export const About: React.FC = () => {
                 <img
                   src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Founder.png"
                   alt="Milan Jasieniecki"
+                  loading="lazy"
                   className="w-full h-full object-cover object-center"
                 />
 
@@ -215,6 +217,7 @@ export const About: React.FC = () => {
                 <img
                   src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Officegenerated.jpeg"
                   alt="MQ Connect Team Mission"
+                  loading="lazy"
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                 />
 

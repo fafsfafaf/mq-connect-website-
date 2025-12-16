@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { TextRotate } from '../ui/TextRotate';
-import { Hero3DVisual } from './Hero3DVisual';
-import { HERO_DATA } from '../../data/home';
+const Hero3DVisual = React.lazy(() => import('./Hero3DVisual').then(module => ({ default: module.Hero3DVisual })));
 
 export const HeroSection: React.FC = () => {
   return (
@@ -16,6 +15,8 @@ export const HeroSection: React.FC = () => {
           src={HERO_DATA.backgroundImageUrl}
           alt="Office Building"
           className="w-full h-full object-cover opacity-60 scale-105"
+          // @ts-ignore - fetchPriority is valid but React types might complain
+          fetchPriority="high"
         />
         {/* Complex Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/80 to-slate-900/40"></div>
@@ -110,7 +111,9 @@ export const HeroSection: React.FC = () => {
 
           {/* Right Side - New 3D Visual */}
           <div className="hidden lg:block h-full min-h-[500px] xl:min-h-[600px] relative">
-            <Hero3DVisual />
+            <React.Suspense fallback={<div className="w-full h-full" />}>
+              <Hero3DVisual />
+            </React.Suspense>
           </div>
 
         </div>
