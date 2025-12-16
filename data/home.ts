@@ -29,7 +29,7 @@ export const PARTNER_LOGOS = [
     width: 140
   },
   {
-    src: "/images/partners/eon-logo.jpg",
+    src: "https://www.eon.de/content/dam/eon/eon-de-zwei/images-wo-workflow/logos/eon-logo_1200x630.jpg",
     alt: "E.ON",
   },
   {
