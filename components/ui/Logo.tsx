@@ -8,7 +8,7 @@ interface LogoProps {
 export const Logo: React.FC<LogoProps> = ({ className = "", imgClassName = "" }) => {
   const [hasError, setHasError] = useState(false);
 
-  const logoPath = "https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/mq-logo.png?transform=w_200&format=webp&q=100";
+  const logoPath = "https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/mq-logo.png?width=200&format=webp&quality=100";
 
   if (hasError) {
     return (

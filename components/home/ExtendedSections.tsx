@@ -174,7 +174,7 @@ export const D2DSection: React.FC = () => {
                 onClick={() => setIsPlaying(true)}
               >
                 <img
-                  src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Thumbnail.jpeg?transform=w_800&format=webp&q=80"
+                  src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Thumbnail.jpeg?width=800&format=webp&quality=80"
                   alt="Video Thumbnail"
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"

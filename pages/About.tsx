@@ -148,7 +148,7 @@ export const About: React.FC = () => {
             >
               <div className="relative rounded-[3rem] overflow-hidden aspect-[4/5] shadow-2xl border-4 border-white">
                 <img
-                  src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Founder.png?transform=w_800&format=webp&q=80"
+                  src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Founder.png?width=800&format=webp&quality=80"
                   alt="Milan Jasieniecki"
                   loading="lazy"
                   className="w-full h-full object-cover object-center"
@@ -215,7 +215,7 @@ export const About: React.FC = () => {
             >
               <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border border-slate-100 aspect-video group">
                 <img
-                  src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Officegenerated.jpeg?transform=w_800&format=webp&q=80"
+                  src="https://ffrthxboliylsnbkxtmj.supabase.co/storage/v1/object/public/Images/Officegenerated.jpeg?width=800&format=webp&quality=80"
                   alt="MQ Connect Team Mission"
                   loading="lazy"
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
