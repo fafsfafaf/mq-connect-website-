@@ -48,12 +48,12 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             <img
               src="/images/mq-logo-large.png"
               alt="MQ-CONNECT"
-              className="w-auto object-contain h-[62px] md:h-[73px] transition-all duration-200"
+              className="w-auto object-contain h-[50px] md:h-[60px] xl:h-[73px] transition-all duration-200"
             />
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-10">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-10">
             {NAVIGATION_LINKS.map(link => (
               <Link
                 key={link.href}
@@ -67,7 +67,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
             {/* CTA Button "Jetzt bewerben" added to the right */}
             <Link to="/bewerben">
-              <Button size="sm" className="ml-2 xl:ml-6 px-6 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
+              <Button size="sm" className="ml-4 xl:ml-8 px-5 xl:px-8 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all">
                 JETZT BEWERBEN
               </Button>
             </Link>
