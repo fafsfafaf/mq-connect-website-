@@ -431,4 +431,3 @@ export const VideoReelsSection: React.FC = () => {
     </section >
   );
 };
-```
