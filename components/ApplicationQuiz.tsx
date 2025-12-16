@@ -627,7 +627,7 @@ export const ApplicationQuiz: React.FC = () => {
   if (isMobile) {
     if (isOverlayOpen) {
       return createPortal(
-        <div className="fixed inset-0 z-[9999] bg-slate-50 flex flex-col w-full h-[var(--vvh,100vh)]">
+        <div className="fixed inset-0 z-[9999] bg-slate-50 flex flex-col w-full h-[100dvh] touch-none">
           {/* Header */}
           <div className="flex justify-between items-center px-6 py-4 bg-white border-b border-slate-200 shadow-sm flex-shrink-0 z-20">
             <div className="flex items-center gap-2">
@@ -642,8 +642,8 @@ export const ApplicationQuiz: React.FC = () => {
             </button>
           </div>
 
-          {/* Inner scroll content - Changed to Top Alignment for Stability */}
-          <div className="w-full flex-grow overflow-y-auto flex flex-col px-4 py-8 scroll-smooth will-change-scroll">
+          {/* Inner scroll content */}
+          <div className="w-full flex-grow overflow-y-auto flex flex-col px-4 py-8 scroll-smooth overscroll-contain">
             <div className="w-full max-w-xl mx-auto pb-40"> {/* pb-40 ensures space for keyboard scrolling */}
               {state.isDisqualified && <DisqualificationModal reason={state.disqualificationReason} onRedirect={handleDisqualificationRedirect} />}
               {showPrivacy && <PrivacyModal onClose={() => setShowPrivacy(false)} />}
