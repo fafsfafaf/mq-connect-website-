@@ -603,7 +603,8 @@ export const ApplicationQuiz: React.FC = () => {
             </div>
           </div>
 
-          <Card className="min-h-[420px] flex flex-col justify-center shadow-2xl border-none ring-1 ring-slate-100 bg-white/95">
+          {/* REFACTOR: Responsive Card Styling - Compact on mobile, Fixed height on desktop */}
+          <Card className="flex flex-col shadow-2xl border-none ring-1 ring-slate-100 bg-white/95 md:min-h-[420px] md:justify-center py-8">
             {renderStep()}
           </Card>
 
@@ -617,7 +618,7 @@ export const ApplicationQuiz: React.FC = () => {
           )}
         </motion.div>
       ) : (
-        <SuccessView key="success-view" isMobile={isMobile} isOverlayOpen={isOverlayOpen} onClose={toggleOverlay} />
+        <SuccessView isMobile={isMobile} isOverlayOpen={isOverlayOpen} onClose={toggleOverlay} />
       )}
     </AnimatePresence>
   );
