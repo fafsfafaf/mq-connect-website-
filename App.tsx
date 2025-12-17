@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LazyMotion, domAnimation } from 'framer-motion';
 import { Layout } from './components/Layout';
 import { CookieConsent } from './components/CookieConsent';
@@ -43,7 +43,7 @@ const App: React.FC = () => {
               <Route path="/fuer-produktgeber" element={<BusinessPartner />} />
               <Route path="/kontakt" element={<Contact />} />
               <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPostDetail />} /> 
+              <Route path="/blog/:slug" element={<BlogPostDetail />} />
               <Route path="/login" element={<Login />} />
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
