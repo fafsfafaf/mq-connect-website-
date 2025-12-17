@@ -4,7 +4,7 @@ import { APP_CONFIG } from '../constants';
 export const Impressum: React.FC = () => (
   <div className="pt-12 pb-24 max-w-3xl mx-auto px-4">
     <h1 className="text-3xl font-bold mb-8 text-slate-900">Impressum</h1>
-    
+
     <div className="prose prose-slate max-w-none text-slate-600">
       <h2 className="text-xl font-bold text-slate-800 mt-8 mb-4">Angaben gemäß § 5 TMG</h2>
       <p>
@@ -17,22 +17,14 @@ export const Impressum: React.FC = () => (
 
       <h2 className="text-xl font-bold text-slate-800 mt-8 mb-4">Kontakt</h2>
       <p>
-        Telefon: —<br />
+        Telefon: 0163 / 40 36 513<br />
         E-Mail: <a href="mailto:info@mq-connect.de" className="text-[#004e82] hover:underline font-medium">info@mq-connect.de</a>
       </p>
 
       <h2 className="text-xl font-bold text-slate-800 mt-8 mb-4">Unternehmensangaben</h2>
       <p>
         <strong>Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:</strong><br />
-        —
-      </p>
-      <p>
-        <strong>Handelsregister:</strong><br />
-        —
-      </p>
-      <p>
-        <strong>Registergericht:</strong><br />
-        —
+        Entfällt (Kleinunternehmerregelung nach § 19 UStG)
       </p>
       <p className="text-sm italic text-slate-400">
         (Hinweis: Falls Einzelunternehmen ohne HR-Eintrag → diese Punkte können später vollständig entfernt werden.)
@@ -64,20 +56,20 @@ export const Impressum: React.FC = () => (
 export const Datenschutz: React.FC = () => (
   <div className="pt-12 pb-24 max-w-3xl mx-auto px-4 sm:px-6">
     <h1 className="text-3xl md:text-4xl font-bold mb-8 text-slate-900">Datenschutzerklärung</h1>
-    
+
     <div className="prose prose-slate prose-lg max-w-none text-slate-600">
-      
+
       {/* 1. Datenschutz auf einen Blick */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-slate-800 mt-8 mb-6 border-b border-slate-200 pb-2">1. Datenschutz auf einen Blick</h2>
-        
+
         <h3 className="text-xl font-bold text-slate-700 mt-6 mb-3">Allgemeine Hinweise</h3>
         <p>
           Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können. Ausführliche Informationen zum Thema Datenschutz entnehmen Sie der nachfolgenden Datenschutzerklärung.
         </p>
 
         <h3 className="text-xl font-bold text-slate-700 mt-6 mb-3">Datenerfassung auf dieser Website</h3>
-        
+
         <p><strong>Wer ist verantwortlich für die Datenerfassung auf dieser Website?</strong></p>
         <p>
           Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten können Sie dem Abschnitt <strong>„Hinweis zur verantwortlichen Stelle“</strong> in dieser Datenschutzerklärung entnehmen.
@@ -102,7 +94,7 @@ export const Datenschutz: React.FC = () => (
       {/* 2. Hosting */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold text-slate-800 mt-8 mb-6 border-b border-slate-200 pb-2">2. Hosting</h2>
-        
+
         <h3 className="text-xl font-bold text-slate-700 mt-6 mb-3">Hosting mit All-Inkl</h3>
         <p>
           Wir hosten unsere Website bei <strong>All-Inkl</strong>.<br />

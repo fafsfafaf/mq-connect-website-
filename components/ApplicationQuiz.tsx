@@ -110,8 +110,11 @@ const SuccessView = ({ isMobile, isOverlayOpen, onClose }: { isMobile: boolean, 
         <User className="w-5 h-5 text-[#004e82]" />
         <p className="text-lg font-bold text-slate-900">{APP_CONFIG.STAFF_NAME}</p>
       </div>
-      <a href={`tel:${APP_CONFIG.STAFF_PHONE_NUMBER.replace(/\s/g, '').replace('/', '')}`} className="text-[#004e82] font-bold text-xl block hover:underline">
+      <a href={`tel:${APP_CONFIG.STAFF_PHONE_NUMBER.replace(/\s/g, '').replace('/', '')}`} className="text-[#004e82] font-bold text-xl block hover:underline mb-2">
         {APP_CONFIG.STAFF_PHONE_NUMBER}
+      </a>
+      <a href="mailto:bewerbung@mq-connect.de" className="text-slate-500 font-medium text-sm block hover:text-[#004e82] transition-colors">
+        bewerbung@mq-connect.de
       </a>
     </Card>
 
