@@ -16,7 +16,5 @@ export const NAVIGATION_LINKS = [
   { label: "HOME", href: "/" },
   { label: "DAS SIND WIR", href: "/ueber-uns" },
   { label: "KARRIERE", href: "/karriere" },
-  { label: "KONTAKT", href: "/kontakt" }, // Updated to /kontakt
   { label: "ADVERTORIALS", href: "/blog" },
-  { label: "MITARBEITER LOGIN", href: "/login" }, // Placeholder route
 ];

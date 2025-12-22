@@ -168,6 +168,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 <li><Link to="/fuer-produktgeber" className="hover:text-white hover:translate-x-1 transition-all inline-block">Für Partner</Link></li>
                 <li><Link to="/blog" className="hover:text-white hover:translate-x-1 transition-all inline-block">Magazin</Link></li>
                 <li><Link to="/kontakt" className="hover:text-white hover:translate-x-1 transition-all inline-block">Kontakt</Link></li>
+                <li><Link to="/login" className="hover:text-white hover:translate-x-1 transition-all inline-block">Mitarbeiter Login</Link></li>
               </ul>
             </div>
 
