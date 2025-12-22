@@ -16,5 +16,5 @@ export const NAVIGATION_LINKS = [
   { label: "HOME", href: "/" },
   { label: "DAS SIND WIR", href: "/ueber-uns" },
   { label: "KARRIERE", href: "/karriere" },
-  { label: "ADVERTORIALS", href: "/blog" },
+  { label: "BLOG & NEWS", href: "/blog" },
 ];

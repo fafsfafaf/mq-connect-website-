@@ -253,8 +253,8 @@ export const VideoReelsSection: React.FC = () => {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight"
             >
-              Echte Einblicke. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Ohne Filter.</span>
+              Echte Einblicke <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Ohne Filter</span>
             </motion.h2>
 
             <motion.p

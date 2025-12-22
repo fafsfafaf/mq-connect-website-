@@ -1,7 +1,7 @@
 
 export const HERO_DATA = {
   rotatingWords: ["STARTE", "MEISTERE", "VERGRÖSSERE"],
-  staticHeadline: "DEINEN ERFOLG.",
+  staticHeadline: "DEINEN ERFOLG",
   subheadline: "Bestandssicherung und Ausbau von Neukundengewinnung durch D2D & Direktvertrieb",
   primaryButtonText: "PROJEKTANFRAGE PRODUKTGEBER",
   secondaryButtonText: "WERDE TEIL DES TEAMS",

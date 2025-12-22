@@ -31,7 +31,7 @@ export const About: React.FC = () => {
               Das sind wir
             </span>
             <h1 className="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 leading-tight">
-              Wir geben Vertrieb ein <br /><span className="text-[#004e82]">neues Zuhause.</span>
+              Wir geben Vertrieb ein <br /><span className="text-[#004e82]">neues Zuhause</span>
             </h1>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
               MQ-Connect steht für die neue Generation des Direktvertriebs.

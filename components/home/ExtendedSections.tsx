@@ -265,7 +265,7 @@ export const IdentitySection: React.FC = () => (
           </div>
           <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
             Verantwortung hat <br />
-            <span className="text-[#004e82]">ein Gesicht.</span>
+            <span className="text-[#004e82]">ein Gesicht</span>
           </h2>
           <p className="text-lg text-slate-600 mb-10 leading-relaxed font-medium">
             Bei MQ-Connect verstecken wir uns nicht hinter Firmenlogos. Milan und das gesamte Team stehen für eine Kultur, in der ein Handschlag noch zählt.
@@ -364,7 +364,7 @@ export const BenefitsSection: React.FC = () => (
           className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6"
         >
           Ein Ecosystem. <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#004e82] to-blue-500">Nur Gewinner.</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#004e82] to-blue-500">Nur Gewinner</span>
         </h2>
         <p
           className="text-lg text-slate-600"
@@ -591,7 +591,7 @@ export const AreasSection: React.FC = () => {
         <h2
           className="text-4xl md:text-5xl font-extrabold text-slate-900"
         >
-          Wo wir <span className="text-[#004e82]">gewinnen.</span>
+          Wo wir <span className="text-[#004e82]">gewinnen</span>
         </h2>
       </div>
 
