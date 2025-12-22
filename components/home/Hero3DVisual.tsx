@@ -95,7 +95,7 @@ export const Hero3DVisual = () => {
             </div>
             <div>
               <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Provision</p>
-              <p className="text-slate-900 font-bold text-sm leading-none">High-Ticket</p>
+              <p className="text-slate-900 font-bold text-sm leading-none">Pro Abschluss</p>
             </div>
           </motion.div>
         </div>
