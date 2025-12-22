@@ -360,7 +360,7 @@ export const ApplicationQuiz: React.FC = () => {
               </div>
               <div className="flex items-center gap-2 bg-white px-4 py-1.5 rounded-full shadow-sm border border-slate-100">
                 <span className="text-lg">💰</span>
-                <span className="font-bold text-slate-900">Gehalt: 3.500 € - 6.500 €</span>
+                <span className="font-bold text-slate-900">Gehalt: 2.500 € - 4.500 €</span>
               </div>
             </div>
 
@@ -391,7 +391,7 @@ export const ApplicationQuiz: React.FC = () => {
             </div>
 
             <p className="text-sm text-slate-400 font-medium text-center">
-              (Wähle "Ja!", wenn du 3.500 € - 6.500 € verdienen möchtest!)
+              (Wähle "Ja!", wenn du 2.500 € - 4.500 € verdienen möchtest!)
             </p>
           </div>
         );
@@ -461,7 +461,7 @@ export const ApplicationQuiz: React.FC = () => {
               className="w-20 h-auto mx-auto mb-8 object-contain drop-shadow-md rounded-md"
             />
             <div className="space-y-3">
-              {['Muttersprachliches Niveau', 'Fließend in Wort & Schrift', 'Grundkenntnisse'].map(opt => (
+              {['Muttersprache (C2)', 'Fließend in Wort & Schrift (C1)', 'Grundkenntnisse (B1)'].map(opt => (
                 <OptionButton
                   key={opt}
                   selected={state.answers.germanLevel === opt}

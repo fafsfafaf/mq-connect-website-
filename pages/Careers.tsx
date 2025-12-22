@@ -170,7 +170,7 @@ export const Careers: React.FC = () => {
 
           <div className="grid md:grid-cols-4 gap-8">
             {[
-              { step: "01", title: "Quiz starten", desc: "Beantworte 9 kurze Fragen zu dir." },
+              { step: "01", title: "Bewerbungsformular ausfüllen", desc: "Beantworte 9 kurze Fragen zu dir." },
               { step: "02", title: "Kontaktaufnahme", desc: "Wir melden uns innerhalb von 24h per WhatsApp/Anruf." },
               { step: "03", title: "Kennenlernen", desc: "Kurzes Telefonat, um zu checken, ob die Chemie stimmt." },
               { step: "04", title: "Probetag", desc: "Komm vorbei, lerne das Team kennen und zeig was du kannst." }
