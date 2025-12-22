@@ -100,6 +100,15 @@ const SuccessView = ({ isMobile, isOverlayOpen, onClose }: { isMobile: boolean, 
     <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 text-green-600 shadow-lg shadow-green-100/50">
       <Check className="w-12 h-12" />
     </div>
+
+    {/* Video Placeholder */}
+    <div className="w-full aspect-video bg-slate-100 rounded-xl mb-8 flex items-center justify-center relative overflow-hidden shadow-inner border border-slate-200 group">
+      <div className="absolute inset-0 bg-slate-900/5 group-hover:bg-slate-900/10 transition-colors"></div>
+      <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+        <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[18px] border-l-[#004e82] border-b-[10px] border-b-transparent ml-1"></div>
+      </div>
+      <p className="absolute bottom-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Danke-Video (Platzhalter)</p>
+    </div>
     <h2 className="text-3xl font-bold text-slate-900 mb-4">Stark! Deine Daten sind bei uns. 📨</h2>
     <p className="text-slate-600 mb-8 leading-relaxed">
       Wir checken deine Angaben und melden uns blitzschnell (meist innerhalb von 24 Std.) bei dir, um die nächsten Schritte zu besprechen.
