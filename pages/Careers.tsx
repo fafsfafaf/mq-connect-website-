@@ -75,7 +75,7 @@ export const Careers: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto font-medium"
             >
-              Kein Anschreiben, kein Lebenslauf. Starte deine Karriere im **Direktvertrieb (D2D)** und **Haustürgeschäft**. Checke jetzt in 60 Sekunden, ob du das Zeug zum Top-Verkäufer im **Door2Door** hast.
+              Kein Anschreiben, kein Lebenslauf. Checke jetzt in 60 Sekunden, ob du das Zeug zum Top-Verkäufer hast.
             </motion.p>
           </div>
 
@@ -189,6 +189,40 @@ export const Careers: React.FC = () => {
             <Button onClick={scrollToQuiz} size="lg" className="px-12 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all text-lg">
               Jetzt oben bewerben
             </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* SEO / FAQ Section */}
+      <div className="bg-slate-50 py-24 border-t border-slate-200">
+        <div className="max-w-[1000px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Wissenswertes über deinen Start</h2>
+            <p className="text-slate-500">Du hast Fragen zum Job? Hier sind die Antworten.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="bg-white p-8 border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">🚪</span> Was bedeutet eigentlich D2D?
+              </h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
+                **D2D** steht für **Door-to-Door** (Tür-zu-Tür). Im **Direktvertrieb** besuchen wir Kunden direkt zuhause.
+                Warum? Weil persönliche Beratung vor Ort oft viel besser ist als unpersönliche Hotline-Anrufe.
+                Es ist die Königsdisziplin im Vertrieb und der schnellste Weg, Kommunikation zu meistern.
+              </p>
+            </Card>
+
+            <Card className="bg-white p-8 border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                <span className="text-2xl">💼</span> Ist das Haustürgeschäft seriös?
+              </h3>
+              <p className="text-slate-600 leading-relaxed text-sm">
+                Absolut. Das klassische **Haustürgeschäft** hat sich gewandelt. Wir arbeiten professionell,
+                mit Tablets und modernen Tarifen unserer Partner (Telekom, E.ON). Wir "schwatzen" nichts auf,
+                sondern optimieren Verträge. Qualität steht bei MQ-Connect an erster Stelle.
+              </p>
+            </Card>
           </div>
         </div>
       </div>
