@@ -75,7 +75,7 @@ export const Careers: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto font-medium"
             >
-              Kein Anschreiben, kein Lebenslauf. Checke jetzt in 60 Sekunden, ob du das Zeug zum Top-Verkäufer hast.
+              Kein Anschreiben, kein Lebenslauf. Starte deine Karriere im **Direktvertrieb (D2D)** und **Haustürgeschäft**. Checke jetzt in 60 Sekunden, ob du das Zeug zum Top-Verkäufer im **Door2Door** hast.
             </motion.p>
           </div>
 

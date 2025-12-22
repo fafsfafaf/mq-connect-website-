@@ -29,7 +29,7 @@ const STATS_DATA = [
   {
     value: 6000,
     suffix: "+",
-    label: "Neukunden generiert",
+    label: "glückliche Kunden gewonnen",
     sub: "Zufriedene Haushalte",
     emoji: "🤝",
     gradient: "from-purple-600 to-pink-500"
@@ -463,7 +463,7 @@ export const TrainingSection: React.FC = () => (
           </div>
           <div>
             <p className="text-xs font-bold text-[#004e82] uppercase tracking-widest mb-1">Offizieller Partner</p>
-            <p className="font-extrabold text-slate-900 text-xl">SHRS Sales Academy</p>
+            <p className="font-extrabold text-slate-900 text-xl">SHRS D2D Akademie</p>
           </div>
         </div>
       </div>
@@ -490,7 +490,7 @@ export const TrainingSection: React.FC = () => (
             </div>
             <div>
               <h4 className="font-bold text-slate-900">Exklusive SHRS Schulung</h4>
-              <p className="text-sm text-slate-600">Wir sind offizieller Partner der SHRS Sales Academy. Deine Ausbildung auf höchstem Niveau.</p>
+              <p className="text-sm text-slate-600">Wir sind offizieller Partner der SHRS D2D Akademie. Deine Ausbildung auf höchstem Niveau.</p>
             </div>
           </li>
         </ul>

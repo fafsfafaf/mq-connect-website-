@@ -29,7 +29,7 @@ export const PARTNER_LOGOS = [
   },
   {
     src: "/images/partners/shrs-logo.png",
-    alt: "SHRS Sales Academy",
+    alt: "SHRS D2D Akademie",
     width: 140
   },
   {
