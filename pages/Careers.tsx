@@ -30,7 +30,7 @@ export const Careers: React.FC = () => {
     <div className="min-h-screen bg-slate-50">
 
       {/* Hero Section with Ethereal Background */}
-      <section className="relative bg-white text-slate-900 pt-12 pb-32 md:pt-20 md:pb-32 overflow-visible">
+      <section className="relative bg-white text-slate-900 pt-12 pb-12 md:pt-20 md:pb-16 overflow-visible">
 
         {/* Background Container */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -46,7 +46,7 @@ export const Careers: React.FC = () => {
 
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
 
-          <div className="text-center mb-16 md:mb-24">
+          <div className="text-center mb-0 md:mb-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -86,9 +86,9 @@ export const Careers: React.FC = () => {
       </section>
 
       {/* Requirements Grid */}
-      <div className="py-24 bg-slate-50 border-t border-slate-200 relative z-20">
+      <div className="pt-12 pb-24 bg-slate-50 border-t border-slate-200 relative z-20">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-24 gap-x-12 lg:gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12 gap-x-12 lg:gap-16">
 
             {/* Who we search */}
             <motion.div
