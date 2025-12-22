@@ -97,16 +97,7 @@ export const HeroSection: React.FC = () => {
                 />
               </div>
 
-              {/* IHK Badge */}
-              {HERO_DATA.trustBadges.ihkUrl && (
-                <div className="h-16 w-auto bg-white rounded-xl p-1 border border-white/20">
-                  <img
-                    src={HERO_DATA.trustBadges.ihkUrl}
-                    alt="IHK Ausbildungssiegel"
-                    className="h-full w-auto object-contain"
-                  />
-                </div>
-              )}
+
             </div>
           </div>
 
