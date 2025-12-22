@@ -206,22 +206,31 @@ export const Careers: React.FC = () => {
               <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="text-2xl">🚪</span> Was bedeutet eigentlich D2D?
               </h3>
-              <p className="text-slate-600 leading-relaxed text-sm">
-                **D2D** steht für **Door-to-Door** (Tür-zu-Tür). Im **Direktvertrieb** besuchen wir Kunden direkt zuhause.
-                Warum? Weil persönliche Beratung vor Ort oft viel besser ist als unpersönliche Hotline-Anrufe.
-                Es ist die Königsdisziplin im Vertrieb und der schnellste Weg, Kommunikation zu meistern.
-              </p>
+              <div className="text-slate-600 leading-relaxed text-sm space-y-3">
+                <p>
+                  <strong className="text-slate-900 font-bold">D2D</strong> steht für <strong className="text-slate-900 font-bold">Door-to-Door</strong> (Tür-zu-Tür).
+                  Im <strong className="text-slate-900 font-bold">Direktvertrieb</strong> besuchen wir Kunden direkt zuhause.
+                </p>
+                <p>
+                  Warum? Weil persönliche Beratung vor Ort oft viel besser ist als unpersönliche Hotline-Anrufe.
+                  Es ist die Königsdisziplin im Vertrieb und der schnellste Weg, Kommunikation zu meistern.
+                </p>
+              </div>
             </Card>
 
             <Card className="bg-white p-8 border-slate-200 shadow-sm hover:shadow-md transition-shadow">
               <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="text-2xl">💼</span> Ist das Haustürgeschäft seriös?
               </h3>
-              <p className="text-slate-600 leading-relaxed text-sm">
-                Absolut. Das klassische **Haustürgeschäft** hat sich gewandelt. Wir arbeiten professionell,
-                mit Tablets und modernen Tarifen unserer Partner (Telekom, E.ON). Wir "schwatzen" nichts auf,
-                sondern optimieren Verträge. Qualität steht bei MQ-Connect an erster Stelle.
-              </p>
+              <div className="text-slate-600 leading-relaxed text-sm space-y-3">
+                <p>
+                  Absolut. Das klassische <strong className="text-slate-900 font-bold">Haustürgeschäft</strong> hat sich gewandelt.
+                </p>
+                <p>
+                  Wir arbeiten professionell, mit Tablets und modernen Tarifen unserer Partner (Telekom, E.ON).
+                  Wir "schwatzen" nichts auf, sondern optimieren Verträge. Qualität steht bei MQ-Connect an erster Stelle.
+                </p>
+              </div>
             </Card>
           </div>
         </div>
