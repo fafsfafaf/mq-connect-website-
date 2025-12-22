@@ -65,8 +65,8 @@ export const Careers: React.FC = () => {
               // Increased margin-bottom from mb-8 to mb-12 to fix overlap on mobile
               className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 mb-12 leading-tight drop-shadow-sm"
             >
-              Mehr als nur ein Job. <br />
-              <span className="text-[#004e82]">Deine Chance auf Wachstum.</span>
+              Mehr als nur ein Job <br />
+              <span className="text-[#004e82]">Deine Chance auf Wachstum</span>
             </motion.h1>
 
             <motion.p

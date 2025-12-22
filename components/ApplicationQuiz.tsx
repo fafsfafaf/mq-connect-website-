@@ -663,7 +663,7 @@ export const ApplicationQuiz: React.FC = () => {
           <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mb-4 animate-bounce">
             <Rocket className="w-8 h-8 text-[#004e82]" />
           </div>
-          <h3 className="text-xl font-bold text-slate-900 mb-2">Deine Chance auf Wachstum.</h3>
+          <h3 className="text-xl font-bold text-slate-900 mb-2">Deine Chance auf Wachstum</h3>
           <p className="text-slate-600 mb-6 text-sm">
             Starte jetzt den 60-Sekunden Check und finde heraus, ob du ins Team passt.
           </p>
