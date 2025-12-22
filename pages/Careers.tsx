@@ -88,7 +88,7 @@ export const Careers: React.FC = () => {
       {/* Requirements Grid */}
       <div className="pt-12 pb-24 bg-slate-50 border-t border-slate-200 relative z-20">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-12 gap-x-12 lg:gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-24 gap-x-12 lg:gap-16">
 
             {/* Who we search */}
             <motion.div
