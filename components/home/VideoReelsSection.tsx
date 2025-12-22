@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Instagram, ExternalLink, ArrowRight, Volume2, VolumeX, Play, Pause } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Instagram, ExternalLink, ArrowRight, Volume2, VolumeX, Play, Pause, Hand } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { EtheralShadow } from '../ui/EtheralShadow';
 
@@ -87,6 +87,8 @@ const YouTubePlayer: React.FC<{
       },
       events: {
         onReady: (event: any) => {
+          // Set volume to 50% as requested
+          event.target.setVolume(50);
           event.target.playVideo();
           if (isMuted) event.target.mute();
           setIsReady(true);
@@ -135,7 +137,7 @@ const YouTubePlayer: React.FC<{
 
   return (
     <div className="relative w-full h-full group">
-      {/* Helper layout to click anywhere to pause/play, but we also want a specific button */}
+      {/* Helper layout to click anywhere to pause/play */}
       <div
         onClick={togglePlay}
         className="absolute inset-0 z-10 cursor-pointer"
@@ -156,6 +158,39 @@ const YouTubePlayer: React.FC<{
     </div>
   );
 };
+
+// Swipe Hint Component
+const SwipeHint = () => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 1, duration: 1 }}
+    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none md:hidden flex flex-col items-center justify-center"
+  >
+    <motion.div
+      animate={{
+        x: [-20, 20, -20],
+        opacity: [0, 1, 0, 0]
+      }}
+      transition={{
+        duration: 2.5,
+        repeat: 1, // Show twice then stop
+        repeatDelay: 0.5
+      }}
+      className="bg-black/60 backdrop-blur-sm p-4 rounded-3xl"
+    >
+      <Hand className="w-8 h-8 text-white" />
+    </motion.div>
+    <motion.p
+      animate={{ opacity: [0, 1, 0] }}
+      transition={{ duration: 2.5, repeat: 1, repeatDelay: 0.5 }}
+      className="text-white text-xs font-bold mt-2 shadow-sm text-shadow"
+    >
+      Wischen
+    </motion.p>
+  </motion.div>
+);
+
 export const VideoReelsSection: React.FC = () => {
   // Combine Reels + Instagram Card
   const items = React.useMemo<CarouselItem[]>(() => [
@@ -164,7 +199,7 @@ export const VideoReelsSection: React.FC = () => {
   ], []);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Start muted for autoplay compatibility
 
   // Load API globally once
   useYouTubeApi();
@@ -173,14 +208,9 @@ export const VideoReelsSection: React.FC = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { amount: 0.2 });
 
-  // Swipe State
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
-  // --- AUTOPLAY LOGIC (Instagram Redirect Removed) ---
-  useEffect(() => {
-    // No auto-redirect for Instagram anymore
-  }, [activeIndex, items]);
+  // Swipe State - Refs to prevent re-renders (Fixes lag)
+  const touchStart = useRef<number | null>(null);
+  const touchEnd = useRef<number | null>(null);
 
   // Navigation Logic
   const handleNext = () => {
@@ -197,24 +227,28 @@ export const VideoReelsSection: React.FC = () => {
     }
   };
 
-  // Swipe Handlers
+  // Optimized Swipe Handlers
   const onTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
+    touchEnd.current = null;
+    touchStart.current = e.targetTouches[0].clientX;
   };
 
   const onTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    touchEnd.current = e.targetTouches[0].clientX;
   };
 
   const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    const distance = touchStart - touchEnd;
+    if (!touchStart.current || !touchEnd.current) return;
+    const distance = touchStart.current - touchEnd.current;
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
 
     if (isLeftSwipe) handleNext();
     if (isRightSwipe) handlePrev();
+
+    // Reset
+    touchStart.current = null;
+    touchEnd.current = null;
   };
 
   return (
@@ -308,6 +342,9 @@ export const VideoReelsSection: React.FC = () => {
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
           >
+            {/* Show Swipe Hint once when section is viewed on mobile */}
+            {isInView && <SwipeHint />}
+
             {items.map((item, index) => {
               let offset = index - activeIndex;
 
