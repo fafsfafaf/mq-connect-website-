@@ -1,15 +1,18 @@
+
 import React from 'react';
-import { Check, Users, Zap, Award } from 'lucide-react';
+import { Check, Users, Zap, Award, ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
-import { ApplicationQuiz } from '../components/ApplicationQuiz';
 import { APP_CONFIG } from '../constants';
 import { EtheralShadow } from '../components/ui/EtheralShadow';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 export const Careers: React.FC = () => {
-  const scrollToQuiz = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const navigate = useNavigate();
+
+  const handleApply = () => {
+    navigate('/bewerben');
   };
 
   const [showBenefits, setShowBenefits] = React.useState(false);
@@ -27,12 +30,9 @@ export const Careers: React.FC = () => {
     <div className="min-h-screen bg-slate-50">
 
       {/* Hero Section with Ethereal Background */}
-      {/* Changed overflow-hidden to overflow-visible to allow z-index layering if needed, 
-          but wrapped backgrounds in overflow-hidden container. 
-          Increased pb-24 to pb-32 on mobile. */}
       <section className="relative bg-white text-slate-900 pt-12 pb-32 md:pt-20 md:pb-32 overflow-visible">
 
-        {/* Background Container - Keeps effects contained */}
+        {/* Background Container */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <EtheralShadow
             color="#BAE6FD"
@@ -46,13 +46,11 @@ export const Careers: React.FC = () => {
 
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
 
-          {/* Increased bottom margin to mb-16 to prevent overlap on mobile */}
           <div className="text-center mb-16 md:mb-24">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              // REFACTOR: Replaced backdrop-blur-sm with solid semi-transparent bg for Safari
               className="inline-block py-1.5 px-4 rounded-full bg-blue-50/90 border border-blue-100 text-blue-600 font-bold tracking-widest uppercase text-xs mb-8 shadow-sm"
             >
               Karriere bei {APP_CONFIG.COMPANY_NAME}
@@ -62,44 +60,34 @@ export const Careers: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              // Increased margin-bottom from mb-8 to mb-12 to fix overlap on mobile
               className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-slate-900 mb-12 leading-tight drop-shadow-sm"
             >
               Mehr als nur ein Job <br />
               <span className="text-[#004e82]">Deine Chance auf Wachstum</span>
             </motion.h1>
 
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto font-medium"
+              className="max-w-2xl mx-auto"
             >
-              Kein Anschreiben, kein Lebenslauf. Checke jetzt in 60 Sekunden, ob du das Zeug zum Top-Verkäufer hast.
-            </motion.p>
-          </div>
+              <p className="text-lg md:text-xl text-slate-600 font-medium mb-10">
+                Kein Anschreiben, kein Lebenslauf. Checke jetzt in 60 Sekunden, ob du das Zeug zum Top-Verkäufer hast.
+              </p>
 
-          {/* Quiz Component - High Z-Index to stay on top */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex justify-center relative z-40"
-          >
-            <div className="w-full max-w-xl">
-              <ApplicationQuiz />
-            </div>
-          </motion.div>
+              <Button onClick={handleApply} size="xl" className="shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all text-lg px-12 py-8 rounded-2xl">
+                Jetzt bewerben <ArrowRight className="ml-2 w-6 h-6" />
+              </Button>
+            </motion.div>
+          </div>
 
         </div>
       </section>
 
       {/* Requirements Grid */}
-      {/* Added z-20 to ensure it sits below the quiz if overlapping occurs */}
       <div className="py-24 bg-slate-50 border-t border-slate-200 relative z-20">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Switched to strict grid-cols-1 on mobile to ensure no overlapping */}
-          {/* Increased gap-y-24 (6rem) to prevent overlap between the top card and the bottom headline on mobile */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-24 gap-x-12 lg:gap-16">
 
             {/* Who we search */}
@@ -133,7 +121,7 @@ export const Careers: React.FC = () => {
               </Card>
             </motion.div>
 
-            {/* What you get - "Was wir bieten" */}
+            {/* What you get */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -186,8 +174,8 @@ export const Careers: React.FC = () => {
           </div>
 
           <div className="text-center mt-16">
-            <Button onClick={scrollToQuiz} size="lg" className="px-12 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all text-lg">
-              Jetzt oben bewerben
+            <Button onClick={handleApply} size="lg" className="px-12 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all text-lg">
+              Jetzt bewerben
             </Button>
           </div>
         </div>
@@ -291,7 +279,7 @@ export const Careers: React.FC = () => {
               size="lg"
               onClick={() => {
                 setShowBenefits(false);
-                scrollToQuiz();
+                handleApply();
               }}
             >
               Jetzt bewerben 🚀
