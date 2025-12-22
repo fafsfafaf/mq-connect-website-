@@ -178,6 +178,32 @@ export const VideoReelsSection: React.FC = () => {
     if (index !== activeIndex) setActiveIndex(index);
   }
 
+  // Swipe State
+  const touchStart = useRef<number | null>(null);
+  const touchEnd = useRef<number | null>(null);
+
+  // Swipe Handlers (Desktop Only)
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (isMobile) return; // Disable swipe on mobile
+    touchEnd.current = null;
+    touchStart.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (isMobile) return;
+    touchEnd.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (isMobile) return;
+    if (!touchStart.current || !touchEnd.current) return;
+    const distance = touchStart.current - touchEnd.current;
+    if (distance > 50) handleNext();
+    if (distance < -50) handlePrev();
+    touchStart.current = null;
+    touchEnd.current = null;
+  };
+
   return (
     <section ref={sectionRef} className="py-24 relative overflow-hidden bg-white content-visibility-auto">
       {/* Dynamic Background */}
@@ -223,7 +249,12 @@ export const VideoReelsSection: React.FC = () => {
           </div>
 
           {/* Right Column: Hybrid Carousel */}
-          <div className="relative h-[600px] w-full flex items-center justify-center lg:perspective-[1000px] mt-8 lg:mt-0">
+          <div
+            className="relative h-[600px] w-full flex items-center justify-center lg:perspective-[1000px] mt-8 lg:mt-0"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             {items.map((item, index) => {
               let offset = index - activeIndex;
               if (offset > items.length / 2) offset -= items.length;
@@ -240,13 +271,15 @@ export const VideoReelsSection: React.FC = () => {
               return (
                 <motion.div
                   key={item.type === 'video' ? item.data.videoId : 'insta'}
-                  className={`absolute w-[300px] sm:w-[320px] aspect-[9/16] rounded-[2rem] shadow-2xl transition-all duration-500 ease-out cursor-pointer border-4 border-white overflow-hidden
+                  className={`absolute w-[300px] sm:w-[320px] aspect-[9/16] rounded-[2rem] shadow-2xl ease-out cursor-pointer border-4 border-white overflow-hidden
                       ${isActive ? 'z-30 cursor-default shadow-[0_25px_60px_rgba(0,0,0,0.3)]' : 'z-10 hover:z-20'}
+                      ${isMobile ? '' : 'transition-all duration-500'}
                   `}
                   onClick={() => handleCardClick(index)}
                   initial={false}
+                  transition={{ duration: isMobile ? 0 : 0.5 }}
                   animate={isMobile ? {
-                    // MOBILE: Simple Flat View
+                    // MOBILE: Simple Flat View, NO ANIMATION
                     opacity: 1,
                     scale: 1,
                     x: 0,
