@@ -337,16 +337,35 @@ export const ApplicationQuiz: React.FC = () => {
   }, []);
 
   // Handler for valid form submission from ContactForm
-  const onContactFormSubmit = useCallback((data: Partial<QuizState['answers']>) => {
+  const onContactFormSubmit = useCallback(async (data: Partial<QuizState['answers']>) => {
     setIsSubmitting(true);
-    // Merge data and submit
+
+    // Merge data
+    const finalAnswers = { ...state.answers, ...data };
+
+    try {
+      // Send to Webhook
+      await fetch('https://n8n.srv824470.hstgr.cloud/webhook/bewerbung', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(finalAnswers),
+      });
+    } catch (error) {
+      console.error('Webhook submission failed:', error);
+      // Optional: Handle error UI here, but for now we proceed to success view
+      // to ensure the user experience isn't broken.
+    }
+
+    // Update state to show SuccessView
     setState(prev => ({
       ...prev,
-      answers: { ...prev.answers, ...data },
+      answers: finalAnswers,
       isSubmitted: true
     }));
     setIsSubmitting(false);
-  }, []);
+  }, [state.answers]);
 
   const handleDisqualificationRedirect = useCallback(() => {
     if (isOverlayOpen) {
