@@ -20,12 +20,6 @@ const Impressum = React.lazy(() => import('./pages/Legal').then(module => ({ def
 const Datenschutz = React.lazy(() => import('./pages/Legal').then(module => ({ default: module.Datenschutz })));
 const CookiePolicy = React.lazy(() => import('./pages/CookiePolicy').then(module => ({ default: module.CookiePolicy })));
 
-// New Forms
-const GasForm = React.lazy(() => import('./pages/forms/GasForm').then(module => ({ default: module.GasForm })));
-const SolarForm = React.lazy(() => import('./pages/forms/SolarForm').then(module => ({ default: module.SolarForm })));
-const FiberForm = React.lazy(() => import('./pages/forms/FiberForm').then(module => ({ default: module.FiberForm })));
-const EnergyForm = React.lazy(() => import('./pages/forms/EnergyForm').then(module => ({ default: module.EnergyForm })));
-
 // Loading fallback
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -54,12 +48,6 @@ const App: React.FC = () => {
               <Route path="/impressum" element={<Impressum />} />
               <Route path="/datenschutz" element={<Datenschutz />} />
               <Route path="/cookie-richtlinien" element={<CookiePolicy />} />
-
-              {/* Form Routes */}
-              <Route path="/Gas-formular" element={<GasForm />} />
-              <Route path="/PV-formular" element={<SolarForm />} />
-              <Route path="/Glasfaser-formular" element={<FiberForm />} />
-              <Route path="/Energie-formular" element={<EnergyForm />} />
             </Routes>
           </Suspense>
         </Layout>
