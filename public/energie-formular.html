@@ -533,11 +533,20 @@
         const statusMsg = document.getElementById('status-message');
         const fileInput = document.getElementById('fileInput');
         const fileName = document.getElementById('fileName');
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
         // Styles for File Input Change
         fileInput.addEventListener('change', function (e) {
             if (this.files && this.files.length > 0) {
-                fileName.textContent = this.files[0].name;
+                const file = this.files[0];
+                if (file.size > MAX_FILE_SIZE) {
+                    alert("Die Datei ist zu groß! Bitte maximal 5 MB hochladen.");
+                    this.value = ""; // Clear input
+                    fileName.textContent = "Datei zu groß (Max 5MB)";
+                    fileName.style.color = "var(--error)";
+                    return;
+                }
+                fileName.textContent = file.name;
                 fileName.style.color = 'var(--primary)';
                 fileName.style.fontWeight = '600';
             } else {
@@ -569,11 +578,13 @@
                     fileName.textContent = "Datei auswählen oder hierher ziehen";
                     submitBtn.innerHTML = `<span>Gesendet</span> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
                 } else {
-                    throw new Error('Server returned error');
+                    const errorText = await response.text();
+                    console.error('Server Error:', response.status, errorText);
+                    throw new Error(`Server Fehler (${response.status}): ${errorText || 'Keine Details'}`);
                 }
             } catch (error) {
-                console.error('Error:', error);
-                statusMsg.textContent = "Fehler beim Senden. Bitte versuchen Sie es erneut.";
+                console.error('Network/Submission Error:', error);
+                statusMsg.textContent = `Fehler beim Senden: ${error.message}. Bitte versuchen Sie es erneut.`;
                 statusMsg.className = "error";
                 statusMsg.style.display = 'block';
                 submitBtn.innerHTML = `<span>Erneut versuchen</span> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>`;
