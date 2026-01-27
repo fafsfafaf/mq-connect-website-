@@ -145,6 +145,7 @@
             display: none;
         }
 
+        /* Status Messages */
         #status-message {
             text-align: center;
             margin-top: 20px;
@@ -181,9 +182,8 @@
 </head>
 
 <body>
-
     <div class="container">
-        <h1>Glasfaser-Formular</h1>
+        <h1>Glasfaser-Anschluss prüfen</h1>
         <p class="subtitle">Highspeed-Internet für Ihr Zuhause.</p>
 
         <form id="contractForm" enctype="multipart/form-data">
@@ -224,22 +224,24 @@
                 </div>
             </div>
 
-            <!-- Sektion 2: Glasfaser-spezifische Daten -->
+            <!-- Sektion 2: Anschluss-Daten -->
             <div class="form-section">
-                <div class="section-title">2. Anschlussdaten</div>
-                <div class="form-group">
-                    <label>Aktueller Internetanbieter</label>
-                    <input type="text" name="currentProvider" placeholder="z.B. Telekom">
-                </div>
-                <div class="form-group">
-                    <label>Gewünschte Bandbreite</label>
-                    <select name="bandwidth">
-                        <option value="">Bitte wählen</option>
-                        <option value="100">100 Mbit/s</option>
-                        <option value="250">250 Mbit/s</option>
-                        <option value="500">500 Mbit/s</option>
-                        <option value="1000">1000 Mbit/s</option>
-                    </select>
+                <div class="section-title">2. Anschluss-Details</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Aktueller Internetanbieter</label>
+                        <input type="text" name="currentProvider" placeholder="z.B. Telekom">
+                    </div>
+                    <div class="form-group">
+                        <label>Gewünschte Bandbreite</label>
+                        <select name="bandwidth">
+                            <option value="">Bitte wählen</option>
+                            <option value="100">100 Mbit/s</option>
+                            <option value="250">250 Mbit/s</option>
+                            <option value="500">500 Mbit/s</option>
+                            <option value="1000">1.000 Mbit/s</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -247,7 +249,7 @@
             <div class="form-section">
                 <div class="section-title">3. Dokumente</div>
                 <div class="form-group">
-                    <label>Vertrag / Dokument hochladen (Nur PDF)</label>
+                    <label>Letzte Rechnung / Dokument hochladen (Nur PDF)</label>
                     <input type="file" name="contractFile" accept="application/pdf">
                 </div>
             </div>
@@ -296,7 +298,6 @@
             }
         });
     </script>
-
 </body>
 
 </html>
