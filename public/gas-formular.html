@@ -7,15 +7,19 @@
     <title>Gasvertrag-Formular</title>
     <style>
         :root {
-            --primary: #004e82;
-            --primary-hover: #003d66;
-            --bg: #f8fafc;
-            --surface: #ffffff;
+            --primary: #38bdf8;
+            /* Sky 400 */
+            --primary-hover: #0ea5e9;
+            /* Sky 500 */
+            --bg-gradient-start: #f8fafc;
+            --bg-gradient-end: #e2e8f0;
+            --surface: rgba(255, 255, 255, 0.95);
             --text: #0f172a;
             --text-light: #64748b;
             --border: #e2e8f0;
-            --radius: 12px;
-            --spacing: 16px;
+            --radius: 16px;
+            --spacing: 20px;
+            --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
         }
 
         * {
@@ -23,58 +27,112 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--bg-gradient-start);
             color: var(--text);
             padding: 20px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow-x: hidden;
         }
 
+        /* Ethereal Background Mesh */
+        .background-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background:
+                radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+                radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        /* Premium Container */
         .container {
             background: var(--surface);
+            backdrop-filter: blur(12px);
             max-width: 600px;
             width: 100%;
-            padding: 40px;
+            padding: 48px;
             border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .icon-wrapper {
+            width: 64px;
+            height: 64px;
+            background: rgba(56, 189, 248, 0.1);
+            /* Sky-400 with opacity */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--primary);
         }
 
         h1 {
-            font-size: 24px;
-            color: var(--primary);
+            font-size: 28px;
+            color: #1e293b;
+            /* Slate 800 */
             margin-bottom: 8px;
-            text-align: center;
+            font-weight: 800;
+            letter-spacing: -0.02em;
         }
 
         p.subtitle {
-            text-align: center;
             color: var(--text-light);
-            margin-bottom: 32px;
-            font-size: 15px;
+            font-size: 16px;
+            line-height: 1.5;
         }
 
         .form-section {
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 24px;
-        }
-
-        .form-section:last-of-type {
-            border-bottom: none;
+            margin-bottom: 32px;
+            background: #fff;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #f1f5f9;
         }
 
         .section-title {
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--text-light);
+            color: #64748b;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .form-grid {
@@ -84,7 +142,8 @@
         }
 
         .form-group {
-            margin-bottom: var(--spacing);
+            margin-bottom: 0;
+            /* Handled by grid gap */
         }
 
         .full-width {
@@ -95,79 +154,163 @@
             display: block;
             font-size: 13px;
             font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text);
+            margin-bottom: 8px;
+            color: #334155;
+            margin-left: 2px;
+        }
+
+        /* Input with Icon */
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper .icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            pointer-events: none;
+            display: flex;
         }
 
         input,
         select {
             width: 100%;
-            padding: 12px 16px;
-            border-radius: var(--radius);
-            border: 2px solid var(--border);
+            padding: 14px 16px 14px 44px;
+            /* Space for icon */
+            border-radius: 12px;
+            border: 1px solid var(--border);
             font-size: 15px;
             transition: all 0.2s;
-            background: #fff;
+            background: #f8fafc;
+            color: #0f172a;
             appearance: none;
+            font-weight: 500;
         }
 
         input:focus,
         select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 78, 130, 0.1);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
         }
 
+        input::placeholder {
+            color: #cbd5e1;
+        }
+
+        /* File Upload */
+        .file-upload-label {
+            cursor: pointer;
+            display: block;
+        }
+
+        .file-upload-design {
+            border: 2px dashed #cbd5e1;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.2s;
+            color: #64748b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .file-upload-design:hover {
+            border-color: var(--primary);
+            background: rgba(56, 189, 248, 0.05);
+            color: var(--primary);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Button */
         .btn {
             width: 100%;
-            padding: 16px;
-            background: var(--primary);
+            padding: 18px;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
             color: white;
             border: none;
-            border-radius: var(--radius);
+            border-radius: 16px;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 16px;
+            transition: all 0.2s;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.3);
         }
 
         .btn:hover {
-            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(2, 132, 199, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn:disabled {
             opacity: 0.7;
             cursor: not-allowed;
-        }
-
-        .hidden {
-            display: none;
+            transform: none;
         }
 
         /* Status Messages */
         #status-message {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 24px;
             font-weight: 600;
-            padding: 12px;
-            border-radius: var(--radius);
+            padding: 16px;
+            border-radius: 12px;
             display: none;
+            font-size: 14px;
+            animation: fadeIn 0.3s;
         }
 
         .success {
-            background-color: #dcfce7;
-            color: #166534;
+            background-color: #ecfdf5;
+            color: #059669;
+            border: 1px solid #d1fae5;
         }
 
         .error {
-            background-color: #fee2e2;
-            color: #991b1b;
+            background-color: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fee2e2;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 24px;
+                padding: 24px 20px;
+                border: none;
+                background: #f8fafc;
+                box-shadow: none;
+            }
+
+            body {
+                align-items: flex-start;
+                padding: 0;
             }
 
             .form-grid {
@@ -177,82 +320,217 @@
             .full-width {
                 grid-column: span 1;
             }
+
+            h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 
 <body>
+
+    <div class="background-mesh"></div>
+
     <div class="container">
-        <h1>Gasvertrag optimieren</h1>
-        <p class="subtitle">Sichern Sie sich jetzt günstige Konditionen für Ihre Versorgung.</p>
+        <div class="header">
+            <div class="icon-wrapper">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+            </div>
+            <h1>Gasvertrag optimieren</h1>
+            <p class="subtitle">Sichern Sie sich jetzt günstige Konditionen.</p>
+        </div>
 
         <form id="contractForm" enctype="multipart/form-data">
             <input type="hidden" name="formType" value="gas">
 
             <!-- Sektion 1: Persönliche Daten -->
             <div class="form-section">
-                <div class="section-title">1. Persönliche Daten</div>
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                    Persönliche Daten
+                </div>
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Vorname *</label>
-                        <input type="text" name="firstName" required placeholder="Max">
+                        <div class="input-wrapper">
+                            <input type="text" name="firstName" required placeholder="Max">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Nachname *</label>
-                        <input type="text" name="lastName" required placeholder="Mustermann">
+                        <div class="input-wrapper">
+                            <input type="text" name="lastName" required placeholder="Mustermann">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg></span>
+                        </div>
                     </div>
                     <div class="form-group full-width">
                         <label>Straße & Hausnummer *</label>
-                        <input type="text" name="streetAddress" required placeholder="Musterstraße 12">
+                        <div class="input-wrapper">
+                            <input type="text" name="streetAddress" required placeholder="Musterstraße 12">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>PLZ *</label>
-                        <input type="text" name="zipCode" required placeholder="12345">
+                        <div class="input-wrapper">
+                            <input type="text" name="zipCode" required placeholder="12345">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                    <polyline points="9 22 9 12 15 12 15 22" />
+                                </svg></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Ort *</label>
-                        <input type="text" name="city" required placeholder="Musterstadt">
+                        <div class="input-wrapper">
+                            <input type="text" name="city" required placeholder="Musterstadt">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M3 21h18M5 21V7l8-4 8 4v14M8 21v-4h8v4" />
+                                </svg></span>
+                        </div>
                     </div>
                     <div class="form-group full-width">
                         <label>E-Mail *</label>
-                        <input type="email" name="email" required placeholder="max@beispiel.de">
+                        <div class="input-wrapper">
+                            <input type="email" name="email" required placeholder="max@beispiel.de">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                    <polyline points="22,6 12,13 2,6" />
+                                </svg></span>
+                        </div>
                     </div>
                     <div class="form-group full-width">
                         <label>Telefon *</label>
-                        <input type="tel" name="phone" required placeholder="0176 12345678">
+                        <div class="input-wrapper">
+                            <input type="tel" name="phone" required placeholder="0176 12345678">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path
+                                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                                </svg></span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Sektion 2: Gas-spezifische Daten -->
             <div class="form-section">
-                <div class="section-title">2. Vertragsdaten (Gas)</div>
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+                    </svg>
+                    Vertragsdaten
+                </div>
                 <div class="form-group">
                     <label>Aktueller Gasanbieter</label>
-                    <input type="text" name="currentProvider" placeholder="z.B. E.ON">
+                    <div class="input-wrapper">
+                        <input type="text" name="currentProvider" placeholder="z.B. E.ON">
+                        <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 21h18M5 21V7l8-4 8 4v14M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z" />
+                            </svg></span>
+                    </div>
                 </div>
                 <div class="form-grid">
                     <div class="form-group">
                         <label>Jahresverbrauch (kWh)</label>
-                        <input type="number" name="consumptionKwh" placeholder="z.B. 15000">
+                        <div class="input-wrapper">
+                            <input type="number" name="consumptionKwh" placeholder="z.B. 15000">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M18 20V10M12 20V4M6 20v-6" />
+                                </svg></span>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Zählernummer</label>
-                        <input type="text" name="meterNumber" placeholder="12345678">
+                        <div class="input-wrapper">
+                            <input type="text" name="meterNumber" placeholder="12345678">
+                            <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                                    <line x1="16" y1="21" x2="16" y2="2" />
+                                </svg></span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Sektion 3: Upload -->
             <div class="form-section">
-                <div class="section-title">3. Dokumente</div>
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="12" y1="18" x2="12" y2="12" />
+                        <line x1="9" y1="15" x2="15" y2="15" />
+                    </svg>
+                    Dokumente
+                </div>
+                <!-- Custom File Upload -->
                 <div class="form-group">
-                    <label>Vertrag / Dokument hochladen (Nur PDF)</label>
-                    <input type="file" name="contractFile" accept="application/pdf">
+                    <label>Vertrag / Dokument hochladen (PDF)</label>
+                    <label class="file-upload-label">
+                        <input type="file" name="contractFile" accept="application/pdf" id="fileInput">
+                        <div class="file-upload-design">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="17 8 12 3 7 8" />
+                                <line x1="12" y1="3" x2="12" y2="15" />
+                            </svg>
+                            <span id="fileName">Datei auswählen oder hierher ziehen</span>
+                        </div>
+                    </label>
                 </div>
             </div>
 
-            <button type="submit" class="btn" id="submitBtn">Daten jetzt absenden 🚀</button>
+            <button type="submit" class="btn" id="submitBtn">
+                <span>Daten absenden</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+            </button>
             <div id="status-message"></div>
         </form>
     </div>
@@ -261,12 +539,26 @@
         const form = document.getElementById('contractForm');
         const submitBtn = document.getElementById('submitBtn');
         const statusMsg = document.getElementById('status-message');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+
+        // Styles for File Input Change
+        fileInput.addEventListener('change', function (e) {
+            if (this.files && this.files.length > 0) {
+                fileName.textContent = this.files[0].name;
+                fileName.style.color = 'var(--primary)';
+                fileName.style.fontWeight = '600';
+            } else {
+                fileName.textContent = "Datei auswählen oder hierher ziehen";
+                fileName.style.color = 'var(--text-light)';
+            }
+        });
 
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
 
             submitBtn.disabled = true;
-            submitBtn.textContent = "Wird gesendet...";
+            submitBtn.innerHTML = `<span>Wird gesendet...</span> <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>`;
             statusMsg.style.display = 'none';
 
             const formData = new FormData(form);
@@ -282,7 +574,8 @@
                     statusMsg.className = "success";
                     statusMsg.style.display = 'block';
                     form.reset();
-                    submitBtn.textContent = "Gesendet ✓";
+                    fileName.textContent = "Datei auswählen oder hierher ziehen";
+                    submitBtn.innerHTML = `<span>Gesendet</span> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
                 } else {
                     throw new Error('Server returned error');
                 }
@@ -291,7 +584,7 @@
                 statusMsg.textContent = "Fehler beim Senden. Bitte versuchen Sie es erneut.";
                 statusMsg.className = "error";
                 statusMsg.style.display = 'block';
-                submitBtn.textContent = "Erneut versuchen";
+                submitBtn.innerHTML = `<span>Erneut versuchen</span> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>`;
                 submitBtn.disabled = false;
             }
         });
