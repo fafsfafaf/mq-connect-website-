@@ -1,6 +1,22 @@
 {
     "rewrites": [
         {
+            "source": "/Gas-formular",
+            "destination": "/gas-formular.html"
+        },
+        {
+            "source": "/PV-formular",
+            "destination": "/pv-formular.html"
+        },
+        {
+            "source": "/Glasfaser-formular",
+            "destination": "/glasfaser-formular.html"
+        },
+        {
+            "source": "/Energie-formular",
+            "destination": "/energie-formular.html"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
