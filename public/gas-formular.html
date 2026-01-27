@@ -7,15 +7,25 @@
     <title>Gasvertrag-Formular</title>
     <style>
         :root {
-            --primary: #004e82;
-            --primary-hover: #003d66;
-            --bg: #f8fafc;
-            --surface: #ffffff;
-            --text: #0f172a;
-            --text-light: #64748b;
-            --border: #e2e8f0;
+            /* Branding & Dark Theme Colors */
+            --primary: #38bdf8;
+            /* Sky 400 - Leuchtend für Dark Mode */
+            --primary-hover: #0ea5e9;
+            /* Sky 500 */
+            --bg: #0f172a;
+            /* Slate 900 */
+            --surface: #1e293b;
+            /* Slate 800 */
+            --text: #f1f5f9;
+            /* Slate 100 */
+            --text-light: #94a3b8;
+            /* Slate 400 */
+            --border: #334155;
+            /* Slate 700 */
+            --input-bg: #020617;
+            /* Slate 950 */
             --radius: 12px;
-            --spacing: 16px;
+            --spacing: 20px;
         }
 
         * {
@@ -23,6 +33,7 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -33,6 +44,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            /* Optional: Subtle Mesh Gradient */
+            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
         }
 
         .container {
@@ -41,40 +54,57 @@
             width: 100%;
             padding: 40px;
             border-radius: 24px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
-            font-size: 24px;
-            color: var(--primary);
-            margin-bottom: 8px;
+            font-size: 28px;
+            color: white;
+            margin-bottom: 12px;
             text-align: center;
+            font-weight: 800;
         }
 
         p.subtitle {
             text-align: center;
             color: var(--text-light);
-            margin-bottom: 32px;
-            font-size: 15px;
+            margin-bottom: 40px;
+            font-size: 16px;
+            line-height: 1.5;
         }
 
         .form-section {
-            margin-bottom: 24px;
+            margin-bottom: 32px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 24px;
+            padding-bottom: 32px;
         }
 
         .form-section:last-of-type {
             border-bottom: none;
+            padding-bottom: 0;
         }
 
         .section-title {
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-light);
+            letter-spacing: 0.1em;
+            color: var(--primary);
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .form-grid {
@@ -93,52 +123,87 @@
 
         label {
             display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-light);
         }
 
         input,
         select {
             width: 100%;
-            padding: 12px 16px;
+            padding: 14px 16px;
             border-radius: var(--radius);
-            border: 2px solid var(--border);
-            font-size: 15px;
+            border: 1px solid var(--border);
+            font-size: 16px;
             transition: all 0.2s;
-            background: #fff;
+            background: var(--input-bg);
+            color: white;
             appearance: none;
+        }
+
+        input::placeholder {
+            color: #475569;
         }
 
         input:focus,
         select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 78, 130, 0.1);
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+        }
+
+        /* File Input Styling */
+        input[type="file"] {
+            padding: 10px;
+            background: var(--input-bg);
+            font-size: 14px;
+        }
+
+        input[type="file"]::file-selector-button {
+            background: var(--border);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-right: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background: #475569;
         }
 
         .btn {
             width: 100%;
-            padding: 16px;
-            background: var(--primary);
-            color: white;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: #0f172a;
+            /* Dark text for contrast on bright blue */
             border: none;
             border-radius: var(--radius);
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 16px;
+            transition: transform 0.1s, opacity 0.2s;
+            margin-top: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
         .btn:hover {
-            background: var(--primary-hover);
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn:disabled {
-            opacity: 0.7;
+            opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
         .hidden {
@@ -148,26 +213,37 @@
         /* Status Messages */
         #status-message {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 24px;
             font-weight: 600;
-            padding: 12px;
+            padding: 16px;
             border-radius: var(--radius);
             display: none;
+            font-size: 15px;
         }
 
         .success {
-            background-color: #dcfce7;
-            color: #166534;
+            background-color: rgba(22, 163, 74, 0.2);
+            color: #4ade80;
+            border: 1px solid rgba(22, 163, 74, 0.3);
         }
 
         .error {
-            background-color: #fee2e2;
-            color: #991b1b;
+            background-color: rgba(220, 38, 38, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(220, 38, 38, 0.3);
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 24px;
+                padding: 24px 20px;
+                border: none;
+                background: transparent;
+                box-shadow: none;
+            }
+
+            body {
+                align-items: flex-start;
+                padding: 0;
             }
 
             .form-grid {
