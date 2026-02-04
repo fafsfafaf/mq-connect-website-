@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LazyMotion, domAnimation } from 'framer-motion';
 import { Layout } from './components/Layout';
 import { CookieConsent } from './components/CookieConsent';
+import { ChatWidget } from './components/ChatWidget';
 
 // Lazy load pages to split code bundles
 const Home = React.lazy(() => import('./pages/Home').then(module => ({ default: module.Home })));
@@ -52,6 +53,7 @@ const App: React.FC = () => {
           </Suspense>
         </Layout>
         <CookieConsent />
+        <ChatWidget />
       </Router>
     </LazyMotion>
   );
