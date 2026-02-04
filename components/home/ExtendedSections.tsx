@@ -633,7 +633,7 @@ const RECRUITMENT_CRITERIA = [
 ];
 
 export const RecruitmentSection: React.FC = () => (
-  <SectionWrapper className="bg-slate-50">
+  <SectionWrapper className="bg-white">
     <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
       {/* Left Column: Text Content */}
@@ -688,7 +688,7 @@ export const RecruitmentSection: React.FC = () => (
         </div>
       </m.div>
 
-      {/* Right Column: Germany Map */}
+      {/* Right Column: Germany Map Image */}
       <m.div
         initial={{ opacity: 0, x: 20 }}
         whileInView={{ opacity: 1, x: 0 }}
@@ -696,7 +696,12 @@ export const RecruitmentSection: React.FC = () => (
         transition={{ duration: 0.5, delay: 0.2 }}
         className="relative flex justify-center lg:justify-end"
       >
-        <GermanyMapSVG />
+        <img
+          src="/images/germany-map.png"
+          alt="Deutschland Standorte - MQ Connect"
+          loading="lazy"
+          className="w-full max-w-md lg:max-w-lg h-auto"
+        />
       </m.div>
     </div>
   </SectionWrapper>
