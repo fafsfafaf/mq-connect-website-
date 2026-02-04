@@ -93,8 +93,9 @@ export const ChatWidget: React.FC = () => {
     scrollToBottom();
   }, [messages]);
 
+  // Only auto-focus on desktop to prevent mobile keyboard from opening automatically
   useEffect(() => {
-    if (isOpen && inputRef.current) {
+    if (isOpen && inputRef.current && window.innerWidth >= 640) {
       inputRef.current.focus();
     }
   }, [isOpen]);
@@ -195,7 +196,7 @@ Antworte jetzt als MQ-Connect Assistent:`;
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-[#004e82] text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-[#003d66] transition-colors"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 w-14 h-14 sm:w-16 sm:h-16 bg-[#004e82] text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-[#003d66] transition-colors"
             aria-label="Chat öffnen"
           >
             <MessageCircle className="w-7 h-7" />
@@ -213,7 +214,9 @@ Antworte jetzt als MQ-Connect Assistent:`;
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-48px)] h-[550px] max-h-[calc(100vh-100px)] bg-white rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-slate-200"
+            className="fixed z-[9999] bg-white shadow-2xl flex flex-col overflow-hidden border border-slate-200
+              inset-0 w-full h-full rounded-none
+              sm:inset-auto sm:bottom-6 sm:right-6 sm:w-[380px] sm:h-[550px] sm:max-h-[calc(100vh-100px)] sm:rounded-3xl"
           >
             {/* Header */}
             <div className="bg-[#004e82] text-white p-4 flex items-center justify-between flex-shrink-0">
