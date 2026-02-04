@@ -298,7 +298,7 @@ Antworte jetzt als MQ-Connect Assistent:`;
                   onChange={(e) => setInput(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Schreib eine Nachricht..."
-                  className="flex-1 px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-[#004e82] focus:ring-2 focus:ring-blue-50 outline-none text-sm text-slate-700 placeholder:text-slate-400"
+                  className="flex-1 px-4 py-3 bg-slate-50 rounded-xl border border-slate-200 focus:border-[#004e82] focus:ring-2 focus:ring-blue-50 outline-none text-base text-slate-700 placeholder:text-slate-400"
                   disabled={isLoading}
                 />
                 <button
