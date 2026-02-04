@@ -1,10 +1,12 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, useInView, useSpring, useTransform, m } from 'framer-motion';
 import {
   Users, TrendingUp, ShieldCheck, Zap, Globe, Award, CheckCircle2,
   Smartphone, Sun, Trophy, Play
 } from 'lucide-react';
 import { Card } from '../ui/Card';
+import { Button } from '../ui/Button';
 import { cn } from '../../lib/utils';
 
 // --- Static Data (Moved outside components to prevent re-creation) ---
@@ -499,6 +501,207 @@ export const TrainingSection: React.FC = () => (
   </SectionWrapper>
 );
 
+// --- GERMANY MAP SVG COMPONENT ---
+const GermanyMapSVG: React.FC = () => {
+  // City data with size categories: 'large' for major cities, 'medium' for regional, 'small' for others
+  const cities: Array<{ name: string; x: number; y: number; size: 'large' | 'medium' | 'small'; labelPos?: 'left' | 'right' | 'top' | 'bottom' }> = [
+    // North
+    { name: "Kiel", x: 215, y: 32, size: 'small', labelPos: 'left' },
+    { name: "Rostock", x: 285, y: 28, size: 'small', labelPos: 'right' },
+    { name: "Lübeck", x: 240, y: 52, size: 'small', labelPos: 'right' },
+    { name: "Hamburg", x: 220, y: 72, size: 'large', labelPos: 'right' },
+    // Northwest
+    { name: "Bremen", x: 185, y: 98, size: 'medium', labelPos: 'left' },
+    { name: "Oldenburg", x: 168, y: 88, size: 'small', labelPos: 'left' },
+    { name: "Osnabrück", x: 165, y: 122, size: 'small', labelPos: 'left' },
+    // Northeast
+    { name: "Berlin", x: 320, y: 100, size: 'large', labelPos: 'right' },
+    { name: "Potsdam", x: 305, y: 112, size: 'small', labelPos: 'right' },
+    // Central North
+    { name: "Hannover", x: 215, y: 118, size: 'large', labelPos: 'right' },
+    { name: "Wolfsburg", x: 250, y: 102, size: 'small', labelPos: 'right' },
+    { name: "Braunschweig", x: 245, y: 118, size: 'small', labelPos: 'right' },
+    { name: "Magdeburg", x: 280, y: 120, size: 'small', labelPos: 'right' },
+    { name: "Bielefeld", x: 185, y: 132, size: 'small', labelPos: 'left' },
+    { name: "Münster", x: 160, y: 128, size: 'small', labelPos: 'left' },
+    { name: "Göttingen", x: 220, y: 152, size: 'small', labelPos: 'right' },
+    // East
+    { name: "Leipzig", x: 290, y: 168, size: 'large', labelPos: 'right' },
+    { name: "Dresden", x: 330, y: 178, size: 'medium', labelPos: 'right' },
+    { name: "Jena", x: 272, y: 182, size: 'small', labelPos: 'left' },
+    { name: "Erfurt", x: 252, y: 175, size: 'small', labelPos: 'left' },
+    { name: "Chemnitz", x: 310, y: 188, size: 'small', labelPos: 'right' },
+    // West (Ruhrgebiet)
+    { name: "Dortmund", x: 158, y: 145, size: 'small', labelPos: 'left' },
+    { name: "Essen", x: 145, y: 150, size: 'small', labelPos: 'left' },
+    { name: "Düsseldorf", x: 135, y: 165, size: 'large', labelPos: 'left' },
+    { name: "Köln", x: 138, y: 182, size: 'large', labelPos: 'left' },
+    { name: "Bonn", x: 145, y: 198, size: 'small', labelPos: 'left' },
+    { name: "Aachen", x: 115, y: 182, size: 'small', labelPos: 'left' },
+    { name: "Kassel", x: 215, y: 165, size: 'small', labelPos: 'left' },
+    // Central
+    { name: "Koblenz", x: 150, y: 218, size: 'small', labelPos: 'left' },
+    { name: "Frankfurt", x: 185, y: 238, size: 'large', labelPos: 'right' },
+    { name: "Wiesbaden", x: 175, y: 228, size: 'small', labelPos: 'left' },
+    { name: "Würzburg", x: 225, y: 248, size: 'small', labelPos: 'right' },
+    { name: "Bayreuth", x: 270, y: 242, size: 'small', labelPos: 'right' },
+    // Southwest
+    { name: "Trier", x: 125, y: 245, size: 'small', labelPos: 'left' },
+    { name: "Mannheim", x: 180, y: 265, size: 'small', labelPos: 'left' },
+    { name: "Kaiserslautern", x: 155, y: 272, size: 'small', labelPos: 'left' },
+    { name: "Saarbrücken", x: 138, y: 285, size: 'small', labelPos: 'left' },
+    { name: "Karlsruhe", x: 182, y: 295, size: 'small', labelPos: 'left' },
+    // Southeast
+    { name: "Nürnberg", x: 260, y: 275, size: 'large', labelPos: 'right' },
+    { name: "Regensburg", x: 295, y: 295, size: 'small', labelPos: 'right' },
+    { name: "Ingolstadt", x: 268, y: 308, size: 'small', labelPos: 'left' },
+    { name: "Passau", x: 330, y: 318, size: 'small', labelPos: 'right' },
+    // South
+    { name: "Stuttgart", x: 205, y: 310, size: 'large', labelPos: 'left' },
+    { name: "Ulm", x: 228, y: 325, size: 'small', labelPos: 'left' },
+    { name: "Freiburg", x: 168, y: 345, size: 'small', labelPos: 'left' },
+    { name: "Augsburg", x: 258, y: 328, size: 'small', labelPos: 'right' },
+    { name: "Friedrichshafen", x: 218, y: 365, size: 'small', labelPos: 'left' },
+    { name: "München", x: 280, y: 348, size: 'large', labelPos: 'right' },
+  ];
+
+  const getFontSize = (size: 'large' | 'medium' | 'small') => {
+    switch (size) {
+      case 'large': return 13;
+      case 'medium': return 11;
+      default: return 9;
+    }
+  };
+
+  const getFontWeight = (size: 'large' | 'medium' | 'small') => {
+    return size === 'large' ? 700 : 600;
+  };
+
+  return (
+    <svg viewBox="0 0 380 420" className="w-full h-auto max-w-lg mx-auto">
+      {/* Germany outline path - more accurate shape */}
+      <path
+        d="M205,8 C215,5 235,8 250,12 C265,8 280,5 295,12 C310,18 325,28 335,42 C345,52 352,68 355,85 C358,102 355,118 350,132 C358,145 362,158 358,172 C355,188 345,202 338,218 C345,235 355,252 358,272 C360,288 355,305 345,322 C338,338 325,352 308,362 C292,372 275,378 258,385 C242,392 225,398 208,398 C192,395 175,388 162,378 C148,368 135,355 125,342 C115,328 108,312 102,298 C95,282 92,265 92,248 C92,232 98,215 108,202 C102,185 98,168 105,152 C112,138 125,125 138,115 C152,105 168,95 182,82 C192,68 198,52 205,35 C208,22 205,12 205,8 Z"
+        fill="none"
+        stroke="#004e82"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+        className="drop-shadow-sm"
+      />
+
+      {/* City dots and labels */}
+      {cities.map((city, index) => {
+        const fontSize = getFontSize(city.size);
+        const fontWeight = getFontWeight(city.size);
+        const isLeft = city.labelPos === 'left';
+        const textAnchor = isLeft ? 'end' : 'start';
+        const xOffset = isLeft ? -8 : 8;
+
+        return (
+          <g key={index}>
+            <circle
+              cx={city.x}
+              cy={city.y}
+              r={city.size === 'large' ? 5 : city.size === 'medium' ? 4 : 3}
+              fill="#004e82"
+            />
+            <text
+              x={city.x + xOffset}
+              y={city.y + 4}
+              fontSize={fontSize}
+              fontWeight={fontWeight}
+              fill="#004e82"
+              textAnchor={textAnchor}
+              className="select-none"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
+              {city.name}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+};
+
+// --- RECRUITMENT SECTION ---
+const RECRUITMENT_CRITERIA = [
+  "Du hast Interesse am Vertrieb und Spaß an regelmäßigem Kontakt mit potentiellen Kunden",
+  "Du bist fleißig und hast den Willen, erfolgreicher als der Durchschnitt zu sein.",
+  "Du bist vor Ort in Deutschland",
+  "Du bist bereit, richtig Gas zu geben, um ein überdurchschnittliches Gehalt zu verdienen.",
+];
+
+export const RecruitmentSection: React.FC = () => (
+  <SectionWrapper className="bg-slate-50">
+    <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      {/* Left Column: Text Content */}
+      <m.div
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+      >
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+          Wir wachsen!<br />
+          Vertriebler im<br />
+          Außendienst (m/w/d)<br />
+          gesucht
+        </h2>
+
+        <p className="text-lg text-slate-700 font-medium mb-8">
+          Bewirb dich bei uns wenn du folgende Kriterien erfüllst:
+        </p>
+
+        <ul className="space-y-4 mb-10">
+          {RECRUITMENT_CRITERIA.map((criterion, index) => (
+            <li key={index} className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-7 h-7 rounded-full bg-green-500 flex items-center justify-center mt-0.5">
+                <CheckCircle2 className="w-5 h-5 text-white" strokeWidth={3} />
+              </div>
+              <span className="text-slate-700 leading-relaxed">{criterion}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* CTA Button */}
+        <Link to="/bewerben" className="block mb-4">
+          <Button size="lg" fullWidth className="py-5 text-base shadow-lg hover:shadow-xl transition-all">
+            Jetzt in unter 5 Minuten Bewerben!
+          </Button>
+        </Link>
+        <p className="text-center text-sm text-slate-500 mb-10">
+          ohne Anschreiben und ohne Lebenslauf
+        </p>
+
+        {/* Secondary Link */}
+        <div className="text-center">
+          <p className="text-slate-700 font-medium mb-3">
+            Alle offenen Stellenangebote ansehen:
+          </p>
+          <Link to="/karriere">
+            <Button variant="primary" size="sm">
+              Karriere
+            </Button>
+          </Link>
+        </div>
+      </m.div>
+
+      {/* Right Column: Germany Map */}
+      <m.div
+        initial={{ opacity: 0, x: 20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="relative flex justify-center lg:justify-end"
+      >
+        <GermanyMapSVG />
+      </m.div>
+    </div>
+  </SectionWrapper>
+);
+
 // --- AREA CARD COMPONENT (Simplified, No 3D) ---
 interface Area3DCardProps {
   card: any;
@@ -613,6 +816,7 @@ export const ExtendedSections: React.FC = () => {
       <BenefitsSection />
       <OriginSection />
       <TrainingSection />
+      <RecruitmentSection />
       <AreasSection />
     </>
   );
