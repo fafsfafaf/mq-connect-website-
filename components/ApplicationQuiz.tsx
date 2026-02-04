@@ -465,8 +465,7 @@ export const ApplicationQuiz: React.FC = () => {
       case 2: // Location
         return (
           <div className="text-center animate-in fade-in slide-in-from-right-4 duration-300">
-            <h2 className="text-2xl font-bold mb-2">Deine Postleitzahl 📍</h2>
-            <p className="text-slate-500 mb-8">Wir suchen primär im Raum {APP_CONFIG.LOCATION} (+{APP_CONFIG.RADIUS_KM}km).</p>
+            <h2 className="text-2xl font-bold mb-8">Deine Postleitzahl 📍</h2>
             <div className="relative mb-8">
               <MapPin className="absolute left-4 top-5 text-slate-400 w-6 h-6 z-10" />
               <input
