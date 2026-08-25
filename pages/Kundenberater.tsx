@@ -418,7 +418,7 @@ export const Kundenberater: React.FC = () => {
               <p className="text-center text-[15px] text-slate-600">
                 Um Dich besser kennenzulernen, haben wir <strong>4 kurze Fragen</strong> an Dich.
               </p>
-              <p className="mt-6 text-center text-sm font-bold text-slate-900">Frage 1 von 4</p>
+              <div className="-mx-5 mt-6 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 1 von 4</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Was ist Dir bei Deinem <strong>neuen Job</strong> besonders <strong>wichtig</strong>?
               </h2>
@@ -451,7 +451,7 @@ export const Kundenberater: React.FC = () => {
           {/* -------------------------------- Frage 2 -------------------------------- */}
           {step === 'q2' && (
             <m.div key="q2" {...stepMotion} className="px-5 py-8">
-              <p className="text-center text-sm font-bold text-slate-900">Frage 2 von 4</p>
+              <div className="-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 2 von 4</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Wie viel <strong>Erfahrung im Vertrieb</strong> bringst Du mit?
               </h2>
@@ -478,7 +478,7 @@ export const Kundenberater: React.FC = () => {
           {/* -------------------------------- Frage 3 -------------------------------- */}
           {step === 'q3' && (
             <m.div key="q3" {...stepMotion} className="px-5 py-8">
-              <p className="text-center text-sm font-bold text-slate-900">Frage 3 von 4</p>
+              <div className="-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 3 von 4</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Hast Du <strong>gute Deutschkenntnisse</strong> in Wort und Schrift?
               </h2>
@@ -510,7 +510,7 @@ export const Kundenberater: React.FC = () => {
           {/* -------------------------------- Frage 4 -------------------------------- */}
           {step === 'q4' && (
             <m.div key="q4" {...stepMotion} className="px-5 py-8">
-              <p className="text-center text-sm font-bold text-slate-900">Letzte Frage</p>
+              <div className="-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Letzte Frage</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Wann können wir Dich <strong>telefonisch</strong> am besten <strong>erreichen</strong>? ✨
               </h2>
