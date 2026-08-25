@@ -537,53 +537,66 @@ export const Kundenberater: React.FC = () => {
 
           {/* ------------------------------ Kontaktformular ------------------------------ */}
           {step === 'form' && (
-            <m.div key="form" {...stepMotion} className="px-5 py-8">
-              <h2 className="text-center text-2xl font-black">Perfekt! 🎉</h2>
-              <p className="mt-2 text-center text-lg font-extrabold leading-snug">
+            <m.div key="form" {...stepMotion} className="px-5 pb-6 pt-3">
+              <h2 className="text-center text-[17px] font-bold leading-snug">
+                Perfekt
+                <br />
                 Sieht aus, als würde unser Team super zu Dir passen!
+              </h2>
+              <p className="mt-2.5 text-center text-sm text-slate-700">
+                Trage hier einfach Deine Kontaktdaten ein und wir werden uns direkt bei Dir melden. 🤝
               </p>
-              <p className="mt-3 text-center text-[15px] text-slate-600">
-                Trage hier Deine Kontaktdaten ein — wir melden uns meist innerhalb von 24 Stunden bei Dir. 🤝
-              </p>
-              <form onSubmit={handleSubmit} className="mt-6 space-y-3">
+              <form onSubmit={handleSubmit} className="mt-3.5 space-y-2">
                 {(
                   [
                     { key: 'vorname', emoji: '👋', placeholder: 'Dein Vorname', type: 'text', required: true },
                     { key: 'nachname', emoji: '👤', placeholder: 'Dein Nachname', type: 'text', required: true },
                     { key: 'email', emoji: '✉️', placeholder: 'Deine E-Mail Adresse', type: 'email', required: true },
-                    { key: 'telefon', emoji: '📞', placeholder: 'Deine Telefonnummer', type: 'tel', required: true },
+                    { key: 'telefon', emoji: '', placeholder: 'Deine Telefonnummer', type: 'tel', required: true },
                     { key: 'wohnort', emoji: '🏙️', placeholder: 'Dein Wohnort', type: 'text', required: true },
                   ] as const
                 ).map((field) => (
-                  <label key={field.key} className="flex items-center gap-3 rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 transition-colors focus-within:border-[#5687BC]">
-                    <span className="text-lg">{field.emoji}</span>
+                  <label key={field.key} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-colors focus-within:border-[#5687BC]">
+                    {field.key === 'telefon' ? (
+                      <span className="flex shrink-0 items-center gap-1.5">
+                        {/* German flag + country code, like the original phone field */}
+                        <svg className="h-3.5 w-5 overflow-hidden rounded-[2px]" viewBox="0 0 5 3" aria-hidden="true">
+                          <rect width="5" height="1" y="0" fill="#000" />
+                          <rect width="5" height="1" y="1" fill="#DD0000" />
+                          <rect width="5" height="1" y="2" fill="#FFCE00" />
+                        </svg>
+                        <span className="text-sm text-slate-500">+49</span>
+                      </span>
+                    ) : (
+                      <span className="text-base">{field.emoji}</span>
+                    )}
                     <input
                       type={field.type}
                       required={field.required}
                       value={form[field.key]}
                       onChange={(e) => setForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
                       placeholder={field.placeholder}
-                      className="w-full bg-transparent text-base outline-none placeholder:text-slate-400"
+                      className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
                     />
                   </label>
                 ))}
-                <label className="flex items-start gap-3 rounded-xl border-2 border-slate-200 bg-white px-4 py-3.5 transition-colors focus-within:border-[#5687BC]">
-                  <span className="text-lg">💬</span>
+                <label className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-colors focus-within:border-[#5687BC]">
+                  <span className="text-base">💬</span>
                   <textarea
-                    rows={3}
+                    rows={2}
                     value={form.ziele}
                     onChange={(e) => setForm((prev) => ({ ...prev, ziele: e.target.value }))}
                     placeholder="Was sind Deine nächsten Ziele? Was möchtest Du mit uns erreichen? (optional)"
-                    className="w-full resize-none bg-transparent text-base outline-none placeholder:text-slate-400"
+                    className="w-full resize-none bg-transparent text-sm outline-none placeholder:text-slate-400"
                   />
                 </label>
-                <label className="flex items-start gap-3 px-1 py-2 text-sm text-slate-600">
+                <label className="flex items-start gap-2.5 px-1 py-1 text-sm text-slate-600">
                   <input
                     type="checkbox"
                     required
                     checked={form.consent}
                     onChange={(e) => setForm((prev) => ({ ...prev, consent: e.target.checked }))}
-                    className="mt-0.5 h-5 w-5 shrink-0 accent-[#5687BC]"
+                    className="mt-0.5 h-4 w-4 shrink-0 accent-[#5687BC]"
                   />
                   <span>
                     <Link to="/datenschutz" target="_blank" className="font-semibold text-[#5687BC] underline">
