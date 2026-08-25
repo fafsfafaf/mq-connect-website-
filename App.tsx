@@ -47,6 +47,7 @@ const AppContent: React.FC = () => {
         <Route path="/karriere" element={<Careers />} />
         <Route path="/bewerben" element={<Apply />} />
         <Route path="/kundenberater" element={<Kundenberater />} />
+        <Route path="/kundenberater-2" element={<Kundenberater variant="classic" />} />
         <Route path="/fuer-produktgeber" element={<BusinessPartner />} />
         <Route path="/kontakt" element={<Contact />} />
         <Route path="/blog" element={<Blog />} />

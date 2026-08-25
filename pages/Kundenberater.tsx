@@ -14,14 +14,16 @@ import {
   Map,
   Tablet,
   Trophy,
-  Phone,
-  Mail,
   Check,
-  CheckCircle2,
   ThumbsUp,
   ThumbsDown,
   ChevronDown,
   Search,
+  ClipboardCheck,
+  FileText,
+  PhoneCall,
+  Instagram,
+  FolderOpen,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { APP_CONFIG } from '../constants';
@@ -29,6 +31,8 @@ import { APP_CONFIG } from '../constants';
 // TODO: replace with a live endpoint before running ads — the old n8n host
 // (n8n.srv824470.hstgr.cloud) is offline, see HANDOVER.md "Offene Punkte".
 const FUNNEL_WEBHOOK_URL = 'https://n8n.srv824470.hstgr.cloud/webhook/funnel-kundenberater';
+// TODO: same as above — needs a live endpoint that accepts multipart/form-data.
+const CV_UPLOAD_WEBHOOK_URL = 'https://n8n.srv824470.hstgr.cloud/webhook/funnel-kundenberater-cv';
 
 type Step = 'landing' | 'info' | 'q1' | 'q2' | 'q3' | 'q4' | 'form' | 'done' | 'rejected';
 
@@ -73,6 +77,13 @@ const DAY_IN_LIFE: { icon: React.ElementType; text: React.ReactNode }[] = [
   { icon: Map, text: <>Ab Mittag bist Du <strong>im kleinen Team in Deinem Einsatzgebiet</strong> unterwegs.</> },
   { icon: Tablet, text: <><strong>Du berätst Kunden</strong> zu Glasfaser- und Energieprodukten von Top-Anbietern.</> },
   { icon: Trophy, text: <>Mit unserem erprobten System arbeitest Du Dich <strong>zum Teamleiter</strong> hoch.</> },
+];
+
+// Benefit bar for the "classic" landing variant (route /kundenberater-2).
+const TOP_BENEFITS = [
+  { emoji: '💰', text: '2.500 – 4.500 € Verdienst möglich' },
+  { emoji: '✅', text: 'Quereinsteiger willkommen' },
+  { emoji: '📈', text: 'Schneller Aufstieg zum Teamleiter' },
 ];
 
 const Q1_OPTIONS = [
@@ -203,7 +214,9 @@ const stepMotion = {
 
 /* --------------------------------- Hauptseite --------------------------------- */
 
-export const Kundenberater: React.FC = () => {
+// variant 'video' = default landing (dark headline band + video slot);
+// variant 'classic' = benefit bar + big headline + two photo CTAs (/kundenberater-2).
+export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ variant = 'video' }) => {
   const [step, setStep] = useState<Step>('landing');
   const [answers, setAnswers] = useState<FunnelAnswers>({
     prioritaeten: [],
@@ -226,6 +239,36 @@ export const Kundenberater: React.FC = () => {
   const [countrySearch, setCountrySearch] = useState('');
   // Set on a failed submit attempt; each field's error clears as soon as it is filled.
   const [showErrors, setShowErrors] = useState(false);
+  // Optional CV upload on the confirmation page.
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvState, setCvState] = useState<'idle' | 'sending' | 'done'>('idle');
+  const [cvError, setCvError] = useState('');
+
+  const handleCvSelect = (file: File | null) => {
+    setCvError('');
+    if (!file) return;
+    if (file.size > 25 * 1024 * 1024) {
+      setCvError('Die Datei ist größer als 25 MB — bitte wähle eine kleinere Datei.');
+      return;
+    }
+    setCvFile(file);
+  };
+
+  const handleCvSubmit = async () => {
+    if (!cvFile || cvState !== 'idle') return;
+    setCvState('sending');
+    try {
+      const payload = new FormData();
+      payload.append('quelle', 'funnel-kundenberater-cv');
+      payload.append('name', `${form.vorname} ${form.nachname}`.trim());
+      payload.append('email', form.email);
+      payload.append('datei', cvFile);
+      await fetch(CV_UPLOAD_WEBHOOK_URL, { method: 'POST', body: payload });
+    } catch {
+      // Same fallback behavior as the main submit: don't strand the applicant.
+    }
+    setCvState('done');
+  };
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -308,33 +351,78 @@ export const Kundenberater: React.FC = () => {
           {/* ------------------------------ Landing ------------------------------ */}
           {step === 'landing' && (
             <m.div key="landing" {...stepMotion}>
-              {/* Headline-Band */}
-              <div className="bg-[#1F2147] px-5 py-6 text-center text-white">
-                <h1 className="text-sm leading-relaxed">
-                  Entdecke Deine Vorteile als
-                  <br />
-                  <strong>Kundenberater im Außendienst (m/w/d)</strong> 👇
-                </h1>
-              </div>
+              {variant === 'video' ? (
+                <>
+                  {/* Headline-Band */}
+                  <div className="bg-[#1F2147] px-5 py-6 text-center text-white">
+                    <h1 className="text-sm leading-relaxed">
+                      Entdecke Deine Vorteile als
+                      <br />
+                      <strong>Kundenberater im Außendienst (m/w/d)</strong> 👇
+                    </h1>
+                  </div>
 
-              {/* Video-Platzhalter (TODO: echtes Recruiting-Video einsetzen) */}
-              <div className="px-8 pt-8">
-                <img
-                  src="/images/hero-bg-door-v2.jpg"
-                  alt="MQ-Connect im Außendienst"
-                  className="h-56 w-full rounded-lg object-cover shadow-sm"
-                />
-              </div>
+                  {/* Video-Platzhalter (TODO: echtes Recruiting-Video einsetzen) */}
+                  <div className="px-8 pt-8">
+                    <img
+                      src="/images/hero-bg-door-v2.jpg"
+                      alt="MQ-Connect im Außendienst"
+                      className="h-56 w-full rounded-lg object-cover shadow-sm"
+                    />
+                  </div>
 
-              {/* Standort-Zeilen */}
-              <div className="px-5 pt-6 text-center text-[15px] text-slate-900">
-                <p>📍 47441, Moers (NRW)</p>
-                <p className="mt-1">🕐 Ab sofort</p>
-              </div>
+                  {/* Standort-Zeilen */}
+                  <div className="px-5 pt-6 text-center text-[15px] text-slate-900">
+                    <p>📍 47441, Moers (NRW)</p>
+                    <p className="mt-1">🕐 Ab sofort</p>
+                  </div>
 
-              <div className="px-8 pb-2 pt-6">
-                <FunnelCta onClick={() => goTo('info')}>Hier geht's zu Deinen Vorteilen!</FunnelCta>
-              </div>
+                  <div className="px-8 pb-2 pt-6">
+                    <FunnelCta onClick={() => goTo('info')}>Hier geht's zu Deinen Vorteilen!</FunnelCta>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Benefit-Bar */}
+                  <div className="bg-[#1F2147] px-5 py-3.5 text-center text-white">
+                    {TOP_BENEFITS.map((b) => (
+                      <p key={b.text} className="py-0.5 text-sm font-bold">
+                        <span className="mr-1.5">{b.emoji}</span>
+                        {b.text}
+                      </p>
+                    ))}
+                  </div>
+
+                  {/* Große Headline */}
+                  <div className="px-5 pt-7 text-center">
+                    <h1 className="text-[22px] leading-snug">
+                      Entdecke Deine unschlagbaren <strong>Vorteile</strong> als{' '}
+                      <strong>Kundenberater im Außendienst (m/w/d)</strong> bei <strong>MQ-Connect</strong>.
+                    </h1>
+                    <div className="mt-4 text-[15px] text-slate-900">
+                      <p>📍 Moers (NRW)</p>
+                      <p className="mt-1">🕐 Ab sofort</p>
+                    </div>
+                  </div>
+
+                  {/* Zwei Foto-CTA-Kacheln */}
+                  <div className="grid grid-cols-2 gap-4 px-5 pt-6">
+                    {[
+                      { img: '/images/hero-bg-door-v2.jpg', label: "Los geht's!" },
+                      { img: '/images/vision-team.jpg', label: 'Mehr erfahren!' },
+                    ].map((btn) => (
+                      <button
+                        key={btn.label}
+                        onClick={() => goTo('info')}
+                        className="overflow-hidden rounded-lg shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl"
+                      >
+                        <img src={btn.img} alt="" className="h-36 w-full object-cover" />
+                        <span className="block bg-[#5687BC] py-2.5 text-sm font-bold text-white">{btn.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
 
               <hr className="mx-5 my-8 border-slate-300" />
 
@@ -766,54 +854,100 @@ export const Kundenberater: React.FC = () => {
 
           {/* -------------------------------- Danke-Seite -------------------------------- */}
           {step === 'done' && (
-            <m.div key="done" {...stepMotion} className="px-5 py-12 text-center">
-              <CheckCircle2 className="mx-auto h-16 w-16 text-green-500" />
-              <h2 className="mt-4 text-2xl font-black">Deine Bewerbung ist eingegangen! 🎉</h2>
-              <p className="mt-3 text-[15px] leading-relaxed text-slate-600">
-                Wir melden uns <strong>meist innerhalb von 24 Stunden</strong> telefonisch oder per WhatsApp bei
-                Dir. Danach folgt ein kurzes Kennenlern-Telefonat — und wenn alles passt, Dein Probetag bei uns
-                in Moers.
+            <m.div key="done" {...stepMotion} className="pb-4 pt-8">
+              <ClipboardCheck className="mx-auto h-10 w-10 text-green-500" strokeWidth={1.5} />
+              <h2 className="mt-5 px-5 text-center text-[19px] font-bold leading-snug">
+                Großartig! 🤩
+                <br />
+                Deine Bewerbung ist bei uns eingegangen!
+              </h2>
+              <div className="px-8 pt-5">
+                <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="h-52 w-full rounded-lg object-cover shadow-sm" />
+              </div>
+              <p className="mt-4 px-8 text-center text-sm text-[#1F2147]">
+                Wir rufen Dich zeitnah an und besprechen alles Weitere ganz in Ruhe mit Dir!
               </p>
-              {/* So geht es weiter */}
-              <div className="mt-8 rounded-2xl border border-slate-100 bg-white p-6 text-left shadow-sm">
-                <p className="text-sm font-bold uppercase tracking-wide text-slate-500">So geht es jetzt weiter</p>
-                <ol className="mt-4 space-y-4">
-                  {[
-                    'Wir prüfen Deine Bewerbung und melden uns telefonisch oder per WhatsApp.',
-                    'Kurzes Kennenlern-Telefonat — ganz entspannt, ohne Druck.',
-                    'Dein Probetag bei uns in Moers: Du lernst das Team und den Job live kennen.',
-                  ].map((text, i) => (
-                    <li key={i} className="flex items-start gap-3 text-[15px] text-slate-700">
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#5687BC] text-sm font-bold text-white">
-                        {i + 1}
+
+              {/* Optionaler Lebenslauf-Upload */}
+              <p className="mt-6 px-6 text-center text-lg leading-snug">
+                Lade hier gerne noch Deinen Lebenslauf hoch, um den Bewerbungsprozess zu beschleunigen.
+              </p>
+              <div className="px-5 pt-4">
+                {cvState === 'done' ? (
+                  <p className="rounded-lg border border-green-200 bg-green-50 px-4 py-3.5 text-center text-sm font-semibold text-green-700">
+                    Danke! Deine Datei ist bei uns eingegangen. ✅
+                  </p>
+                ) : (
+                  <>
+                    <label className="block cursor-pointer rounded-lg border border-dashed border-slate-300 bg-white px-4 py-3.5 text-center shadow-sm transition-colors hover:border-[#5687BC]">
+                      <input
+                        type="file"
+                        accept=".pdf,.png,.jpg,.jpeg"
+                        className="hidden"
+                        onChange={(e) => handleCvSelect(e.target.files?.[0] ?? null)}
+                      />
+                      <span className="flex items-center justify-center gap-2 text-sm font-semibold text-[#1F2147]">
+                        <FolderOpen className="h-4.5 w-4.5 shrink-0 text-[#5687BC]" />
+                        {cvFile ? cvFile.name : 'Hier klicken und Datei hochladen'}
                       </span>
-                      {text}
-                    </li>
-                  ))}
-                </ol>
+                      <span className="mt-0.5 block text-xs font-light text-slate-400">(max. 25MB, .pdf, .png, .jpg)</span>
+                    </label>
+                    {cvError && <p className="mt-1.5 text-center text-xs text-red-500">{cvError}</p>}
+                    <div className="mt-3">
+                      <FunnelCta onClick={handleCvSubmit} disabled={!cvFile || cvState === 'sending'}>
+                        {cvState === 'sending' ? 'Wird gesendet …' : 'Datei absenden'}
+                      </FunnelCta>
+                    </div>
+                  </>
+                )}
               </div>
 
-              <div className="mt-4 rounded-2xl border border-slate-100 bg-slate-50 p-6 text-left">
-                <p className="text-sm font-bold uppercase tracking-wide text-slate-500">Du willst schneller sein?</p>
-                <a href={`tel:${APP_CONFIG.STAFF_PHONE_NUMBER.replace(/[^+\d]/g, '')}`} className="mt-3 flex items-center gap-3 font-bold text-[#5687BC]">
-                  <Phone className="h-5 w-5" /> {APP_CONFIG.STAFF_PHONE_NUMBER}
-                </a>
-                <a href="mailto:bewerbung@mq-connect.de" className="mt-2 flex items-center gap-3 font-bold text-[#5687BC]">
-                  <Mail className="h-5 w-5" /> bewerbung@mq-connect.de
-                </a>
-                <p className="mt-3 text-sm text-slate-500">
-                  Optional: Schick uns Deinen Lebenslauf einfach per E-Mail — ist aber kein Muss.
+              <ChevronDown className="mx-auto mt-7 h-6 w-6 text-slate-900" strokeWidth={3} />
+
+              {/* So geht es jetzt weiter */}
+              <div className="mt-5">
+                <SectionBand>So geht es jetzt weiter</SectionBand>
+              </div>
+              <div className="space-y-5 px-5 py-6">
+                <IconRow icon={FileText}>
+                  <strong>1. Prüfung Deiner Bewerbung:</strong>
+                  <br />
+                  Wir schauen uns Deine Angaben an und prüfen, ob wir zueinander passen.
+                </IconRow>
+                <IconRow icon={PhoneCall}>
+                  <strong>2. Kennenlern-Telefonat:</strong>
+                  <br />
+                  Wir rufen Dich an und lernen uns kurz kennen. Meldet sich in den nächsten Tagen eine
+                  unbekannte Nummer — das sind vermutlich wir. 😉
+                </IconRow>
+                <IconRow icon={Users}>
+                  <strong>3. Persönliches Gespräch & Probetag:</strong>
+                  <br />
+                  Passt alles, laden wir Dich zu uns nach Moers ein und bereiten Deinen perfekten Start vor.
+                </IconRow>
+              </div>
+
+              <ChevronDown className="mx-auto h-6 w-6 text-slate-900" strokeWidth={3} />
+
+              {/* Social Follow */}
+              <div className="px-5 py-6 text-center">
+                <p className="text-lg font-bold leading-snug">
+                  Folge uns auf Social Media und begleite uns schon jetzt im Alltag 🤩
                 </p>
+                <div className="mx-auto mt-5 max-w-[190px]">
+                  <a
+                    href="https://www.instagram.com/mq.connect/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block overflow-hidden rounded-lg shadow-md transition-transform hover:-translate-y-0.5 hover:shadow-lg"
+                  >
+                    <span className="flex h-32 items-center justify-center bg-[#1F2147]">
+                      <Instagram className="h-12 w-12 text-white" strokeWidth={1.25} />
+                    </span>
+                    <span className="block bg-[#5687BC] py-2.5 text-sm font-bold text-white">Instagram</span>
+                  </a>
+                </div>
               </div>
-
-              <a
-                href="https://www.instagram.com/mq.connect/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 block rounded-2xl bg-[#1F2147] p-6 text-center font-bold text-white transition-transform hover:-translate-y-0.5"
-              >
-                Folge uns auf Instagram und lerne das Team schon mal kennen! 📸
-              </a>
             </m.div>
           )}
 
