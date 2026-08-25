@@ -48,28 +48,28 @@ interface FunnelAnswers {
 /* ---------------------------------- Content ---------------------------------- */
 
 const REASONS: { icon: React.ElementType; text: React.ReactNode }[] = [
-  { icon: Euro, text: <>Verdiene <strong>2.500 – 4.500 €</strong> mit überdurchschnittlichen Provisionen und <strong>pünktlicher, transparenter Abrechnung</strong>.</> },
-  { icon: GraduationCap, text: <>Starte mit einer <strong>umfassenden Einarbeitung</strong>, erprobten Sales-Skripten und einem <strong>persönlichen Mentor</strong>.</> },
-  { icon: TrendingUp, text: <>Arbeite Dich in Rekordzeit zum <strong>Teamleiter</strong> hoch — bei uns zählt Leistung, nicht das Alter im Betrieb.</> },
-  { icon: ShieldCheck, text: <><strong>Sicherer Arbeitsplatz:</strong> Wir wachsen seit über 5 Jahren kontinuierlich.</> },
-  { icon: Users, text: <>Werde Teil eines <strong>jungen, motivierten Teams</strong> mit regelmäßigen Team-Events.</> },
+  { icon: Euro, text: <>Verdiene <strong>2.500 – 4.500 €</strong> mit <strong>starken Provisionen</strong>.</> },
+  { icon: GraduationCap, text: <>Starte mit <strong>umfassender Einarbeitung</strong> und Deinem <strong>persönlichen Mentor</strong>.</> },
+  { icon: TrendingUp, text: <>Steige im Rekordtempo zum <strong>Teamleiter</strong> auf.</> },
+  { icon: ShieldCheck, text: <><strong>Krisensicherer Arbeitsplatz.</strong><br />Wir wachsen seit über 5 Jahren.</> },
+  { icon: Users, text: <>Werde Teil eines <strong>jungen Teams</strong> mit regelmäßigen <strong>Team-Events</strong>.</> },
   { icon: Sparkles, text: <>Entwickle Dich weiter mit <strong>Persönlichkeits- und Mindset-Coaching</strong>.</> },
-  { icon: Rocket, text: <>Vertreibe <strong>Glasfaser- und Energieprodukte von Top-Anbietern</strong> wie E.ON, Vattenfall und O2 — Produkte, die jeder braucht.</> },
-  { icon: FileCheck2, text: <><strong>Kein Lebenslauf, kein Anschreiben:</strong> Bewirb Dich in unter 2 Minuten und erhalte innerhalb von 24 Stunden eine Rückmeldung.</> },
+  { icon: Rocket, text: <>Vertreibe <strong>Produkte von Top-Anbietern</strong> wie E.ON, Vattenfall und O2.</> },
+  { icon: FileCheck2, text: <><strong>Kein Lebenslauf, kein Anschreiben:</strong> Bewirb Dich in unter 2 Minuten.</> },
 ];
 
 const TRAITS: { icon: React.ElementType; text: React.ReactNode }[] = [
-  { icon: Users, text: <>Du gehst <strong>offen auf Menschen zu</strong> und trittst gepflegt und sicher auf.</> },
-  { icon: Euro, text: <><strong>Du willst mehr verdienen</strong> und suchst einen Job, bei dem sich Dein Einsatz direkt auszahlt.</> },
-  { icon: GraduationCap, text: <>Du bringst <strong>Neugier und Lernwillen</strong> mit — unser System bringt Dir den Rest bei.</> },
-  { icon: Rocket, text: <>Du bist <strong>gerne aktiv unterwegs</strong> und magst Abwechslung statt Schreibtisch-Alltag.</> },
+  { icon: Users, text: <>Du gehst <strong>offen auf Menschen zu</strong> und trittst <strong>gepflegt und sicher</strong> auf.</> },
+  { icon: Euro, text: <><strong>Du willst mehr verdienen</strong> — Dein Einsatz soll sich direkt auszahlen.</> },
+  { icon: GraduationCap, text: <>Du bringst <strong>Neugier und Lernwillen</strong> mit.</> },
+  { icon: Rocket, text: <>Du bist <strong>gerne aktiv unterwegs</strong> und liebst Abwechslung.</> },
 ];
 
 const DAY_IN_LIFE: { icon: React.ElementType; text: React.ReactNode }[] = [
-  { icon: Coffee, text: <>Morgens startest Du <strong>gemeinsam mit Deinem Team</strong> — Austausch, Motivation und klare Ziele für den Tag.</> },
-  { icon: Map, text: <>Danach geht es <strong>im kleinen Team in Dein Einsatzgebiet</strong> in Moers und Umgebung (NRW).</> },
-  { icon: Tablet, text: <><strong>Du berätst Neu- und Bestandskunden</strong> zu Glasfaser- und Energieprodukten von Top-Anbietern.</> },
-  { icon: Trophy, text: <>Mit unserem erprobten System arbeitest Du Dich <strong>Schritt für Schritt zum Teamleiter</strong> hoch.</> },
+  { icon: Coffee, text: <>Du startest morgens <strong>gemeinsam mit Deinem Team</strong> motiviert in den Tag.</> },
+  { icon: Map, text: <>Ab Mittag bist Du <strong>im kleinen Team in Deinem Einsatzgebiet</strong> unterwegs.</> },
+  { icon: Tablet, text: <><strong>Du berätst Kunden</strong> zu Glasfaser- und Energieprodukten von Top-Anbietern.</> },
+  { icon: Trophy, text: <>Mit unserem erprobten System arbeitest Du Dich <strong>zum Teamleiter</strong> hoch.</> },
 ];
 
 const Q1_OPTIONS = [
@@ -112,16 +112,16 @@ const FunnelCta: React.FC<{ onClick: () => void; children: React.ReactNode; clas
 
 // Blue outline icon + compact black text on white — like the original list style.
 const IconRow: React.FC<{ icon: React.ElementType; children: React.ReactNode }> = ({ icon: Icon, children }) => (
-  <div className="flex items-start gap-4 text-left">
-    <Icon className="mt-0.5 h-9 w-9 shrink-0 text-[#5687BC]" strokeWidth={1.25} />
-    <p className="text-sm leading-relaxed text-slate-900">{children}</p>
+  <div className="flex items-start gap-3.5 text-left">
+    <Icon className="h-8 w-8 shrink-0 text-[#5687BC]" strokeWidth={1.25} />
+    <p className="text-sm leading-snug text-slate-900">{children}</p>
   </div>
 );
 
 // Dark navy title band; the section content below stays on white.
 const SectionBand: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="bg-[#1F2147] px-5 py-7 text-center">
-    <h2 className="text-[22px] font-bold leading-snug text-white">{children}</h2>
+  <div className="bg-[#1F2147] px-5 py-5 text-center">
+    <h2 className="text-xl font-bold leading-snug text-white">{children}</h2>
   </div>
 );
 
@@ -231,10 +231,10 @@ export const Kundenberater: React.FC = () => {
             <m.div key="landing" {...stepMotion}>
               {/* Headline-Band */}
               <div className="bg-[#1F2147] px-5 py-6 text-center text-white">
-                <h1 className="text-[15px] leading-relaxed">
+                <h1 className="text-sm leading-relaxed">
                   Entdecke Deine Vorteile als
                   <br />
-                  <strong>Kundenberater im Außendienst (m/w/d) bei MQ-Connect.</strong> 👇
+                  <strong>Kundenberater im Außendienst (m/w/d)</strong> 👇
                 </h1>
               </div>
 
@@ -266,12 +266,12 @@ export const Kundenberater: React.FC = () => {
                 MQ-Connect
               </SectionBand>
               <div className="px-5 py-8">
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {REASONS.map((r, i) => (
                     <IconRow key={i} icon={r.icon}>{r.text}</IconRow>
                   ))}
                 </div>
-                <p className="mt-7 text-[15px]">… und vieles mehr! 😊</p>
+                <p className="mt-5 text-[15px]">… und vieles mehr! 😊</p>
                 <div className="mt-6">
                   <FunnelCta onClick={() => goTo('q1')}>
                     Bewirb Dich jetzt in unter 2 Minuten!
@@ -345,7 +345,7 @@ export const Kundenberater: React.FC = () => {
                 Du Dich freuen
               </SectionBand>
               <div className="px-5 py-8">
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {DAY_IN_LIFE.map((d, i) => (
                     <IconRow key={i} icon={d.icon}>{d.text}</IconRow>
                   ))}
@@ -381,12 +381,12 @@ export const Kundenberater: React.FC = () => {
                 auf einen Blick!
               </SectionBand>
               <div className="px-5 py-8">
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {REASONS.map((r, i) => (
                     <IconRow key={i} icon={r.icon}>{r.text}</IconRow>
                   ))}
                 </div>
-                <p className="mt-7 text-[15px]">… und vieles mehr! 😊</p>
+                <p className="mt-5 text-[15px]">… und vieles mehr! 😊</p>
                 <div className="mt-6">
                   <FunnelCta onClick={() => goTo('q1')}>
                     Klingt super, das will ich haben!
@@ -398,7 +398,7 @@ export const Kundenberater: React.FC = () => {
 
               <SectionBand>Das zeichnet Dich aus</SectionBand>
               <div className="px-5 py-8">
-                <div className="space-y-5">
+                <div className="space-y-4">
                   {TRAITS.map((t, i) => (
                     <IconRow key={i} icon={t.icon}>{t.text}</IconRow>
                   ))}
@@ -432,7 +432,7 @@ export const Kundenberater: React.FC = () => {
                       onClick={() => togglePriority(opt.label)}
                       className={cn(
                         'flex w-full items-center gap-3 rounded-lg px-4 py-3.5 text-left text-sm font-bold text-white transition-all',
-                        selected ? 'bg-[#5687BC] shadow-md' : 'bg-[#1F2147] hover:bg-[#2a2d5f]',
+                        selected ? 'bg-[#1F2147] shadow-md' : 'bg-[#5687BC] hover:bg-[#46759f]',
                       )}
                     >
                       <span className="text-xl">{opt.emoji}</span>
@@ -466,7 +466,7 @@ export const Kundenberater: React.FC = () => {
                       setAnswers((prev) => ({ ...prev, vertriebserfahrung: opt }));
                       goTo('q3');
                     }}
-                    className="w-full rounded-lg bg-[#1F2147] px-4 py-3.5 text-center text-sm font-bold text-white transition-all hover:bg-[#2a2d5f] hover:shadow-md"
+                    className="w-full rounded-lg bg-[#5687BC] px-4 py-3.5 text-center text-sm font-bold text-white transition-all hover:bg-[#46759f] hover:shadow-md"
                   >
                     {opt}
                   </button>
@@ -525,7 +525,7 @@ export const Kundenberater: React.FC = () => {
                       setAnswers((prev) => ({ ...prev, erreichbarkeit: opt.label }));
                       goTo('form');
                     }}
-                    className="flex w-full items-center gap-3 rounded-lg bg-[#1F2147] px-4 py-3.5 text-left text-sm font-bold text-white transition-all hover:bg-[#2a2d5f] hover:shadow-md"
+                    className="flex w-full items-center gap-3 rounded-lg bg-[#5687BC] px-4 py-3.5 text-left text-sm font-bold text-white transition-all hover:bg-[#46759f] hover:shadow-md"
                   >
                     <span className="text-xl">{opt.emoji}</span>
                     <span>{opt.label}</span>
