@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { LazyMotion, domAnimation } from 'framer-motion';
 import { Layout } from './components/Layout';
 import { CookieConsent } from './components/CookieConsent';
@@ -17,6 +17,7 @@ const Contact = React.lazy(() => import('./pages/Contact').then(module => ({ def
 const Blog = React.lazy(() => import('./pages/Blog').then(module => ({ default: module.Blog })));
 const BlogPostDetail = React.lazy(() => import('./pages/BlogPostDetail').then(module => ({ default: module.BlogPostDetail })));
 const Login = React.lazy(() => import('./pages/Login').then(module => ({ default: module.Login })));
+const Kundenberater = React.lazy(() => import('./pages/Kundenberater').then(module => ({ default: module.Kundenberater })));
 const Impressum = React.lazy(() => import('./pages/Legal').then(module => ({ default: module.Impressum })));
 const Datenschutz = React.lazy(() => import('./pages/Legal').then(module => ({ default: module.Datenschutz })));
 const CookiePolicy = React.lazy(() => import('./pages/CookiePolicy').then(module => ({ default: module.CookiePolicy })));
@@ -28,32 +29,50 @@ const PageLoader = () => (
   </div>
 );
 
+// Funnel routes render standalone (own logo header + mini footer), without the
+// site Layout and ChatWidget — like a dedicated ad landing page.
+const STANDALONE_ROUTES = ['/kundenberater'];
+
+const AppContent: React.FC = () => {
+  const location = useLocation();
+  const isStandalone = STANDALONE_ROUTES.some(path => location.pathname.startsWith(path));
+
+  const routes = (
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/ueber-uns" element={<About />} />
+        <Route path="/leistungen" element={<Services />} />
+        <Route path="/partner" element={<Partners />} />
+        <Route path="/karriere" element={<Careers />} />
+        <Route path="/bewerben" element={<Apply />} />
+        <Route path="/kundenberater" element={<Kundenberater />} />
+        <Route path="/fuer-produktgeber" element={<BusinessPartner />} />
+        <Route path="/kontakt" element={<Contact />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPostDetail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/impressum" element={<Impressum />} />
+        <Route path="/datenschutz" element={<Datenschutz />} />
+        <Route path="/cookie-richtlinien" element={<CookiePolicy />} />
+      </Routes>
+    </Suspense>
+  );
+
+  return (
+    <>
+      {isStandalone ? routes : <Layout>{routes}</Layout>}
+      <CookieConsent />
+      {!isStandalone && <ChatWidget />}
+    </>
+  );
+};
+
 const App: React.FC = () => {
   return (
     <LazyMotion features={domAnimation}>
       <Router>
-        <Layout>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/ueber-uns" element={<About />} />
-              <Route path="/leistungen" element={<Services />} />
-              <Route path="/partner" element={<Partners />} />
-              <Route path="/karriere" element={<Careers />} />
-              <Route path="/bewerben" element={<Apply />} />
-              <Route path="/fuer-produktgeber" element={<BusinessPartner />} />
-              <Route path="/kontakt" element={<Contact />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPostDetail />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/impressum" element={<Impressum />} />
-              <Route path="/datenschutz" element={<Datenschutz />} />
-              <Route path="/cookie-richtlinien" element={<CookiePolicy />} />
-            </Routes>
-          </Suspense>
-        </Layout>
-        <CookieConsent />
-        <ChatWidget />
+        <AppContent />
       </Router>
     </LazyMotion>
   );
