@@ -964,6 +964,18 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 Sobald sich Deine Deutschkenntnisse verbessert haben, freuen wir uns sehr über eine neue
                 Bewerbung von Dir!
               </p>
+              <p className="mt-5 text-sm text-slate-600">
+                Du hast Dich nur verklickt? 😅{' '}
+                <button
+                  onClick={() => {
+                    setAnswers((prev) => ({ ...prev, deutschkenntnisse: '' }));
+                    goTo('q3');
+                  }}
+                  className="font-bold text-[#5687BC] underline"
+                >
+                  Hier geht's zurück zur Frage.
+                </button>
+              </p>
               <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="mt-8 h-44 w-full rounded-2xl object-cover" />
             </m.div>
           )}
