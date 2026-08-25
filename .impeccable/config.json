@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "roboto",
+        "createdAt": "2026-08-25T13:00:35.955Z",
+        "reason": "User confirmed roboto is intentional (1:1 clone of MAXprom Perspective funnel style)"
+      }
+    ]
+  }
+}
