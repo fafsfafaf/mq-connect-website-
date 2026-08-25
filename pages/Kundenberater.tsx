@@ -209,7 +209,7 @@ export const Kundenberater: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-slate-900" style={{ fontFamily: "'Roboto', 'Inter', sans-serif" }}>
       {/* Header — Logo zentriert, Klick führt zurück zum Funnel-Start */}
-      <header className="sticky top-0 z-40 border-b border-slate-100 bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-md items-center justify-center px-4 py-3">
           <button onClick={() => goTo('landing')} aria-label="Zum Anfang">
             <img src="/images/mq-logo-large.png" alt="MQ-Connect Logo" className="h-12 w-auto" />
@@ -407,8 +407,8 @@ export const Kundenberater: React.FC = () => {
 
           {/* -------------------------------- Frage 1 -------------------------------- */}
           {step === 'q1' && (
-            <m.div key="q1" {...stepMotion} className="px-5 py-8">
-              <p className="text-center text-[15px] text-slate-600">
+            <m.div key="q1" {...stepMotion} className="px-5 pb-8 pt-3">
+              <p className="text-center text-[15px] text-[#1F2147]">
                 Um Dich besser kennenzulernen, haben wir <strong>4 kurze Fragen</strong> an Dich.
               </p>
               <div className="-mx-5 mt-6 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 1 von 4</div>
