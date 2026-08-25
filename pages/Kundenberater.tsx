@@ -97,13 +97,15 @@ const Q4_OPTIONS = [
 
 /* -------------------------------- UI-Bausteine -------------------------------- */
 
-const FunnelCta: React.FC<{ onClick: () => void; children: React.ReactNode; className?: string }> = ({ onClick, children, className }) => (
+const FunnelCta: React.FC<{ onClick: () => void; children: React.ReactNode; className?: string; disabled?: boolean }> = ({ onClick, children, className, disabled }) => (
   <button
     onClick={onClick}
+    disabled={disabled}
     className={cn(
       // Single line always: small text + nowrap so the label never wraps.
       'block w-full overflow-hidden whitespace-nowrap rounded-lg bg-[#5687BC] px-3 py-3.5 text-center text-sm font-bold text-white shadow-md',
       'transition-all hover:-translate-y-0.5 hover:bg-[#46759f] hover:shadow-lg active:translate-y-0',
+      'disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:bg-[#5687BC] disabled:hover:shadow-md',
       className,
     )}
   >
@@ -443,7 +445,9 @@ export const Kundenberater: React.FC = () => {
                 })}
               </div>
               <div className="mt-6">
-                <FunnelCta onClick={() => goTo('q2')}>Weiter</FunnelCta>
+                <FunnelCta onClick={() => goTo('q2')} disabled={answers.prioritaeten.length === 0}>
+                  Weiter
+                </FunnelCta>
               </div>
             </m.div>
           )}
@@ -576,18 +580,18 @@ export const Kundenberater: React.FC = () => {
                       value={form[field.key]}
                       onChange={(e) => setForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
                       placeholder={field.placeholder}
-                      className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
+                      className="w-full bg-transparent text-sm font-normal outline-none placeholder:font-normal placeholder:text-slate-400"
                     />
                   </label>
                 ))}
                 <label className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-colors focus-within:border-[#5687BC]">
                   <span className="text-base">💬</span>
                   <textarea
-                    rows={2}
+                    rows={4}
                     value={form.ziele}
                     onChange={(e) => setForm((prev) => ({ ...prev, ziele: e.target.value }))}
                     placeholder="Was sind Deine nächsten Ziele? Was möchtest Du mit uns erreichen? (optional)"
-                    className="w-full resize-none bg-transparent text-sm outline-none placeholder:text-slate-400"
+                    className="w-full resize-none bg-transparent text-sm font-normal outline-none placeholder:font-normal placeholder:text-slate-400"
                   />
                 </label>
                 <label className="flex items-start gap-2.5 px-1 py-1 text-sm text-slate-600">
