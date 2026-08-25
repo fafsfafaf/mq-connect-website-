@@ -16,6 +16,7 @@ import {
   Trophy,
   Phone,
   Mail,
+  Check,
   CheckCircle2,
   ThumbsUp,
   ThumbsDown,
@@ -214,14 +215,6 @@ export const Kundenberater: React.FC = () => {
             <img src="/images/mq-logo-large.png" alt="MQ-Connect Logo" className="h-12 w-auto" />
           </button>
         </div>
-        {STEP_PROGRESS[step] !== undefined && (
-          <div className="h-1.5 w-full bg-slate-100">
-            <div
-              className="h-full bg-gradient-to-r from-sky-400 to-[#5687BC] transition-all duration-500"
-              style={{ width: `${STEP_PROGRESS[step]}%` }}
-            />
-          </div>
-        )}
       </header>
 
       <main className="mx-auto max-w-md">
@@ -431,13 +424,20 @@ export const Kundenberater: React.FC = () => {
                       key={opt.label}
                       onClick={() => togglePriority(opt.label)}
                       className={cn(
-                        'flex w-full items-center gap-3 rounded-lg px-4 py-3.5 text-left text-sm font-bold text-white transition-all',
-                        selected ? 'bg-[#1F2147] shadow-md' : 'bg-[#5687BC] hover:bg-[#46759f]',
+                        'flex w-full items-center gap-3 rounded-lg border bg-white px-4 py-3.5 text-left text-sm font-bold text-slate-900 shadow-sm transition-all',
+                        selected ? 'border-[#5687BC]' : 'border-slate-200 hover:border-slate-300',
                       )}
                     >
                       <span className="text-xl">{opt.emoji}</span>
                       <span className="flex-1">{opt.label}</span>
-                      {selected && <CheckCircle2 className="h-5 w-5 shrink-0 text-white" />}
+                      <span
+                        className={cn(
+                          'flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-colors',
+                          selected ? 'border-[#5687BC] bg-[#5687BC]' : 'border-slate-300 bg-white',
+                        )}
+                      >
+                        {selected && <Check className="h-4 w-4 text-white" strokeWidth={3} />}
+                      </span>
                     </button>
                   );
                 })}
@@ -453,7 +453,7 @@ export const Kundenberater: React.FC = () => {
             <m.div key="q2" {...stepMotion} className="px-5 py-8">
               <div className="-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 2 von 4</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
-                Wie viel <strong>Erfahrung im Vertrieb</strong> bringst Du mit?
+                Wie viele <strong>Jahre Berufserfahrung</strong> hast Du bereits im <strong>Vertrieb</strong> gesammelt?
               </h2>
               <p className="mt-2 text-center text-sm text-slate-500">
                 (Keine Voraussetzung — viele unserer Besten sind Quereinsteiger)
@@ -683,6 +683,18 @@ export const Kundenberater: React.FC = () => {
         <span className="mx-2">·</span>
         <Link to="/cookie-richtlinien" className="hover:text-[#5687BC]">Cookies</Link>
       </footer>
+
+      {/* Fixierte Progressbar am unteren Bildschirmrand — nur während Quiz + Formular */}
+      {STEP_PROGRESS[step] !== undefined && (
+        <div className="fixed inset-x-0 bottom-0 z-40 bg-slate-100">
+          <div className="mx-auto h-2 max-w-md bg-slate-100">
+            <div
+              className="h-full bg-gradient-to-r from-sky-400 to-[#5687BC] transition-all duration-500"
+              style={{ width: `${STEP_PROGRESS[step]}%` }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
