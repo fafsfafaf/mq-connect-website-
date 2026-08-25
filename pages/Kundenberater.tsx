@@ -20,6 +20,8 @@ import {
   CheckCircle2,
   ThumbsUp,
   ThumbsDown,
+  ChevronDown,
+  Search,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { APP_CONFIG } from '../constants';
@@ -95,6 +97,70 @@ const Q4_OPTIONS = [
   { emoji: '🌙', label: 'Abends ab 18 Uhr' },
 ];
 
+// Country picker for the phone field (flags via flagcdn.com, German names).
+interface PhoneCountry {
+  code: string;
+  name: string;
+  dial: string;
+}
+
+const COUNTRIES: PhoneCountry[] = [
+  { code: 'de', name: 'Deutschland', dial: '+49' },
+  { code: 'at', name: 'Österreich', dial: '+43' },
+  { code: 'ch', name: 'Schweiz', dial: '+41' },
+  { code: 'af', name: 'Afghanistan', dial: '+93' },
+  { code: 'eg', name: 'Ägypten', dial: '+20' },
+  { code: 'al', name: 'Albanien', dial: '+355' },
+  { code: 'be', name: 'Belgien', dial: '+32' },
+  { code: 'ba', name: 'Bosnien und Herzegowina', dial: '+387' },
+  { code: 'bg', name: 'Bulgarien', dial: '+359' },
+  { code: 'dk', name: 'Dänemark', dial: '+45' },
+  { code: 'fr', name: 'Frankreich', dial: '+33' },
+  { code: 'gr', name: 'Griechenland', dial: '+30' },
+  { code: 'gb', name: 'Großbritannien', dial: '+44' },
+  { code: 'iq', name: 'Irak', dial: '+964' },
+  { code: 'ir', name: 'Iran', dial: '+98' },
+  { code: 'ie', name: 'Irland', dial: '+353' },
+  { code: 'it', name: 'Italien', dial: '+39' },
+  { code: 'xk', name: 'Kosovo', dial: '+383' },
+  { code: 'hr', name: 'Kroatien', dial: '+385' },
+  { code: 'lv', name: 'Lettland', dial: '+371' },
+  { code: 'lt', name: 'Litauen', dial: '+370' },
+  { code: 'lu', name: 'Luxemburg', dial: '+352' },
+  { code: 'ma', name: 'Marokko', dial: '+212' },
+  { code: 'md', name: 'Moldau', dial: '+373' },
+  { code: 'me', name: 'Montenegro', dial: '+382' },
+  { code: 'nl', name: 'Niederlande', dial: '+31' },
+  { code: 'mk', name: 'Nordmazedonien', dial: '+389' },
+  { code: 'no', name: 'Norwegen', dial: '+47' },
+  { code: 'pl', name: 'Polen', dial: '+48' },
+  { code: 'pt', name: 'Portugal', dial: '+351' },
+  { code: 'ro', name: 'Rumänien', dial: '+40' },
+  { code: 'ru', name: 'Russland', dial: '+7' },
+  { code: 'se', name: 'Schweden', dial: '+46' },
+  { code: 'rs', name: 'Serbien', dial: '+381' },
+  { code: 'sk', name: 'Slowakei', dial: '+421' },
+  { code: 'si', name: 'Slowenien', dial: '+386' },
+  { code: 'es', name: 'Spanien', dial: '+34' },
+  { code: 'sy', name: 'Syrien', dial: '+963' },
+  { code: 'cz', name: 'Tschechien', dial: '+420' },
+  { code: 'tn', name: 'Tunesien', dial: '+216' },
+  { code: 'tr', name: 'Türkei', dial: '+90' },
+  { code: 'ua', name: 'Ukraine', dial: '+380' },
+  { code: 'hu', name: 'Ungarn', dial: '+36' },
+  { code: 'us', name: 'USA', dial: '+1' },
+  { code: 'vn', name: 'Vietnam', dial: '+84' },
+];
+
+const CountryFlag: React.FC<{ code: string }> = ({ code }) => (
+  <img
+    src={`https://flagcdn.com/w40/${code}.png`}
+    alt=""
+    className="h-3.5 w-5 shrink-0 rounded-[2px] object-cover"
+    loading="lazy"
+  />
+);
+
 /* -------------------------------- UI-Bausteine -------------------------------- */
 
 const FunnelCta: React.FC<{ onClick: () => void; children: React.ReactNode; className?: string; disabled?: boolean }> = ({ onClick, children, className, disabled }) => (
@@ -155,6 +221,11 @@ export const Kundenberater: React.FC = () => {
     consent: false,
   });
   const [submitting, setSubmitting] = useState(false);
+  const [phoneCountry, setPhoneCountry] = useState<PhoneCountry>(COUNTRIES[0]);
+  const [countryOpen, setCountryOpen] = useState(false);
+  const [countrySearch, setCountrySearch] = useState('');
+  // Set on a failed submit attempt; each field's error clears as soon as it is filled.
+  const [showErrors, setShowErrors] = useState(false);
 
   useEffect(() => {
     const previousTitle = document.title;
@@ -187,7 +258,18 @@ export const Kundenberater: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.consent || submitting) return;
+    if (submitting) return;
+    const missingRequired =
+      !form.vorname.trim() ||
+      !form.nachname.trim() ||
+      !form.email.trim() ||
+      !form.telefon.trim() ||
+      !form.wohnort.trim() ||
+      !form.consent;
+    if (missingRequired) {
+      setShowErrors(true);
+      return;
+    }
     setSubmitting(true);
     try {
       await fetch(FUNNEL_WEBHOOK_URL, {
@@ -198,6 +280,8 @@ export const Kundenberater: React.FC = () => {
           eingereichtAm: new Date().toISOString(),
           ...answers,
           ...form,
+          telefon: `${phoneCountry.dial} ${form.telefon}`,
+          telefonLand: phoneCountry.name,
         }),
       });
     } catch {
@@ -550,40 +634,94 @@ export const Kundenberater: React.FC = () => {
               <p className="mt-2.5 text-center text-sm text-slate-700">
                 Trage hier einfach Deine Kontaktdaten ein und wir werden uns direkt bei Dir melden. 🤝
               </p>
-              <form onSubmit={handleSubmit} className="mt-3.5 space-y-2">
+              <form onSubmit={handleSubmit} noValidate className="mt-3.5 space-y-2">
                 {(
                   [
-                    { key: 'vorname', emoji: '👋', placeholder: 'Dein Vorname', type: 'text', required: true },
-                    { key: 'nachname', emoji: '👤', placeholder: 'Dein Nachname', type: 'text', required: true },
-                    { key: 'email', emoji: '✉️', placeholder: 'Deine E-Mail Adresse', type: 'email', required: true },
-                    { key: 'telefon', emoji: '', placeholder: 'Deine Telefonnummer', type: 'tel', required: true },
-                    { key: 'wohnort', emoji: '🏙️', placeholder: 'Dein Wohnort', type: 'text', required: true },
+                    { key: 'vorname', emoji: '👋', placeholder: 'Dein Vorname', type: 'text' },
+                    { key: 'nachname', emoji: '👤', placeholder: 'Dein Nachname', type: 'text' },
+                    { key: 'email', emoji: '✉️', placeholder: 'Deine E-Mail Adresse', type: 'email' },
+                    { key: 'telefon', emoji: '', placeholder: 'Deine Telefonnummer', type: 'tel' },
+                    { key: 'wohnort', emoji: '🏙️', placeholder: 'Dein Wohnort', type: 'text' },
                   ] as const
-                ).map((field) => (
-                  <label key={field.key} className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-colors focus-within:border-[#5687BC]">
-                    {field.key === 'telefon' ? (
-                      <span className="flex shrink-0 items-center gap-1.5">
-                        {/* German flag + country code, like the original phone field */}
-                        <svg className="h-3.5 w-5 overflow-hidden rounded-[2px]" viewBox="0 0 5 3" aria-hidden="true">
-                          <rect width="5" height="1" y="0" fill="#000" />
-                          <rect width="5" height="1" y="1" fill="#DD0000" />
-                          <rect width="5" height="1" y="2" fill="#FFCE00" />
-                        </svg>
-                        <span className="text-sm text-slate-500">+49</span>
-                      </span>
-                    ) : (
-                      <span className="text-base">{field.emoji}</span>
-                    )}
-                    <input
-                      type={field.type}
-                      required={field.required}
-                      value={form[field.key]}
-                      onChange={(e) => setForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
-                      placeholder={field.placeholder}
-                      className="w-full bg-transparent text-sm font-normal outline-none placeholder:font-normal placeholder:text-slate-400"
-                    />
-                  </label>
-                ))}
+                ).map((field) => {
+                  const hasError = showErrors && !form[field.key].trim();
+                  return (
+                    <div key={field.key} className={cn(field.key === 'telefon' && 'relative')}>
+                      <label className="block rounded-lg border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-colors focus-within:border-[#5687BC]">
+                        <span className="flex items-center gap-3">
+                          {field.key === 'telefon' ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setCountryOpen((open) => !open);
+                                setCountrySearch('');
+                              }}
+                              className="flex shrink-0 items-center gap-1.5"
+                            >
+                              <CountryFlag code={phoneCountry.code} />
+                              <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+                              <span className="text-sm text-slate-500">{phoneCountry.dial}</span>
+                            </button>
+                          ) : (
+                            <span className="text-base">{field.emoji}</span>
+                          )}
+                          <input
+                            type={field.type}
+                            value={form[field.key]}
+                            onChange={(e) => setForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
+                            placeholder={field.placeholder}
+                            className="w-full bg-transparent text-sm font-normal outline-none placeholder:font-normal placeholder:text-slate-400"
+                          />
+                          {hasError && (
+                            <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">!</span>
+                          )}
+                        </span>
+                        {hasError && (
+                          <span className="mt-1 block pl-9 text-xs text-red-500">Dies ist ein Pflichtfeld</span>
+                        )}
+                      </label>
+
+                      {/* Ländervorwahl-Dropdown mit Suche (wie im Original) */}
+                      {field.key === 'telefon' && countryOpen && (
+                        <>
+                          <div className="fixed inset-0 z-40" onClick={() => setCountryOpen(false)} />
+                          <div className="absolute inset-x-0 top-full z-50 mt-1.5 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
+                            <div className="flex items-center gap-2 border-b border-slate-100 px-3 py-2.5">
+                              <Search className="h-4 w-4 shrink-0 text-slate-400" />
+                              <input
+                                autoFocus
+                                value={countrySearch}
+                                onChange={(e) => setCountrySearch(e.target.value)}
+                                placeholder="Suche"
+                                className="w-full text-sm font-normal outline-none placeholder:text-slate-400"
+                              />
+                            </div>
+                            <ul className="max-h-56 overflow-y-auto py-1">
+                              {COUNTRIES.filter((c) =>
+                                c.name.toLowerCase().includes(countrySearch.toLowerCase()),
+                              ).map((c) => (
+                                <li key={c.code}>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setPhoneCountry(c);
+                                      setCountryOpen(false);
+                                    }}
+                                    className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm font-normal hover:bg-slate-50"
+                                  >
+                                    <CountryFlag code={c.code} />
+                                    <span className="flex-1">{c.name}</span>
+                                    <span className="text-slate-500">{c.dial}</span>
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
                 <label className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white px-4 py-2.5 shadow-sm transition-colors focus-within:border-[#5687BC]">
                   <span className="text-base">💬</span>
                   <textarea
@@ -594,28 +732,34 @@ export const Kundenberater: React.FC = () => {
                     className="w-full resize-none bg-transparent text-sm font-normal outline-none placeholder:font-normal placeholder:text-slate-400"
                   />
                 </label>
-                <label className="flex items-start gap-2.5 px-1 py-1 text-sm text-slate-600">
-                  <input
-                    type="checkbox"
-                    required
-                    checked={form.consent}
-                    onChange={(e) => setForm((prev) => ({ ...prev, consent: e.target.checked }))}
-                    className="mt-0.5 h-4 w-4 shrink-0 accent-[#5687BC]"
-                  />
-                  <span>
-                    <Link to="/datenschutz" target="_blank" className="font-semibold text-[#5687BC] underline">
-                      Datenschutzbestimmungen
-                    </Link>{' '}
-                    gelesen und akzeptiert
-                  </span>
-                </label>
-                <button
+                <div className="px-1 py-1">
+                  <label className="flex items-start gap-2.5 text-sm text-slate-600">
+                    <input
+                      type="checkbox"
+                      checked={form.consent}
+                      onChange={(e) => setForm((prev) => ({ ...prev, consent: e.target.checked }))}
+                      className="mt-0.5 h-4 w-4 shrink-0 accent-[#5687BC]"
+                    />
+                    <span>
+                      <Link to="/datenschutz" target="_blank" className="font-semibold text-[#5687BC] underline">
+                        Datenschutzbestimmungen
+                      </Link>{' '}
+                      gelesen und akzeptiert
+                    </span>
+                  </label>
+                  {showErrors && !form.consent && (
+                    <span className="mt-1 block pl-6 text-xs text-red-500">Dies ist ein Pflichtfeld</span>
+                  )}
+                </div>
+                <m.button
                   type="submit"
                   disabled={submitting}
-                  className="block w-full overflow-hidden whitespace-nowrap rounded-lg bg-[#5687BC] px-3 py-3.5 text-center text-sm font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-[#46759f] hover:shadow-lg disabled:opacity-60"
+                  animate={{ scale: [1, 1.03, 1] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                  className="block w-full overflow-hidden whitespace-nowrap rounded-lg bg-[#5687BC] px-3 py-3.5 text-center text-sm font-bold text-white shadow-md transition-colors hover:bg-[#46759f] disabled:opacity-60"
                 >
                   {submitting ? 'Wird gesendet …' : 'Jetzt Bewerbung absenden!'}
-                </button>
+                </m.button>
               </form>
             </m.div>
           )}
