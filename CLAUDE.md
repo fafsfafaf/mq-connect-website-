@@ -53,3 +53,13 @@ cn('base-class', condition && 'conditional-class', className)
 - **constants.ts**: Company info (phone, email, hours), navigation links
 - **tailwind.config.js**: Custom `brand` color palette, Inter font
 - **vite.config.ts**: Vendor chunk splitting for react/framer-motion
+
+## Deployment & Infrastructure
+
+- **Production**: https://mq-connect.de — Vercel project `mq-connect-website`, auto-deploys from GitHub `main`. **Every push to `main` goes live.** Use a feature branch to get a Vercel preview URL first for risky changes.
+- **vercel.json**: The four form rewrites (`/energie-formular` etc.) MUST stay above the catch-all `/(.*)` — Vercel matches rewrites top-down. The static HTML forms in `public/` are served directly, bypassing the SPA.
+- **External services** (no `.env` needed to build):
+  - Supabase Storage (project `ffrthxboliylsnbkxtmj`): hosts the two team videos referenced via public URLs in `data/reels.ts`.
+  - n8n webhooks (`n8n.srv824470.hstgr.cloud`): ⚠️ host is OFFLINE (decommissioned VPS) — form submissions currently go nowhere. See HANDOVER.md.
+  - Google Gemini API: called client-side from `components/ChatWidget.tsx` with a hardcoded key. ⚠️ Key is exposed in this public repo — rotate/restrict before relying on it.
+- **Maintenance mode**: see runbook in HANDOVER.md (replace `index.html` itself; a rewrite-only approach does not cover `/`).
