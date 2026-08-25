@@ -686,10 +686,10 @@ export const Kundenberater: React.FC = () => {
 
       {/* Fixierte Progressbar am unteren Bildschirmrand — nur während Quiz + Formular */}
       {STEP_PROGRESS[step] !== undefined && (
-        <div className="fixed inset-x-0 bottom-0 z-40 bg-slate-100">
-          <div className="mx-auto h-2 max-w-md bg-slate-100">
+        <div className="fixed inset-x-0 bottom-0 z-40 bg-white">
+          <div className="mx-auto h-[5px] max-w-md bg-white">
             <div
-              className="h-full bg-gradient-to-r from-sky-400 to-[#5687BC] transition-all duration-500"
+              className="h-full bg-[#5687BC] transition-all duration-500"
               style={{ width: `${STEP_PROGRESS[step]}%` }}
             />
           </div>
