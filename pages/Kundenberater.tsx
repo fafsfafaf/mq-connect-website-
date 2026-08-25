@@ -199,9 +199,12 @@ const IconRow: React.FC<{ icon: React.ElementType; children: React.ReactNode }> 
 );
 
 // Dark navy title band; the section content below stays on white.
+// On desktop the band bleeds to the full viewport width like the original.
+const FULL_BLEED = 'md:ml-[calc(50%-50vw)] md:w-screen';
+
 const SectionBand: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="bg-[#1F2147] px-5 py-5 text-center">
-    <h2 className="text-xl font-bold leading-snug text-white">{children}</h2>
+  <div className={cn('bg-[#1F2147] px-5 py-5 text-center md:py-7', FULL_BLEED)}>
+    <h2 className="text-xl font-bold leading-snug text-white md:text-3xl">{children}</h2>
   </div>
 );
 
@@ -336,17 +339,17 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-white text-slate-900" style={{ fontFamily: "'Roboto', 'Inter', sans-serif" }}>
+    <div className="flex min-h-screen flex-col overflow-x-clip bg-white text-slate-900" style={{ fontFamily: "'Roboto', 'Inter', sans-serif" }}>
       {/* Header — Logo zentriert, Klick führt zurück zum Funnel-Start */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-md items-center justify-center px-4 py-3">
+        <div className="mx-auto flex max-w-md md:max-w-[35rem] items-center justify-center px-4 py-3">
           <button onClick={() => goTo('landing')} aria-label="Zum Anfang">
             <img src="/images/mq-logo-large.png" alt="MQ-Connect Logo" className="h-12 w-auto" />
           </button>
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-md flex-1">
+      <main className="mx-auto w-full max-w-md md:max-w-[35rem] flex-1">
         <AnimatePresence mode="wait">
           {/* ------------------------------ Landing ------------------------------ */}
           {step === 'landing' && (
@@ -354,8 +357,8 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
               {variant === 'video' ? (
                 <>
                   {/* Headline-Band */}
-                  <div className="bg-[#1F2147] px-5 py-6 text-center text-white">
-                    <h1 className="text-sm leading-relaxed">
+                  <div className={cn('bg-[#1F2147] px-5 py-6 text-center text-white', FULL_BLEED)}>
+                    <h1 className="text-sm leading-relaxed md:text-base">
                       Entdecke Deine Vorteile als
                       <br />
                       <strong>Kundenberater im Außendienst (m/w/d)</strong> 👇
@@ -367,7 +370,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                     <img
                       src="/images/hero-bg-door-v2.jpg"
                       alt="MQ-Connect im Außendienst"
-                      className="h-56 w-full rounded-lg object-cover shadow-sm"
+                      className="h-56 w-full rounded-lg object-cover shadow-sm md:h-72"
                     />
                   </div>
 
@@ -384,7 +387,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
               ) : (
                 <>
                   {/* Benefit-Bar */}
-                  <div className="bg-[#1F2147] px-5 py-3.5 text-center text-white">
+                  <div className={cn('bg-[#1F2147] px-5 py-3.5 text-center text-white', FULL_BLEED)}>
                     {TOP_BENEFITS.map((b) => (
                       <p key={b.text} className="py-0.5 text-sm font-bold">
                         <span className="mr-1.5">{b.emoji}</span>
@@ -394,8 +397,8 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                   </div>
 
                   {/* Große Headline */}
-                  <div className="px-5 pt-7 text-center">
-                    <h1 className="text-[22px] leading-snug">
+                  <div className={cn('px-5 pt-7 text-center', FULL_BLEED)}>
+                    <h1 className="mx-auto text-[22px] leading-snug md:max-w-3xl md:text-4xl md:leading-tight">
                       Entdecke Deine unschlagbaren <strong>Vorteile</strong> als{' '}
                       <strong>Kundenberater im Außendienst (m/w/d)</strong> bei <strong>MQ-Connect</strong>.
                     </h1>
@@ -416,7 +419,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                         onClick={() => goTo('info')}
                         className="overflow-hidden rounded-lg shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl"
                       >
-                        <img src={btn.img} alt="" className="h-36 w-full object-cover" />
+                        <img src={btn.img} alt="" className="h-36 w-full object-cover md:h-44" />
                         <span className="block bg-[#5687BC] py-2.5 text-sm font-bold text-white">{btn.label}</span>
                       </button>
                     ))}
@@ -448,7 +451,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
 
               {/* Foto nach 8 Gründen */}
               <div className="px-8 pb-2">
-                <img src="/images/office.jpg" alt="MQ-Connect im Außendienst" className="h-64 w-full rounded-lg object-cover shadow-sm" />
+                <img src="/images/office.jpg" alt="MQ-Connect im Außendienst" className="h-64 w-full rounded-lg object-cover shadow-sm md:h-72" />
               </div>
 
               <hr className="mx-5 my-8 border-slate-300" />
@@ -458,7 +461,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
               <div className="px-5 py-8">
                 <div className="space-y-10">
                   <div>
-                    <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="h-48 w-full rounded-lg object-cover shadow-sm" />
+                    <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="h-48 w-full rounded-lg object-cover shadow-sm md:h-56" />
                     <h3 className="mt-5 text-[17px] font-bold">Messbarer Erfolg</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-800">
                       Seit über 5 Jahren wachsen wir Jahr für Jahr: Wir haben bereits über 80 Mitarbeitende
@@ -489,7 +492,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                   </div>
 
                   <div>
-                    <img src="/images/team/milan-portrait.png" alt="Milan Jasieniecki, Gründer von MQ-Connect" className="h-48 w-full rounded-lg object-cover object-top shadow-sm" />
+                    <img src="/images/team/milan-portrait.png" alt="Milan Jasieniecki, Gründer von MQ-Connect" className="h-48 w-full rounded-lg object-cover object-top shadow-sm md:h-56" />
                     <h3 className="mt-5 text-[17px] font-bold">Mit System zum Erfolg</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-800">
                       Umfassende Einarbeitung, erprobte Sales-Skripte und Mindset-Coaching: Unser
@@ -525,7 +528,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
               {/* Standort */}
               <SectionBand>Unser Büro in Moers</SectionBand>
               <div className="px-5 py-8 text-center">
-                <img src="/images/office.jpg" alt="Büro von MQ-Connect in Moers" className="h-44 w-full rounded-lg object-cover" />
+                <img src="/images/office.jpg" alt="Büro von MQ-Connect in Moers" className="h-44 w-full rounded-lg object-cover md:h-52" />
                 <p className="mt-4 text-[15px] font-semibold text-slate-700">{APP_CONFIG.ADDRESS}</p>
                 <a
                   href="https://www.google.com/maps/search/?api=1&query=MQ-Connect%20Uerdinger%20Str.%2077%2047441%20Moers"
@@ -561,7 +564,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 </div>
               </div>
 
-              <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="h-56 w-full object-cover" />
+              <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="h-56 w-full object-cover md:h-72" />
 
               <SectionBand>Das zeichnet Dich aus</SectionBand>
               <div className="px-5 py-8">
@@ -575,7 +578,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 </div>
               </div>
 
-              <img src="/images/hero-bg-door-v2.jpg" alt="Unterwegs im Einsatzgebiet" className="h-56 w-full object-cover" />
+              <img src="/images/hero-bg-door-v2.jpg" alt="Unterwegs im Einsatzgebiet" className="h-56 w-full object-cover md:h-72" />
             </m.div>
           )}
 
@@ -585,7 +588,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
               <p className="text-center text-[15px] text-[#1F2147]">
                 Um Dich besser kennenzulernen, haben wir <strong>4 kurze Fragen</strong> an Dich.
               </p>
-              <div className="-mx-5 mt-6 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 1 von 4</div>
+              <div className={cn('-mx-5 mt-6 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 1 von 4</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Was ist Dir bei Deinem <strong>neuen Job</strong> besonders <strong>wichtig</strong>?
               </h2>
@@ -627,7 +630,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
           {/* -------------------------------- Frage 2 -------------------------------- */}
           {step === 'q2' && (
             <m.div key="q2" {...stepMotion} className="px-5 py-8">
-              <div className="-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 2 von 4</div>
+              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 2 von 4</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Wie viele <strong>Jahre Berufserfahrung</strong> hast Du bereits im <strong>Vertrieb</strong> gesammelt?
               </h2>
@@ -654,7 +657,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
           {/* -------------------------------- Frage 3 -------------------------------- */}
           {step === 'q3' && (
             <m.div key="q3" {...stepMotion} className="px-5 py-8">
-              <div className="-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Frage 3 von 4</div>
+              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 3 von 4</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Hast Du <strong>gute Deutschkenntnisse</strong> in Wort und Schrift?
               </h2>
@@ -686,7 +689,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
           {/* -------------------------------- Frage 4 -------------------------------- */}
           {step === 'q4' && (
             <m.div key="q4" {...stepMotion} className="px-5 py-8">
-              <div className="-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white">Letzte Frage</div>
+              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Letzte Frage</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Wann können wir Dich <strong>telefonisch</strong> am besten <strong>erreichen</strong>? ✨
               </h2>
@@ -862,7 +865,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 Deine Bewerbung ist bei uns eingegangen!
               </h2>
               <div className="px-8 pt-5">
-                <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="h-52 w-full rounded-lg object-cover shadow-sm" />
+                <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="h-52 w-full rounded-lg object-cover shadow-sm md:h-64" />
               </div>
               <p className="mt-4 px-8 text-center text-sm text-[#1F2147]">
                 Wir rufen Dich zeitnah an und besprechen alles Weitere ganz in Ruhe mit Dir!
@@ -976,7 +979,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                   Hier geht's zurück zur Frage.
                 </button>
               </p>
-              <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="mt-8 h-44 w-full rounded-2xl object-cover" />
+              <img src="/images/vision-team.jpg" alt="Das MQ-Connect Team" className="mt-8 h-44 w-full rounded-2xl object-cover md:h-52" />
             </m.div>
           )}
         </AnimatePresence>
@@ -994,7 +997,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
       {/* Fixierte Progressbar am unteren Bildschirmrand — nur während Quiz + Formular */}
       {STEP_PROGRESS[step] !== undefined && (
         <div className="fixed inset-x-0 bottom-0 z-40 bg-white">
-          <div className="mx-auto h-[5px] max-w-md bg-white">
+          <div className="mx-auto h-[5px] max-w-md bg-white md:max-w-none">
             <div
               className="h-full bg-[#5687BC] transition-all duration-500"
               style={{ width: `${STEP_PROGRESS[step]}%` }}
