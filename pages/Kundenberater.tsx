@@ -207,7 +207,7 @@ export const Kundenberater: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900" style={{ fontFamily: "'Roboto', 'Inter', sans-serif" }}>
+    <div className="flex min-h-screen flex-col bg-white text-slate-900" style={{ fontFamily: "'Roboto', 'Inter', sans-serif" }}>
       {/* Header — Logo zentriert, Klick führt zurück zum Funnel-Start */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-md items-center justify-center px-4 py-3">
@@ -217,7 +217,7 @@ export const Kundenberater: React.FC = () => {
         </div>
       </header>
 
-      <main className="mx-auto max-w-md">
+      <main className="mx-auto w-full max-w-md flex-1">
         <AnimatePresence mode="wait">
           {/* ------------------------------ Landing ------------------------------ */}
           {step === 'landing' && (
