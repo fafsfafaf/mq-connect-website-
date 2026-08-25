@@ -670,7 +670,7 @@ export const Kundenberater: React.FC = () => {
                             value={form[field.key]}
                             onChange={(e) => setForm((prev) => ({ ...prev, [field.key]: e.target.value }))}
                             placeholder={field.placeholder}
-                            className="w-full bg-transparent text-sm font-normal outline-none placeholder:font-normal placeholder:text-slate-400"
+                            className="w-full bg-transparent text-sm font-light outline-none placeholder:font-light placeholder:text-slate-400"
                           />
                           {hasError && (
                             <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">!</span>
@@ -693,7 +693,7 @@ export const Kundenberater: React.FC = () => {
                                 value={countrySearch}
                                 onChange={(e) => setCountrySearch(e.target.value)}
                                 placeholder="Suche"
-                                className="w-full text-sm font-normal outline-none placeholder:text-slate-400"
+                                className="w-full text-sm font-light outline-none placeholder:font-light placeholder:text-slate-400"
                               />
                             </div>
                             <ul className="max-h-56 overflow-y-auto py-1">
@@ -729,7 +729,7 @@ export const Kundenberater: React.FC = () => {
                     value={form.ziele}
                     onChange={(e) => setForm((prev) => ({ ...prev, ziele: e.target.value }))}
                     placeholder="Was sind Deine nächsten Ziele? Was möchtest Du mit uns erreichen? (optional)"
-                    className="w-full resize-none bg-transparent text-sm font-normal outline-none placeholder:font-normal placeholder:text-slate-400"
+                    className="w-full resize-none bg-transparent text-sm font-light outline-none placeholder:font-light placeholder:text-slate-400"
                   />
                 </label>
                 <div className="px-1 py-1">
