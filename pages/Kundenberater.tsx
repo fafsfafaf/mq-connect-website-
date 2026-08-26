@@ -26,7 +26,6 @@ import {
   FolderOpen,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { APP_CONFIG } from '../constants';
 
 // TODO: replace with a live endpoint before running ads — the old n8n host
 // (n8n.srv824470.hstgr.cloud) is offline, see HANDOVER.md "Offene Punkte".
@@ -34,14 +33,16 @@ const FUNNEL_WEBHOOK_URL = 'https://n8n.srv824470.hstgr.cloud/webhook/funnel-kun
 // TODO: same as above — needs a live endpoint that accepts multipart/form-data.
 const CV_UPLOAD_WEBHOOK_URL = 'https://n8n.srv824470.hstgr.cloud/webhook/funnel-kundenberater-cv';
 
-type Step = 'landing' | 'info' | 'q1' | 'q2' | 'q3' | 'q4' | 'form' | 'done' | 'rejected';
+// qlicense = driving licence question, sits between the language and availability step.
+type Step = 'landing' | 'info' | 'q1' | 'q2' | 'q3' | 'qlicense' | 'q4' | 'form' | 'done' | 'rejected';
 
 // Global progress (like the Perspective progress bar) — only shown during the quiz.
 const STEP_PROGRESS: Partial<Record<Step, number>> = {
-  q1: 20,
-  q2: 40,
-  q3: 60,
-  q4: 80,
+  q1: 17,
+  q2: 33,
+  q3: 50,
+  qlicense: 67,
+  q4: 83,
   form: 95,
 };
 
@@ -49,6 +50,7 @@ interface FunnelAnswers {
   prioritaeten: string[];
   vertriebserfahrung: string;
   deutschkenntnisse: string;
+  fuehrerschein: string;
   erreichbarkeit: string;
 }
 
@@ -61,8 +63,8 @@ const REASONS: { icon: React.ElementType; text: React.ReactNode }[] = [
   { icon: ShieldCheck, text: <><strong>Krisensicherer Arbeitsplatz.</strong><br />Wir wachsen seit über 5 Jahren.</> },
   { icon: Users, text: <>Werde Teil eines <strong>jungen Teams</strong> mit regelmäßigen <strong>Team-Events</strong>.</> },
   { icon: Sparkles, text: <>Entwickle Dich weiter mit <strong>Persönlichkeits- und Mindset-Coaching</strong>.</> },
-  { icon: Rocket, text: <>Vertreibe <strong>Produkte von Top-Anbietern</strong> wie E.ON, Vattenfall und O2.</> },
-  { icon: FileCheck2, text: <><strong>Kein Lebenslauf, kein Anschreiben:</strong> Bewirb Dich in unter 2 Minuten.</> },
+  { icon: Rocket, text: <>Vertreibe <strong>Produkte von Top-Anbietern</strong> wie E.ON, Vodafone und Telekom.</> },
+  { icon: FileCheck2, text: <><strong>Kein Lebenslauf, kein Anschreiben:</strong> Bewirb Dich in unter 60 Sekunden.</> },
 ];
 
 const TRAITS: { icon: React.ElementType; text: React.ReactNode }[] = [
@@ -74,7 +76,7 @@ const TRAITS: { icon: React.ElementType; text: React.ReactNode }[] = [
 
 const DAY_IN_LIFE: { icon: React.ElementType; text: React.ReactNode }[] = [
   { icon: Coffee, text: <>Du startest morgens <strong>gemeinsam mit Deinem Team</strong> motiviert in den Tag.</> },
-  { icon: Map, text: <>Ab Mittag bist Du <strong>im kleinen Team in Deinem Einsatzgebiet</strong> unterwegs.</> },
+  { icon: Map, text: <>Ab Mittag bist Du <strong>im kleinen Team in Deinem Einsatzgebiet</strong> in Essen & Düsseldorf unterwegs.</> },
   { icon: Tablet, text: <><strong>Du berätst Kunden</strong> zu Glasfaser- und Energieprodukten von Top-Anbietern.</> },
   { icon: Trophy, text: <>Mit unserem erprobten System arbeitest Du Dich <strong>zum Teamleiter</strong> hoch.</> },
 ];
@@ -99,6 +101,13 @@ const Q2_OPTIONS = [
   'Bis zu 2 Jahre',
   '2 – 5 Jahre',
   'Über 5 Jahre',
+];
+
+const LICENSE_OPTIONS = [
+  { emoji: '🚗', label: 'Ja, Klasse B (Auto)' },
+  { emoji: '🛵', label: 'Ja, eine andere Klasse' },
+  { emoji: '📝', label: 'Noch nicht — ich mache ihn gerade' },
+  { emoji: '🚶', label: 'Nein, ich habe keinen' },
 ];
 
 const Q4_OPTIONS = [
@@ -225,6 +234,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
     prioritaeten: [],
     vertriebserfahrung: '',
     deutschkenntnisse: '',
+    fuehrerschein: '',
     erreichbarkeit: '',
   });
   const [form, setForm] = useState({
@@ -376,7 +386,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
 
                   {/* Standort-Zeilen */}
                   <div className="px-5 pt-6 text-center text-[15px] text-slate-900">
-                    <p>📍 47441, Moers (NRW)</p>
+                    <p>📍 Essen & Düsseldorf (NRW)</p>
                     <p className="mt-1">🕐 Ab sofort</p>
                   </div>
 
@@ -403,7 +413,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                       <strong>Kundenberater im Außendienst (m/w/d)</strong> bei <strong>MQ-Connect</strong>.
                     </h1>
                     <div className="mt-4 text-[15px] text-slate-900">
-                      <p>📍 Moers (NRW)</p>
+                      <p>📍 Essen & Düsseldorf (NRW)</p>
                       <p className="mt-1">🕐 Ab sofort</p>
                     </div>
                   </div>
@@ -444,7 +454,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 <p className="mt-5 text-[15px]">… und vieles mehr! 😊</p>
                 <div className="mt-6">
                   <FunnelCta onClick={() => goTo('q1')}>
-                    Bewirb Dich jetzt in unter 2 Minuten!
+                    Bewirb Dich jetzt in unter 60 Sekunden!
                   </FunnelCta>
                 </div>
               </div>
@@ -475,10 +485,25 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                       <p className="text-center text-sm font-semibold text-white">
                         Viele zufriedene <span className="text-[#8FB4DC]">Produktpartner</span>
                       </p>
+                      {/* TODO: Logo-Dateien für Telekom, Eprimo und TNG nachliefern —
+                          bis dahin erscheinen sie als Wortmarken-Kacheln. */}
                       <div className="mt-4 grid grid-cols-2 items-center gap-3">
-                        {['vodafone-logo.png', 'o2-logo.png', 'vattenfall-logo.png', '1und1-logo.png'].map((logo) => (
-                          <span key={logo} className="flex h-12 items-center justify-center rounded-md bg-white px-3">
-                            <img src={`/images/partners/${logo}`} alt="" className="max-h-8 w-auto object-contain" />
+                        {[
+                          { logo: '/images/eon.png', name: 'E.ON' },
+                          { logo: '/images/partners/vodafone-logo.png', name: 'Vodafone' },
+                          { name: 'Telekom' },
+                          { name: 'Eprimo' },
+                          { name: 'TNG' },
+                        ].map((partner) => (
+                          <span
+                            key={partner.name}
+                            className="flex h-12 items-center justify-center rounded-md bg-white px-3 last:odd:col-span-2"
+                          >
+                            {partner.logo ? (
+                              <img src={partner.logo} alt={partner.name} className="max-h-8 w-auto object-contain" />
+                            ) : (
+                              <span className="text-sm font-bold text-[#1F2147]">{partner.name}</span>
+                            )}
                           </span>
                         ))}
                       </div>
@@ -486,7 +511,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                     <h3 className="mt-5 text-[17px] font-bold">Starke Partner</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-800">
                       Wir vermitteln Glasfaser-, Strom- und Gasverträge im Auftrag von Top-Anbietern wie E.ON,
-                      Vattenfall, O2 und Lekker Energie. Diese Partnerschaften sichern uns langfristige Projekte —
+                      Vodafone, Telekom, Eprimo und TNG. Diese Partnerschaften sichern uns langfristige Projekte —
                       und Dir einen stabilen Arbeitsplatz.
                     </p>
                   </div>
@@ -502,7 +527,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                   </div>
                 </div>
                 <div className="mt-8">
-                  <FunnelCta onClick={() => goTo('q1')}>Jetzt in unter 2 Minuten bewerben!</FunnelCta>
+                  <FunnelCta onClick={() => goTo('q1')}>Jetzt in unter 60 Sekunden bewerben!</FunnelCta>
                 </div>
               </div>
 
@@ -525,18 +550,19 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 </div>
               </div>
 
-              {/* Standort */}
-              <SectionBand>Unser Büro in Moers</SectionBand>
+              {/* Einsatzgebiet */}
+              <SectionBand>Dein Einsatzgebiet</SectionBand>
               <div className="px-5 py-8 text-center">
-                <img src="/images/office.jpg" alt="Büro von MQ-Connect in Moers" className="h-44 w-full rounded-lg object-cover md:h-52" />
-                <p className="mt-4 text-[15px] font-semibold text-slate-700">{APP_CONFIG.ADDRESS}</p>
+                <img src="/images/office.jpg" alt="Das Team von MQ-Connect" className="h-44 w-full rounded-lg object-cover md:h-52" />
+                <p className="mt-4 text-[15px] font-semibold text-slate-700">Essen, Düsseldorf und Umgebung (NRW)</p>
+                <p className="mt-1 text-sm text-slate-600">
+                  Du bist immer im Team unterwegs — jeden Tag in einem anderen Viertel.
+                </p>
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=MQ-Connect%20Uerdinger%20Str.%2077%2047441%20Moers"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/impressum"
                   className="mt-2 inline-block text-sm font-bold text-[#5687BC] underline"
                 >
-                  In Google Maps öffnen
+                  Mehr über MQ-Connect
                 </a>
               </div>
             </m.div>
@@ -586,9 +612,9 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
           {step === 'q1' && (
             <m.div key="q1" {...stepMotion} className="px-5 pb-8 pt-3">
               <p className="text-center text-[15px] text-[#1F2147]">
-                Um Dich besser kennenzulernen, haben wir <strong>4 kurze Fragen</strong> an Dich.
+                Um Dich besser kennenzulernen, haben wir <strong>5 kurze Fragen</strong> an Dich.
               </p>
-              <div className={cn('-mx-5 mt-6 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 1 von 4</div>
+              <div className={cn('-mx-5 mt-6 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 1 von 5</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Was ist Dir bei Deinem <strong>neuen Job</strong> besonders <strong>wichtig</strong>?
               </h2>
@@ -630,7 +656,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
           {/* -------------------------------- Frage 2 -------------------------------- */}
           {step === 'q2' && (
             <m.div key="q2" {...stepMotion} className="px-5 py-8">
-              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 2 von 4</div>
+              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 2 von 5</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Wie viele <strong>Jahre Berufserfahrung</strong> hast Du bereits im <strong>Vertrieb</strong> gesammelt?
               </h2>
@@ -657,7 +683,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
           {/* -------------------------------- Frage 3 -------------------------------- */}
           {step === 'q3' && (
             <m.div key="q3" {...stepMotion} className="px-5 py-8">
-              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 3 von 4</div>
+              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 3 von 5</div>
               <h2 className="mt-3 text-center text-xl leading-snug">
                 Hast Du <strong>gute Deutschkenntnisse</strong> in Wort und Schrift?
               </h2>
@@ -672,7 +698,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                       setAnswers((prev) => ({ ...prev, deutschkenntnisse: opt.label }));
                       // Same branching as the original funnel: without German skills
                       // the application ends on a friendly rejection page.
-                      goTo(opt.label === 'Ja' ? 'q4' : 'rejected');
+                      goTo(opt.label === 'Ja' ? 'qlicense' : 'rejected');
                     }}
                     className="overflow-hidden rounded-lg shadow-md transition-all hover:-translate-y-0.5 hover:shadow-xl"
                   >
@@ -686,7 +712,35 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
             </m.div>
           )}
 
-          {/* -------------------------------- Frage 4 -------------------------------- */}
+          {/* ---------------------------- Frage 4: Führerschein ---------------------------- */}
+          {step === 'qlicense' && (
+            <m.div key="qlicense" {...stepMotion} className="px-5 py-8">
+              <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Frage 4 von 5</div>
+              <h2 className="mt-3 text-center text-xl leading-snug">
+                Hast Du einen <strong>Führerschein</strong> — und wenn ja, welche <strong>Klasse</strong>?
+              </h2>
+              <p className="mt-2 text-center text-sm text-slate-500">
+                (Keine Voraussetzung — wir sind immer im Team unterwegs)
+              </p>
+              <div className="mt-6 space-y-3">
+                {LICENSE_OPTIONS.map((opt) => (
+                  <button
+                    key={opt.label}
+                    onClick={() => {
+                      setAnswers((prev) => ({ ...prev, fuehrerschein: opt.label }));
+                      goTo('q4');
+                    }}
+                    className="flex w-full items-center gap-3 rounded-lg bg-[#5687BC] px-4 py-3.5 text-left text-sm font-bold text-white transition-all hover:bg-[#46759f] hover:shadow-md"
+                  >
+                    <span className="text-xl">{opt.emoji}</span>
+                    <span>{opt.label}</span>
+                  </button>
+                ))}
+              </div>
+            </m.div>
+          )}
+
+          {/* -------------------------------- Frage 5 -------------------------------- */}
           {step === 'q4' && (
             <m.div key="q4" {...stepMotion} className="px-5 py-8">
               <div className={cn('-mx-5 -mt-8 bg-[#1F2147] py-2.5 text-center text-sm font-bold text-white', FULL_BLEED)}>Letzte Frage</div>
@@ -926,7 +980,7 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 <IconRow icon={Users}>
                   <strong>3. Persönliches Gespräch & Probetag:</strong>
                   <br />
-                  Passt alles, laden wir Dich zu uns nach Moers ein und bereiten Deinen perfekten Start vor.
+                  Passt alles, laden wir Dich persönlich zu uns ein und bereiten Deinen perfekten Start vor.
                 </IconRow>
               </div>
 
