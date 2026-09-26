@@ -24,6 +24,7 @@ import {
   PhoneCall,
   Instagram,
   FolderOpen,
+  MapPin,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -220,6 +221,65 @@ const SectionBand: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <h2 className="text-xl font-bold leading-snug text-white md:text-3xl">{children}</h2>
   </div>
 );
+
+// Google Maps embed of the office. GDPR: the iframe only loads after consent —
+// either the "media" category in the cookie banner or a click on the placeholder.
+const OFFICE_ADDRESS = 'MQ-Connect · Uerdinger Str. 77, 47441 Moers';
+// Plain address: Google doesn't resolve "MQ-Connect, …" and falls back to a world view.
+const MAP_QUERY = encodeURIComponent('Uerdinger Str. 77, 47441 Moers');
+const MAP_EMBED_URL = `https://maps.google.com/maps?q=${MAP_QUERY}&z=16&hl=de&output=embed`;
+const MAP_LINK_URL = `https://www.google.com/maps/search/?api=1&query=${MAP_QUERY}`;
+
+const hasMediaConsent = () => {
+  try {
+    return JSON.parse(localStorage.getItem('cookie-consent') || '{}').media === true;
+  } catch {
+    return false;
+  }
+};
+
+const OfficeMap: React.FC = () => {
+  const [enabled, setEnabled] = useState(hasMediaConsent);
+
+  useEffect(() => {
+    // The cookie banner can be accepted while this section is already on screen.
+    const onConsent = () => hasMediaConsent() && setEnabled(true);
+    window.addEventListener('cookie-consent-changed', onConsent);
+    return () => window.removeEventListener('cookie-consent-changed', onConsent);
+  }, []);
+
+  if (enabled) {
+    return (
+      <iframe
+        title="Karte: MQ-Connect Büro in Moers"
+        src={MAP_EMBED_URL}
+        className="h-64 w-full rounded-lg border-0 shadow-sm md:h-80"
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        allowFullScreen
+      />
+    );
+  }
+
+  return (
+    <div className="flex h-64 w-full flex-col items-center justify-center rounded-lg bg-[#1F2147] px-6 text-center md:h-80">
+      <MapPin className="h-10 w-10 text-[#8FB4DC]" strokeWidth={1.5} />
+      <p className="mt-3 text-sm text-white">
+        Beim Anzeigen der Karte werden Daten an Google übertragen.
+      </p>
+      <button
+        type="button"
+        onClick={() => setEnabled(true)}
+        className="mt-4 rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-[#1F2147] shadow-md transition-transform hover:-translate-y-0.5"
+      >
+        Karte anzeigen
+      </button>
+      <a href={MAP_LINK_URL} target="_blank" rel="noopener noreferrer" className="mt-3 text-xs text-[#8FB4DC] underline">
+        In Google Maps öffnen
+      </a>
+    </div>
+  );
+};
 
 const stepMotion = {
   initial: { opacity: 0, y: 24 },
@@ -518,7 +578,8 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                   </div>
 
                   <div>
-                    <img src="/images/team/milan-portrait.png" alt="Milan Jasieniecki, Gründer von MQ-Connect" className="h-48 w-full rounded-lg object-cover object-top shadow-sm md:h-56" />
+                    {/* Illustration: shown whole (object-contain) so no figure gets cut at the edges. */}
+                    <img src="/images/system-erfolg.jpg" alt="Illustration: Einarbeitung, Kundengespräch an der Haustür und Aufstieg im Team" className="w-full rounded-lg bg-white object-contain" />
                     <h3 className="mt-5 text-[17px] font-bold">Mit System zum Erfolg</h3>
                     <p className="mt-2 text-sm leading-relaxed text-slate-800">
                       Umfassende Einarbeitung, erprobte Sales-Skripte und Mindset-Coaching: Unser
@@ -551,13 +612,14 @@ export const Kundenberater: React.FC<{ variant?: 'video' | 'classic' }> = ({ var
                 </div>
               </div>
 
-              {/* Einsatzgebiet */}
-              <SectionBand>Dein Einsatzgebiet</SectionBand>
+              {/* Büro + Einsatzgebiet */}
+              <SectionBand>Unser Büro</SectionBand>
               <div className="px-5 py-8 text-center">
-                <img src="/images/office.jpg" alt="Das Team von MQ-Connect" className="h-44 w-full rounded-lg object-cover md:h-52" />
-                <p className="mt-4 text-[15px] font-semibold text-slate-700">Essen, Düsseldorf und Umgebung (NRW)</p>
-                <p className="mt-1 text-sm text-slate-600">
-                  Du bist immer im Team unterwegs — jeden Tag in einem anderen Viertel.
+                <OfficeMap />
+                <p className="mt-4 text-[15px] font-semibold text-slate-700">{OFFICE_ADDRESS}</p>
+                <p className="mt-3 text-sm text-slate-600">
+                  Dein Einsatzgebiet: <strong>Essen, Düsseldorf und Umgebung (NRW)</strong>. Du bist immer im
+                  Team unterwegs, jeden Tag in einem anderen Viertel.
                 </p>
                 <a
                   href="/impressum"
