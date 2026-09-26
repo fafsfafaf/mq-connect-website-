@@ -61,8 +61,6 @@ export const CookieConsent: React.FC = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(finalConsent));
     setConsent(finalConsent);
     setIsOpen(false);
-    // Lets consent-gated embeds (e.g. the office map on /kundenberater) react immediately.
-    window.dispatchEvent(new CustomEvent('cookie-consent-changed', { detail: finalConsent }));
     
     // Here you would typically trigger your scripts
     // e.g. if (finalConsent.marketing) enableGoogleAnalytics();

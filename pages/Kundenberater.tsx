@@ -24,7 +24,6 @@ import {
   PhoneCall,
   Instagram,
   FolderOpen,
-  MapPin,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -222,64 +221,23 @@ const SectionBand: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   </div>
 );
 
-// Google Maps embed of the office. GDPR: the iframe only loads after consent —
-// either the "media" category in the cookie banner or a click on the placeholder.
+// Google Maps embed of the office, always visible (owner decision 26.09.2026:
+// no click-to-load placeholder, even though the iframe contacts Google on load).
 const OFFICE_ADDRESS = 'MQ-Connect · Uerdinger Str. 77, 47441 Moers';
-// Plain address: Google doesn't resolve "MQ-Connect, …" and falls back to a world view.
+// Plain address: Google doesn't resolve "MQ-Connect, ..." and falls back to a world view.
 const MAP_QUERY = encodeURIComponent('Uerdinger Str. 77, 47441 Moers');
 const MAP_EMBED_URL = `https://maps.google.com/maps?q=${MAP_QUERY}&z=16&hl=de&output=embed`;
-const MAP_LINK_URL = `https://www.google.com/maps/search/?api=1&query=${MAP_QUERY}`;
 
-const hasMediaConsent = () => {
-  try {
-    return JSON.parse(localStorage.getItem('cookie-consent') || '{}').media === true;
-  } catch {
-    return false;
-  }
-};
-
-const OfficeMap: React.FC = () => {
-  const [enabled, setEnabled] = useState(hasMediaConsent);
-
-  useEffect(() => {
-    // The cookie banner can be accepted while this section is already on screen.
-    const onConsent = () => hasMediaConsent() && setEnabled(true);
-    window.addEventListener('cookie-consent-changed', onConsent);
-    return () => window.removeEventListener('cookie-consent-changed', onConsent);
-  }, []);
-
-  if (enabled) {
-    return (
-      <iframe
-        title="Karte: MQ-Connect Büro in Moers"
-        src={MAP_EMBED_URL}
-        className="h-64 w-full rounded-lg border-0 shadow-sm md:h-80"
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-        allowFullScreen
-      />
-    );
-  }
-
-  return (
-    <div className="flex h-64 w-full flex-col items-center justify-center rounded-lg bg-[#1F2147] px-6 text-center md:h-80">
-      <MapPin className="h-10 w-10 text-[#8FB4DC]" strokeWidth={1.5} />
-      <p className="mt-3 text-sm text-white">
-        Beim Anzeigen der Karte werden Daten an Google übertragen.
-      </p>
-      <button
-        type="button"
-        onClick={() => setEnabled(true)}
-        className="mt-4 rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-[#1F2147] shadow-md transition-transform hover:-translate-y-0.5"
-      >
-        Karte anzeigen
-      </button>
-      <a href={MAP_LINK_URL} target="_blank" rel="noopener noreferrer" className="mt-3 text-xs text-[#8FB4DC] underline">
-        In Google Maps öffnen
-      </a>
-    </div>
-  );
-};
+const OfficeMap: React.FC = () => (
+  <iframe
+    title="Karte: MQ-Connect Büro in Moers"
+    src={MAP_EMBED_URL}
+    className="h-64 w-full rounded-lg border-0 shadow-sm md:h-80"
+    loading="lazy"
+    referrerPolicy="no-referrer-when-downgrade"
+    allowFullScreen
+  />
+);
 
 const stepMotion = {
   initial: { opacity: 0, y: 24 },
