@@ -215,7 +215,7 @@ export const Careers: React.FC = () => {
                   Absolut. Das klassische <strong className="text-slate-900 font-bold">Haustürgeschäft</strong> hat sich gewandelt.
                 </p>
                 <p>
-                  Wir arbeiten professionell, mit Tablets und modernen Tarifen unserer Partner (Telekom, E.ON).
+                  Wir arbeiten professionell, mit Tablets und modernen Tarifen unserer Partner.
                   Wir "schwatzen" nichts auf, sondern optimieren Verträge. Qualität steht bei MQ-Connect an erster Stelle.
                 </p>
               </div>

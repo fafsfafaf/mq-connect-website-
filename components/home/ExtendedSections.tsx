@@ -57,7 +57,7 @@ const BENEFITS_DATA = [
     emoji: "⚡",
     title: "Für Versorger",
     subtitle: "Qualität & Volumen",
-    desc: "Unsere Partner (E.ON, Telekom) erhalten saubere Aufträge und glückliche Neukunden ohne Streuverluste.",
+    desc: "Unsere Partner, bekannte Energie- und Telekommunikationsanbieter, erhalten saubere Aufträge und glückliche Neukunden ohne Streuverluste.",
     tags: ["Hohe Qualität", "Storno-Quote < 5%"]
   },
   {
@@ -77,7 +77,7 @@ const AREA_CARDS = [
     iconColor: "text-blue-600",
     icon: Smartphone,
     points: ["Glasfaser (FTTH)", "Highspeed VDSL", "TV & Entertainment"],
-    partners: ["Telekom", "O2", "E.ON"]
+    partners: ["Namhafte Netzbetreiber"]
   },
   {
     title: "Energie",
@@ -86,7 +86,7 @@ const AREA_CARDS = [
     iconColor: "text-amber-600",
     icon: Zap,
     points: ["Stromtarife", "Gastarife", "Kostenoptimierung"],
-    partners: ["Vattenfall", "Lekker", "E.ON"]
+    partners: ["Bekannte Energieversorger"]
   },
   {
     title: "Photovoltaik",
@@ -97,7 +97,7 @@ const AREA_CARDS = [
     points: ["Leadgenerierung", "Eignungsprüfung", "Terminierung"],
     highlight: {
       label: "HIGHLIGHT",
-      text: "2023 Deutschland-Rekord: Höchste Netto-Leads an einem Tag (Vattenfall)."
+      text: "2023 Deutschland-Rekord: Höchste Netto-Leads an einem Tag."
     },
     badge: "REKORDHALTER"
   }

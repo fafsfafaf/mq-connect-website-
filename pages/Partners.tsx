@@ -10,7 +10,7 @@ export const Partners: React.FC = () => {
 
       <div className="grid md:grid-cols-3 gap-8">
         <div className="p-12 border border-slate-200 rounded-3xl flex items-center justify-center h-64 hover:border-slate-900 transition-colors">
-          <span className="text-4xl font-bold text-slate-400">E.ON</span>
+          <span className="text-2xl font-bold text-slate-400">Bekannte Energie- &amp; Glasfaseranbieter</span>
         </div>
         <div className="p-12 border border-slate-200 rounded-3xl flex items-center justify-center h-64 border-dashed">
            <span className="text-slate-400">Weitere Partner in Anbahnung</span>

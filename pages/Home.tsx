@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { HeroSection } from '../components/home/HeroSection';
-import { PartnerLogosSection } from '../components/home/PartnerLogosSection';
 
 // Dynamically import heavy sections below the fold
 const ExtendedSections = React.lazy(() => import('../components/home/ExtendedSections').then(module => ({ default: module.ExtendedSections })));
@@ -10,10 +9,10 @@ const CTASection = React.lazy(() => import('../components/home/CTASection').then
 export const Home: React.FC = () => {
   return (
     <div className="space-y-0 flex flex-col">
-      {/* Eager load Hero and Logos for LCP */}
+      {/* Eager load Hero for LCP. The partner logo strip was removed: showing
+          supplier brands without written permission risks a cease-and-desist. */}
       <HeroSection />
-      <PartnerLogosSection />
-      
+
       {/* Lazy load remaining content */}
       <Suspense fallback={<div className="h-96" />}>
         <ExtendedSections />

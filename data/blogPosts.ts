@@ -68,7 +68,7 @@ export const BLOG_POSTS: BlogPost[] = [
       </ul>
 
       <h2>Die Rolle von MQ-Connect</h2>
-      <p>Als exklusiver Partner von Marktführern wie <strong>E.ON Highspeed</strong> oder der <strong>Telekom</strong> sind wir die Schnittstelle zwischen dem Netzbetreiber und dem Bürger. Bauprojekte dieser Größe funktionieren nur, wenn eine bestimmte Quote an Vorverträgen erfüllt wird. Genau hier kommen wir ins Spiel.</p>
+      <p>Als Vertriebspartner <strong>namhafter Netzbetreiber</strong> sind wir die Schnittstelle zwischen dem Netzbetreiber und dem Bürger. Bauprojekte dieser Größe funktionieren nur, wenn eine bestimmte Quote an Vorverträgen erfüllt wird. Genau hier kommen wir ins Spiel.</p>
       
       <p>Unsere Aufgabe ist die <strong>Aufklärung vor Ort</strong>. Viele Bürger wissen gar nicht, dass sie während der Vorvermarktungsphase den Hausanschluss (oft im Wert von über 1.000 €) kostenlos bekommen können. Wir sorgen dafür, dass niemand diese Chance verpasst.</p>
 

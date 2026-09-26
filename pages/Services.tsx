@@ -22,7 +22,7 @@ export const Services: React.FC = () => {
               Der Glasfaserausbau in Deutschland ist das Infrastrukturprojekt des Jahrzehnts. Wir beraten Haushalte vor Ort über den Anschluss an das Netz der Zukunft.
             </p>
             <ul className="space-y-3 mb-8">
-              <li className="flex gap-3"><CheckCircle2 className="text-green-500 w-5 h-5"/> <span>Exklusiv für Marktführer wie E.ON</span></li>
+              <li className="flex gap-3"><CheckCircle2 className="text-green-500 w-5 h-5"/> <span>Im Auftrag namhafter Netzbetreiber</span></li>
               <li className="flex gap-3"><CheckCircle2 className="text-green-500 w-5 h-5"/> <span>Vorvermarktung & Bauphasenbegleitung</span></li>
               <li className="flex gap-3"><CheckCircle2 className="text-green-500 w-5 h-5"/> <span>Hohe Akzeptanz durch echten Mehrwert</span></li>
             </ul>

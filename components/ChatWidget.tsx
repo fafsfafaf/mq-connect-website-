@@ -21,7 +21,7 @@ MQ-Connect ist spezialisiert auf Door-to-Door (D2D) Direktvertrieb. Wir vermitte
 - Telekommunikationsprodukte
 - Photovoltaik-Leads (PV-Anfragen)
 
-Unsere Partner sind große Marken wie E.ON, Telekom, Vattenfall und Lekker.
+Unsere Partner sind große, bekannte Energie- und Telekommunikationsanbieter. Nenne NIEMALS Markennamen von Partnern oder Anbietern (rechtliche Gründe).
 
 ## UNSERE VISION
 Wir wollen den Door-to-Door Vertrieb in Deutschland wieder "salonfähig" machen. Keine Abzocke, sondern ehrliche, qualitative Beratung vor Ort. Maximale Transparenz für Kunden und Fairness für Mitarbeiter.
